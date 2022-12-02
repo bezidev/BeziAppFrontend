@@ -87,20 +87,8 @@
     })
 </script>
 <style>
-    .mdc-drawer__header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .mdc-drawer__title {
-        margin: 0;
-    }
     .absence-date-select-grid {
-        display: grid;
-        grid-template-columns: 1.3fr 0.7fr;
-        grid-template-rows: 1fr 1fr;
-        align-content: center;
-        justify-items: center;
+        display: flex;
     }
     .absence-date-picker-button {
         margin: 0 0 0 1em;
@@ -117,6 +105,8 @@
             {/if}
         </button>
     </Datepicker>
+</div>
+<div class="absence-date-select-grid">
     <h3>Izberite končni datum: </h3>
     <Datepicker bind:store={store2} let:key let:send let:receive theme={datePickerTheme} style="min-height: auto">
         <button in:receive|local={{ key }} out:send|local={{ key }} class="absence-date-picker-button mdc-button mdc-button--raised mdc-ripple-upgraded">

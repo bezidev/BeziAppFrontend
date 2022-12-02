@@ -68,11 +68,13 @@
     <Drawer variant={mobile ? "modal" : "dismissible"} fixed={false} style="position: absolute; top: 0;" bind:open>
         <Header class="sameline">
             <Title style="display:inline-block;">BežiApp</Title>
-            <IconButton style="margin: 0;" class="material-icons" aria-hidden="true" on:click={() => {
-                document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
-                localStorage.clear()
-                navigate("/login")
-            }}><div style="margin: 0 0 0 0.1em;">logout</div></IconButton>
+            <div style="display:inline-block; float:right;">
+                <IconButton style="margin: 0;" class="material-icons" aria-hidden="true" on:click={() => {
+                    document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+                    localStorage.clear()
+                    navigate("/login")
+                }}><div style="margin: 0 0 0 0.1em;">logout</div></IconButton>
+            </div>
         </Header>
         <Content>
             <List>
