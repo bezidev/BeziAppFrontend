@@ -9,6 +9,7 @@
     import Textfield from "@smui/textfield";
     import insane from "insane";
     import {marked} from "marked";
+    import CharacterCounter from "@smui/textfield/character-counter";
 
     const classes = [
         "1.a",
@@ -204,6 +205,7 @@
     let subject;
     let class_name;
     let class_year;
+    let description = "";
     let type;
     let open = false;
 
@@ -280,6 +282,7 @@
         fd.append("teacher", teacher);
         fd.append("class_name", class_name);
         fd.append("class_year", class_year);
+        fd.append("description", description);
         fd.append("type", type);
         await makeRequest(`/notes/upload`, "POST", fd)
         await getFiles();
@@ -353,9 +356,19 @@
               Note: the change and input events fire
               before the `files` prop is updated.
             -->
-            <Textfield bind:files={valueTypeFiles} on:change={handleFileSelect} label="Datoteka" type="file" />
+            <Textfield helperLine$style="width: 100%;" style="width: 100%;" bind:files={valueTypeFiles} on:change={handleFileSelect} label="Datoteka" type="file" />
         </div>
-        <!--<input type="file" id="file-selector" on:change={handleFileSelect} />-->
+
+        <br>
+
+        <Textfield textarea style="width: 100%;" input$maxlength={200} bind:value={description} label="Neobvezen (a priporočljiv) opis datoteke. Podpira Markdown.">
+            <CharacterCounter slot="internalCounter">0 / 200</CharacterCounter>
+        </Textfield>
+
+        {#if description !== ""}
+            <h3>Predogled</h3>
+            {@html marked(insane(description))}
+        {/if}
 
         <Autocomplete options={classes} textfield$style="width: 100%;" style="width: 100%;" bind:value={class_name} label="Izberite razred" />
         <Autocomplete combobox options={subjects} textfield$style="width: 100%;" style="width: 100%;" bind:value={subject} label="Izberite ali vpišite ime predmeta" />
@@ -366,7 +379,7 @@
 
         {#if type === "Zapiski"}
             <br>
-            Zapiski podpirajo tudi Markdown.
+            Zapiski podpirajo tudi predogled, ob uporabi Markdown formata.
         {/if}
 
         <br>
@@ -429,6 +442,10 @@
                     Šolsko leto: <b>{note.class_year}</b>
                     <div class="break" />
                     Tip: <b>{note.type}</b>
+                    <div class="break" />
+                    Opis:
+                    <div class="break" />
+                    {@html marked(insane(note.description))}
                     <div class="big-break" />
                     {#if note.filename.endsWith(".md")}
                         <Button on:click={async () => await viewFile(note.id)} variant="raised">
