@@ -50,6 +50,7 @@
                 "/absences": "izostanki",
                 "/grades": "ocene",
                 "/lopolis": "lopolis",
+                "/notes": "notes",
                 "/about": "about",
             }
             active = allPaths[path]
@@ -117,6 +118,14 @@
                 >
                     <Graphic class="material-icons" aria-hidden="true">lunch_dining</Graphic>
                     <Text>Lo.Polis</Text>
+                </Item>
+                <Item
+                        href="javascript:void(0)"
+                        on:click={() => navigate('/notes')}
+                        activated={active === 'notes'}
+                >
+                    <Graphic class="material-icons" aria-hidden="true">note</Graphic>
+                    <Text>Testi in zapiski</Text>
                 </Item>
                 <Item
                         href="javascript:void(0)"

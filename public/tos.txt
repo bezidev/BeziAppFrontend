@@ -1,0 +1,10 @@
+Definicije:
+- nalagalec je oseba, ki naloži datoteko v sistem z zapiski in testi
+
+Z nalaganjem datoteke se strinjate, da hranimo podatke o vaših nalaganjih.
+Ob nalaganju se shranijo podatki o nalagalcu (uporabniško ime za GimSIS).
+Dokler ne nalagate datotek, se vaši podatki NE shranjujejo nikjer.
+Uporaba sistema je popolnoma prostovoljna.
+Nalaganja se lahko kadarkoli izbrišejo s strani avtorjev sistema in/ali nalagalca.
+Avtorji BežiApp sistema niso krivi za kakršnekoli kršitve veljavne zakonodaje –
+vi, kot uporabnik morate poskrbeti, da delujete v skladu z veljavno zakonodajo.

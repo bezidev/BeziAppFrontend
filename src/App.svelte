@@ -89,6 +89,13 @@
 							<Error err={e} />
 						{/await}
 					</Route>
+					<Route path="/notes">
+						{#await import('./Notes.svelte') then Notes}
+							<Notes.default />
+						{:catch e}
+							<Error err={e} />
+						{/await}
+					</Route>
 					<Route path="/napaka">
 						{#await import('./ErrorPage.svelte') then ErrorPage}
 							<ErrorPage.default />
