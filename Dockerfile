@@ -4,7 +4,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
 COPY package-lock.json ./
 COPY . ./
-RUN mkdir public/build && npm i
+RUN npm i
 RUN npm run build
 
 EXPOSE 3000
