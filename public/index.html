@@ -12,10 +12,8 @@
 			href="/build/smui.css"
 			media="(prefers-color-scheme: light)"
 	/>-->
-	<link
-			rel="stylesheet"
-			href="/build/smui-dark.css"
-	/>
+	<link rel="stylesheet" href="/build/required.css" />
+	<link rel="preload" href="/build/smui-dark.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 
 	<!--media="screen and (prefers-color-scheme: dark)"-->
 
@@ -24,6 +22,12 @@
 	<link rel='icon' type='image/png' href='/favicon.png'>
 	<link rel='stylesheet' href='/global.css'>
 	<link rel='stylesheet' href='/build/bundle.css'>
+
+	<meta name="keywords" content="gimsis, BežiApp, zgimsis, gimsisext2016, lopolis, Lo.Polis, LoPolis, gimsis gimb, beziapp, bežiapp">
+	<meta name="description" content="Alternativna aplikacija za dijake Gimnazije Bežigrad">
+	<meta name="author" content="Mitja Ševerkar">
+	<meta name="robots" content="index,follow">
+
 
 	<script defer type="module" src='/build/main.js'></script>
 
