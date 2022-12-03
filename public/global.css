@@ -134,3 +134,8 @@ button:focus {
 .column.justify-end {
 	justify-content: flex-end;
 }
+
+.zacasna {
+	font-weight: 500 !important;
+	font-size: 15px !important;
+}

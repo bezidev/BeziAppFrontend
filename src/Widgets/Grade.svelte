@@ -21,14 +21,8 @@
 </script>
 
 {#if (stalne && grade.je_zakljucena) || !stalne}
-    <style>
-        .zacasna {
-            font-size: 15px;
-        }
-    </style>
-
     <Wrapper>
-        <div style="color: {gradeColors[parseInt(grade.ocena) - 1]}; display:inline-block; font-size: 20px;" on:click={(e) => {
+        <div style="color: {gradeColors[parseInt(grade.ocena) - 1]}; display:inline-block; font-size: 1.25rem; font-weight: 600;" on:click={(e) => {
             if (mobile) {
                 open = true;
             }
@@ -53,7 +47,6 @@
             </Tooltip>
         {/if}
     </Wrapper>
-
     {#if mobile && open}
         <BottomSheet open={open} callback={(value) => open=value}>
             <main class="body fill">

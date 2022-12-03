@@ -111,7 +111,9 @@
     }
     await getMeals();
     await getCheckouts();
-}}>arrow_back</IconButton>
+}}>
+    arrow_back
+</IconButton>
 <IconButton class="material-icons" on:click={async () => {
     if (selectedMonth === 12) {
         selectedMonth = 1;
@@ -121,7 +123,9 @@
     }
     await getMeals();
     await getCheckouts();
-}}>arrow_forward</IconButton><br>
+}}>
+    arrow_forward
+</IconButton><br>
 
 Izbran mesec: <b>{selectedMonth}/{selectedYear}</b><p/>
 
@@ -141,11 +145,13 @@ Izbran mesec: <b>{selectedMonth}/{selectedYear}</b><p/>
                 {#each day as meal}
                     <Panel bind:open={open[meal.local_id]}>
                         <Header>
-                            {meal.meal}
-                            {#if selectedMeals[meal.local_id] !== undefined && selectedMeals[meal.local_id] !== ""}
-                                <Icon class="material-icons" on>done</Icon>
-                            {/if}
-                            <IconButton slot="icon" toggle pressed={open[meal.local_id]}>
+                            <div style="display: flex; flex-direction: row; align-items: center;">
+                                {meal.meal}
+                                {#if selectedMeals[meal.local_id] !== undefined && selectedMeals[meal.local_id] !== ""}
+                                    <Icon class="material-icons" style="margin: 0 0 0 0.5em;" on>done</Icon>
+                                {/if}
+                            </div>
+                            <IconButton style="margin: auto 0;" slot="icon" toggle pressed={open[meal.local_id]}>
                                 <Icon class="material-icons" on>expand_less</Icon>
                                 <Icon class="material-icons">expand_more</Icon>
                             </IconButton>
