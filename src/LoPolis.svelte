@@ -65,6 +65,7 @@
     }
 
     async function getMeals() {
+        meals = undefined;
         meals = await makeRequest(`/lopolis/meals?year=${selectedYear}&month=${selectedMonth}`)
         await selected_meals();
     }
