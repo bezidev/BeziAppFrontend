@@ -9,18 +9,10 @@
     }
 
     :root {
-        --background: #fff;
-        --foreground: #000;
-        --divider: #dcdcdc;
+        --background: #000;
+        --foreground: #fff;
+        --divider: #333;
         --overlay: #888;
-    }
-
-    @media (prefers-color-scheme: dark) {
-        :root {
-            --background: #000;
-            --foreground: #fff;
-            --divider: #333;
-        }
     }
 
     html,
