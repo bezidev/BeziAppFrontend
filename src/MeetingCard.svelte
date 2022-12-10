@@ -48,6 +48,7 @@
     .substitution { border-top: 20px solid red; }
     .sharepoint-substitution { border-top: 20px solid yellow; }
     .not-realized { border-top: 20px solid lightblue; }
+    .grading { border-top: 20px solid magenta; }
 
     a:link { text-decoration: none; }
 
@@ -78,7 +79,7 @@
             {/each}
         </span>
         <div
-                class="triangle {n.vpisano_nadomescanje ? 'substitution' : ''} {n.fixed_by_sharepoint ? 'sharepoint-substitution' : ''} {n.odpade ? 'not-realized' : ''}"
+                class="triangle {n.ocenjevanje ? 'grading' : ''} {n.vpisano_nadomescanje ? 'substitution' : ''} {n.fixed_by_sharepoint ? 'sharepoint-substitution' : ''} {n.odpade ? 'not-realized' : ''}"
         ></div>
         <span class="classroom">
             {#if mobile}
@@ -116,6 +117,9 @@
                 {#if n.odpade}
                     <b>Ura ODPADE.</b><br>
                 {/if}
+                {#if n.ocenjevanje}
+                    Opis ocenjevanja: <b>{n.ocenjevanje_details.opis}</b><br>
+                {/if}
             </Tooltip>
         </Wrapper>
     {/if}
@@ -148,6 +152,9 @@
             {/if}
             {#if n.odpade}
                 <b>Ura ODPADE.</b><br>
+            {/if}
+            {#if n.ocenjevanje}
+                Opis ocenjevanja: <b>{n.ocenjevanje_details.opis}</b><br>
             {/if}
         </main>
     </BottomSheet>

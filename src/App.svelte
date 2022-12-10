@@ -1,15 +1,13 @@
 <script lang="ts">
-	import {Router, Route, globalHistory} from "svelte-navigator";
+	import {Router, Route, globalHistory, navigate} from "svelte-navigator";
 	import Drawer from "./Drawer.svelte";
 	import {AppContent, Scrim} from "@smui/drawer";
 	import Error from "./Widgets/Error.svelte";
-	import {Icon, Label} from "@smui/button";
-	import isMobile from "is-mobile";
-	import Button from "@smui/button";
 	import {onDestroy, onMount} from "svelte";
+	import TopAppBar, { Row, Section, Title } from '@smui/top-app-bar';
+	import IconButton from '@smui/icon-button';
 
-	const mobile = isMobile();
-	let open = !mobile;
+	let open = false;
 
 	let pathname = window.location.pathname;
 	let unsub;
@@ -24,21 +22,30 @@
 	});
 </script>
 
-<div class="drawer-container">
-	<Router let:location>
+<Router>
+	{#if !(pathname === "/login" || pathname === "/lopolis/login")}
+		<TopAppBar variant="static" style="background-color: rgba(0, 128, 83, 1);">
+			<Row>
+				<Section style="display: flex; flex-direction: row; align-items: center;">
+					<IconButton style="margin: 0 0 0 0.5em;" class="material-icons" on:click={() => open=!open}>menu</IconButton>
+					<Title>BežiApp</Title>
+				</Section>
+				<Section align="end" toolbar>
+					<IconButton style="margin: 0;" class="material-icons" aria-hidden="true" on:click={() => {
+						document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+						localStorage.clear();
+						navigate("/login");
+					}}>
+						<div style="margin: 0 0 0 0.1em;">logout</div>
+					</IconButton>
+				</Section>
+			</Row>
+		</TopAppBar>
+	{/if}
+	<div class="drawer-container">
 		<Drawer open={open} statusFunction={(o) => open=o} />
 		<AppContent class="app-content">
 			<main class="main-content">
-				{#if mobile && !(pathname === "/login")}
-					<Button on:click={() => open = !open}>
-						<Icon class="material-icons">menu_open</Icon>
-						{#if open}
-							<Label>Zapri navigacijo</Label>
-						{:else}
-							<Label>Odpri navigacijo</Label>
-						{/if}
-					</Button>
-				{/if}
 				<div>
 					<Route path="/grades">
 						{#await import('./Grades.svelte') then Grades}
@@ -89,6 +96,27 @@
 							<Error err={e} />
 						{/await}
 					</Route>
+					<Route path="/tarot/contests">
+						{#await import('./Tarot/Contests.svelte') then Contests}
+							<Contests.default />
+						{:catch e}
+							<Error err={e} />
+						{/await}
+					</Route>
+					<Route path="/tarot/contest/:id" let:params>
+						{#await import('./Tarot/Contest.svelte') then Contest}
+							<Contest.default id={params.id} />
+						{:catch e}
+							<Error err={e} />
+						{/await}
+					</Route>
+					<Route path="/tarot/contest/:id/games" let:params>
+						{#await import('./Tarot/NewGame.svelte') then NewGame}
+							<NewGame.default id={params.id} />
+						{:catch e}
+							<Error err={e} />
+						{/await}
+					</Route>
 					<Route path="/notes">
 						{#await import('./Notes.svelte') then Notes}
 							<Notes.default />
@@ -113,5 +141,5 @@
 				</div>
 			</main>
 		</AppContent>
-	</Router>
-</div>
+	</div>
+</Router>

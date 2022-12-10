@@ -315,35 +315,6 @@
 
 </script>
 
-<style>
-    .demo-cell {
-        display: flex;
-        flex-wrap: wrap;
-        background-color: var(--mdc-theme-secondary, #333);
-        color: var(--mdc-theme-on-secondary, #fff);
-    }
-
-    .hide-file-ui :global(input[type='file']::file-selector-button) {
-        display: none;
-    }
-
-    .hide-file-ui
-    :global(:not(.mdc-text-field--label-floating) input[type='file']) {
-        color: transparent;
-    }
-
-    .break {
-        flex-basis: 100%;
-        height: 0;
-    }
-
-    .big-break {
-        flex-basis: 100%;
-        height: 10px;
-    }
-
-</style>
-
 <Dialog
         bind:open
         aria-labelledby="simple-title"
@@ -383,7 +354,7 @@
         {/if}
 
         <br>
-        Z nalaganjem se strinjate s <a href="/tos.txt">Pogoji uporabe</a>.
+        Z nalaganjem se strinjate s <a href="/tos.html">Pogoji uporabe</a>.
     </Content>
     <Actions>
         <Button on:click={async () => await uploadFile()} variant="raised">

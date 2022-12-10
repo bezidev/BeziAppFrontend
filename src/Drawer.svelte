@@ -6,7 +6,7 @@
         Scrim,
     } from '@smui/drawer';
     import List, {Item, Text, Graphic} from '@smui/list';
-    import { navigate } from "svelte-navigator";
+    import { navigate as nvgt } from "svelte-navigator";
     import IconButton from "@smui/icon-button";
     import isMobile from "is-mobile";
 
@@ -27,6 +27,12 @@
     let lastUrl = "";
     let showDrawer = false;
     let hasRequested = false;
+
+    function navigate(to: string) {
+        open = false;
+        statusFunction(open);
+        nvgt(to);
+    }
 
     $: (async () => {
         statusFunction(open);
@@ -52,6 +58,7 @@
                 "/lopolis": "lopolis",
                 "/notes": "notes",
                 "/about": "about",
+                "/tarot/contests": "contests",
             }
             active = allPaths[path]
             return
@@ -66,19 +73,7 @@
 </script>
 
 {#if showDrawer}
-    <Drawer variant={mobile ? "modal" : "dismissible"} fixed={false} style="position: absolute; top: 0;" bind:open>
-        <Header class="sameline" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
-            <Title style="display: inline-block; margin: auto 0;">BežiApp</Title>
-            <IconButton style="margin: 0;" class="material-icons" aria-hidden="true" on:click={() => {
-                document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
-                localStorage.clear();
-                navigate("/login");
-            }}>
-                <div style="margin: 0 0 0 0.1em;">
-                    logout
-                </div>
-            </IconButton>
-        </Header>
+    <Drawer variant="modal" fixed={false} style="position: absolute; top: 0;" bind:open>
         <Content>
             <List>
                 <Item
@@ -131,6 +126,14 @@
                 </Item>
                 <Item
                         href="javascript:void(0)"
+                        on:click={() => navigate('/tarot/contests')}
+                        activated={active === 'contests'}
+                >
+                    <Graphic class="material-icons" aria-hidden="true">casino</Graphic>
+                    <Text>Tarok</Text>
+                </Item>
+                <Item
+                        href="javascript:void(0)"
                         on:click={() => navigate('/about')}
                         activated={active === 'about'}
                 >
@@ -140,7 +143,5 @@
             </List>
         </Content>
     </Drawer>
-    {#if mobile}
-        <Scrim fixed={false} />
-    {/if}
+    <Scrim fixed={false} />
 {/if}

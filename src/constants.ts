@@ -13,8 +13,8 @@ const blobToBinary = async blob => {
     return new Uint8Array(buffer);
 };
 
-export async function makeRequest(url: string, method: string = "GET", formData: FormData = new FormData(), forcefullyReturn: boolean = false, blob: boolean = false) {
-    let response = await fetch(`${baseurl}${url}`, {method: method, body: (method === "POST" || method === "DELETE") ? formData : null, headers: {"Authorization": Cookies.get("key")}})
+export async function makeRequest(url: string, method: string = "GET", formData: FormData | string = new FormData(), forcefullyReturn: boolean = false, blob: boolean = false, json: boolean = false) {
+    let response = await fetch(`${baseurl}${url}`, {method: method, body: (method === "POST" || method === "DELETE") ? formData : null, headers: {"Authorization": Cookies.get("key"), 'Content-Type': json ? 'application/json' : 'application/x-www-form-urlencoded'}})
     if ((response.status < 200 || response.status >= 300) && !forcefullyReturn) {
         if (localStorage.getItem("gimsis_password") === null || localStorage.getItem("gimsis_username") === null) {
             navigate("/login");
@@ -32,7 +32,7 @@ export async function makeRequest(url: string, method: string = "GET", formData:
             fd.append("password", localStorage.getItem("lopolis_password"));
             await fetch(`${baseurl}/lopolis/login`, {body: fd, method: "POST", headers: {"Authorization": Cookies.get("key")}})
         }
-        return await makeRequest(url, method, formData, true, blob)
+        return await makeRequest(url, method, formData, true, blob, json)
     }
     if (blob) return await response.blob();
     return await response.json();
