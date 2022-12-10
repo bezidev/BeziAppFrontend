@@ -128,7 +128,7 @@
 </FormField><br>
 <FormField>
     <Switch bind:checked={neopraviceno} />
-    <span slot="label">Ne opravičeno</span>
+    <span slot="label">Neopravičeno</span>
 </FormField><br>
 <FormField>
     <Switch bind:checked={neSteje} />
