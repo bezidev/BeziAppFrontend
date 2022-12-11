@@ -23,8 +23,8 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mytja.beziapp"
-    android:versionCode="2"
-    android:versionName="2" >
+    android:versionCode="4"
+    android:versionName="2.0.0" >
 
     <uses-sdk
         android:minSdkVersion="19"

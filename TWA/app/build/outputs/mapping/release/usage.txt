@@ -115,8 +115,8 @@ androidx.annotation.WorkerThread
 androidx.core.graphics.TypefaceCompatBaseImpl$2
 androidx.core.view.accessibility.AccessibilityManagerCompat
 androidx.core.view.GestureDetectorCompat$GestureDetectorCompatImplJellybeanMr2
-androidx.browser.customtabs.CustomTabsSession$MockSession
 androidx.core.content.PermissionChecker
+androidx.browser.customtabs.CustomTabsSession$MockSession
 com.google.androidbrowserhelper.R$attr
 android.support.customtabs.trusted.ITrustedWebActivityCallback$Stub:
     public void <init>()
@@ -717,8 +717,8 @@ android.support.customtabs.trusted.ITrustedWebActivityService$Stub:
     static final int TRANSACTION_getSmallIconId
     static final int TRANSACTION_getSmallIconBitmap
     static final int TRANSACTION_extraCommand
-androidx.core.content.SharedPreferencesCompat$EditorCompat
 androidx.core.app.ShareCompat
+androidx.core.content.SharedPreferencesCompat$EditorCompat
 androidx.core.view.accessibility.AccessibilityNodeProviderCompat$AccessibilityNodeProviderApi16
 androidx.core.view.NestedScrollingParent
 androidx.core.app.NotificationCompat$Extender
@@ -1350,8 +1350,8 @@ androidx.core.content.res.FontResourcesParserCompat$FontFamilyFilesResourceEntry
 androidx.versionedparcelable.VersionedParcelStream$1
 androidx.core.view.LayoutInflaterCompat
 com.google.androidbrowserhelper.R$xml
-androidx.core.os.LocaleListCompatWrapper
 androidx.browser.customtabs.CustomTabsService$1
+androidx.core.os.LocaleListCompatWrapper
 androidx.core.view.MotionEventCompat
 androidx.core.view.NestedScrollingChildHelper
 androidx.core.content.pm.ShortcutInfoCompat$Builder

@@ -1,4 +1,4 @@
-#Fri Nov 18 22:00:40 CET 2022
+#Sun Dec 11 16:24:23 CET 2022
 base.0=/home/mitja/WebstormProjects/BežiApp/TWA/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

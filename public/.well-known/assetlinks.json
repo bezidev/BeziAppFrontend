@@ -1,5 +1,9 @@
 [{
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target" : { "namespace": "android_app", "package_name": "com.mytja.beziapp",
-    "sha256_cert_fingerprints": ["3E:7C:3F:C5:A6:A1:BF:6B:F7:49:0B:B4:9D:55:A4:28:3B:F4:C1:E1:05:D8:7E:01:41:21:17:EE:52:F4:E1:AC"] }
+    "sha256_cert_fingerprints": [
+      "3E:7C:3F:C5:A6:A1:BF:6B:F7:49:0B:B4:9D:55:A4:28:3B:F4:C1:E1:05:D8:7E:01:41:21:17:EE:52:F4:E1:AC",
+      "56:AD:34:FC:46:F7:0B:4E:41:79:98:0B:FF:E1:75:E1:4D:50:33:6B:37:60:68:E6:E8:B1:AE:AA:D4:E1:18:CC"
+    ]
+  }
 }]
