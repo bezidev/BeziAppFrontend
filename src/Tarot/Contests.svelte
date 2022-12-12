@@ -1,11 +1,9 @@
 <script lang="ts">
     import {makeRequest} from "../constants";
     import {onMount} from "svelte";
-    import Autocomplete from "@smui-extra/autocomplete";
     import Button, {Icon, Label} from "@smui/button";
     import Dialog, { Title, Content, Actions } from '@smui/dialog';
     import LayoutGrid, { Cell } from '@smui/layout-grid';
-    import SegmentedButton, { Segment } from '@smui/segmented-button';
     import Textfield from "@smui/textfield";
     import insane from "insane";
     import {marked} from "marked";

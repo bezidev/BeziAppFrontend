@@ -16,7 +16,7 @@ const blobToBinary = async blob => {
 export async function makeRequest(url: string, method: string = "GET", formData: FormData | string = new FormData(), forcefullyReturn: boolean = false, blob: boolean = false, json: boolean = false) {
     let headers = {"Authorization": Cookies.get("key")}
     if (json) headers["Content-Type"] = "application/json";
-    let response = await fetch(`${baseurl}${url}`, {method: method, body: (method === "POST" || method === "DELETE") ? formData : null, headers: headers})
+    let response = await fetch(`${baseurl}${url}`, {method: method, body: (method === "POST" || method === "DELETE" || method === "PATCH" || method === "PUT") ? formData : null, headers: headers})
     if ((response.status < 200 || response.status >= 300) && !forcefullyReturn) {
         if (localStorage.getItem("gimsis_password") === null || localStorage.getItem("gimsis_username") === null) {
             navigate("/login");

@@ -9,6 +9,8 @@
     import TabBar from '@smui/tab-bar';
     import { chart } from "svelte-apexcharts";
     import Select, {Option} from "@smui/select";
+    import Textfield from "@smui/textfield";
+    import List, {Item, Text} from "@smui/list";
 
     export let id: string;
     let options = {};
@@ -16,6 +18,8 @@
     let options_points = {};
     let options_overtime = {};
     let igra = "";
+
+    let oseba = "";
 
     const GAMEMODES = {
         0: "Tri",
@@ -31,6 +35,7 @@
         10: "Valat",
         11: "Barvni valat",
         12: "Klop",
+        13: "Renons",
     }
 
     const GAMEMODES_KEYS = {
@@ -47,6 +52,7 @@
         "Valat": 10,
         "Barvni valat": 11,
         "Klop": 12,
+        "Renons": 13,
     }
 
     let tabs = [
@@ -58,6 +64,10 @@
             icon: 'analytics',
             label: 'Statistika',
         },
+        {
+            icon: 'settings',
+            label: 'Nastavitve',
+        }
     ];
     let active = tabs[0];
 
@@ -183,6 +193,21 @@
     async function deleteGame(game_id: string) {
         await makeRequest(`/tarot/game/${game_id}`, "DELETE");
         await getContest();
+    }
+
+    async function addPerson() {
+        await makeRequest(`/tarot/contest/${id}/add`, "PATCH", JSON.stringify({"person": oseba}), false, false, true);
+        await getContest();
+    }
+
+    async function removePerson(person: string) {
+        await makeRequest(`/tarot/contest/${id}/remove`, "DELETE", JSON.stringify({"person": person}), false, false, true);
+        await getContest();
+    }
+
+    async function deleteContest() {
+        await makeRequest(`/tarot/contest/${id}`, "DELETE");
+        navigate("/tarot/contests");
     }
 
     onMount(async () => {
@@ -336,6 +361,24 @@
 
         <h1>Točk čez čas</h1>
         <div use:chart={options_overtime}/>
+    {/if}
+    {#if active.label === "Nastavitve"}
+        <Textfield bind:value={oseba} helperLine$style="width: 100%;" style="width: 100%;" label="Uporabniško ime osebe (GimSIS)" />
+        <Button on:click={async () => await addPerson()} variant="raised"><p/>
+            <Icon class="material-icons">add</Icon>
+            <Label>Dodaj osebo</Label>
+        </Button>
+        <p/>
+        <List style="width: 100%;">
+            {#each JSON.parse(contest.contestants) as contestant}
+                <Item on:SMUI:action={async () => await removePerson(contestant)}><Text>{contestant}</Text></Item>
+            {/each}
+        </List>
+        <p/>
+        <Button on:click={async () => await deleteContest()} variant="raised"><p/>
+            <Icon class="material-icons">delete</Icon>
+            <Label>Izbriši tekmovanje</Label>
+        </Button>
     {/if}
 {/if}
 

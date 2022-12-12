@@ -53,6 +53,7 @@
         "Valat": 10,
         "Barvni valat": 11,
         "Klop": 12,
+        "Renons": 13,
     }
 
     let contest;
