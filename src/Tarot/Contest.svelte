@@ -1,7 +1,7 @@
 <script lang="ts">
     import {onMount} from "svelte";
     import {makeRequest} from "../constants";
-    import DataTable, {Body, Cell, Head, Row} from "@smui/data-table";
+    import DataTable, {Body, Cell, Head, Row, Pagination} from "@smui/data-table";
     import Button, {Icon, Label} from "@smui/button";
     import {navigate} from "svelte-navigator";
     import IconButton from "@smui/icon-button";
@@ -72,6 +72,25 @@
     let active = tabs[0];
 
     let contest;
+    let rowsPerPage = 5;
+    let currentPage = 0;
+    let start;
+    let end;
+    let slice;
+    let lastPage;
+
+    $: {
+        if (contest !== undefined) {
+            start = currentPage * rowsPerPage;
+            end = Math.min(start + rowsPerPage, contest.games.length);
+            slice = [...contest.games].reverse().slice(start, end).reverse();
+            lastPage = Math.max(Math.ceil(contest.games.length / rowsPerPage) - 1, 0);
+            if (currentPage > lastPage) {
+                currentPage = lastPage;
+            }
+            console.log(start, end, slice, lastPage, currentPage);
+        }
+    }
 
     async function getContest() {
         contest = await makeRequest(`/tarot/contest/${id}`)
@@ -246,7 +265,7 @@
                 </Row>
             </Head>
             <Body>
-                {#each contest.games as game}
+                {#each slice as game}
                     <Row>
                         <Cell>
                             <div style="display: flex; flex-direction: row; align-items: center;">
@@ -276,7 +295,7 @@
                 {/each}
                 <Row>
                     <Cell>
-                        Skupaj
+                        <b>Skupaj</b>
                     </Cell>
                     <Cell/>
                     {#each JSON.parse(contest.contestants) as contestant}
@@ -284,7 +303,7 @@
                             {#each Object.keys(contest.status) as cs}
                                 {#if cs === contestant}
                                     <Cell style="font-size: 20px; color: {contest.status[cs].total < 0 ? '#F44336' : '#64DD17'};">
-                                        {contest.status[cs].total} <!--<span style="font-size: 13px; color: grey;">{contest.status[cs].radlci_status}</span>-->
+                                        <b>{contest.status[cs].total}</b> <!--<span style="font-size: 13px; color: grey;">{contest.status[cs].radlci_status}</span>-->
                                     </Cell>
                                 {/if}
                             {/each}
@@ -294,6 +313,49 @@
                     {/each}
                 </Row>
             </Body>
+            <Pagination slot="paginate">
+                <svelte:fragment slot="rowsPerPage">
+                    <Label>Rows Per Page</Label>
+                    <Select variant="outlined" bind:value={rowsPerPage} noLabel>
+                        <Option value={5}>5</Option>
+                        <Option value={10}>10</Option>
+                        <Option value={25}>25</Option>
+                        <Option value={100}>100</Option>
+                    </Select>
+                </svelte:fragment>
+                <svelte:fragment slot="total">
+                    {start + 1}-{end} od {contest.games.length}
+                </svelte:fragment>
+
+                <IconButton
+                        class="material-icons"
+                        action="first-page"
+                        title="First page"
+                        on:click={() => (currentPage = 0)}
+                        disabled={currentPage === 0}>first_page</IconButton
+                >
+                <IconButton
+                        class="material-icons"
+                        action="prev-page"
+                        title="Prev page"
+                        on:click={() => currentPage--}
+                        disabled={currentPage === 0}>chevron_left</IconButton
+                >
+                <IconButton
+                        class="material-icons"
+                        action="next-page"
+                        title="Next page"
+                        on:click={() => currentPage++}
+                        disabled={currentPage === lastPage}>chevron_right</IconButton
+                >
+                <IconButton
+                        class="material-icons"
+                        action="last-page"
+                        title="Last page"
+                        on:click={() => (currentPage = lastPage)}
+                        disabled={currentPage === lastPage}>last_page</IconButton
+                >
+            </Pagination>
         </DataTable>
     {/if}
     {#if active.label === "Statistika"}
