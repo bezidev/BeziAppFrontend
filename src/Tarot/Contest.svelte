@@ -17,6 +17,7 @@
     let options_gamemode;
     let options_points = {};
     let options_overtime = {};
+    let options_wl = {};
     let igra = "";
 
     let oseba = "";
@@ -150,6 +151,31 @@
             series: [{
                 name: "Dobljenih točk",
                 data: Object.keys(contest.statistics).map((v) => contest.statistics[v].tock_skupaj)
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    borderRadius: 4,
+                    horizontal: true,
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            xaxis: {
+                categories: parsed,
+            },
+            theme: {
+                mode: "dark",
+            }
+        };
+        options_wl = {
+            series: [{
+                name: "Razmerje med igranimi in zmaganimi igrami",
+                data: Object.keys(contest.statistics).map((v) => (contest.statistics[v].iger_zmagal/contest.statistics[v].iger_igral).toFixed(2))
             }],
             chart: {
                 type: 'bar',
@@ -419,12 +445,15 @@
             {/each}
         </Select>
         <p/>
-        {#if options_gamemode !== undefined}
+        {#if !(options_gamemode === undefined || options_gamemode === "")}
             <div use:chart={options_gamemode}/>
         {/if}
 
         <h1>Dobljenih točk</h1>
         <div use:chart={options_points}/>
+
+        <h1>Razmerje zmaganih iger proti igranim igram</h1>
+        <div use:chart={options_wl}/>
 
         <h1>Točk čez čas</h1>
         <div use:chart={options_overtime}/>
