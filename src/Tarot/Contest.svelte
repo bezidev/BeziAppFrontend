@@ -252,27 +252,21 @@
         <DataTable style="width: 100%;">
             <Head>
                 <Row>
-                    <Cell>Iden. št. igre</Cell>
                     <Cell>Igra</Cell>
                     {#each JSON.parse(contest.contestants) as con}
                         <Cell>
                             <div style="display: flex; flex-direction: row; align-items: center;">
                                 {con}
-                                {#each [...Array(contest.status[con].radlci_status).keys()] as i}<Icon class="material-icons">star</Icon>{/each}
+                                (<span style="color: grey; font-size: 15px;">{contest.status[con].radlci_status}</span>)
                             </div>
                         </Cell>
                     {/each}
+                    <Cell>Iden. št. igre</Cell>
                 </Row>
             </Head>
             <Body>
                 {#each slice as game}
                     <Row>
-                        <Cell>
-                            <div style="display: flex; flex-direction: row; align-items: center;">
-                                <span>{game.id.substring(0, 5)}</span>
-                                <IconButton class="material-icons" on:click={async () => await deleteGame(game.id)}>delete</IconButton>
-                            </div>
-                        </Cell>
                         <Cell>{GAMEMODES[game.type]}</Cell>
                         {#each JSON.parse(contest.contestants) as contestant}
                             {#if Object.keys(game.contestants).includes(contestant)}
@@ -291,13 +285,18 @@
                                 <Cell/>
                             {/if}
                         {/each}
+                        <Cell>
+                            <div style="display: flex; flex-direction: row; align-items: center;">
+                                <span>{game.id.substring(0, 5)}</span>
+                                <IconButton class="material-icons" on:click={async () => await deleteGame(game.id)}>delete</IconButton>
+                            </div>
+                        </Cell>
                     </Row>
                 {/each}
                 <Row>
                     <Cell>
                         <b>Skupaj</b>
                     </Cell>
-                    <Cell/>
                     {#each JSON.parse(contest.contestants) as contestant}
                         {#if Object.keys(contest.status).includes(contestant)}
                             {#each Object.keys(contest.status) as cs}
@@ -311,11 +310,12 @@
                             <Cell/>
                         {/if}
                     {/each}
+                    <Cell/>
                 </Row>
             </Body>
             <Pagination slot="paginate">
                 <svelte:fragment slot="rowsPerPage">
-                    <Label>Rows Per Page</Label>
+                    <Label>Vrstic na stran</Label>
                     <Select variant="outlined" bind:value={rowsPerPage} noLabel>
                         <Option value={5}>5</Option>
                         <Option value={10}>10</Option>
