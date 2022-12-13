@@ -12,13 +12,13 @@
     import Switch from "@smui/switch";
     import {navigate} from "svelte-navigator";
 
-    let contests = [];
+    let contests = {my_contests: [], public_contests: []};
     let open = false;
     let name = "";
     let description = "";
     let contestants = [];
     let contestant = "";
-    let is_private = false;
+    let is_private = true;
 
     async function getContests() {
         contests = await makeRequest(`/tarot/contests`)
@@ -91,8 +91,24 @@
     <Label>Novo tekmovanje</Label>
 </Button>
 
+<h1>Moja tekmovanja</h1>
 <LayoutGrid>
-    {#each contests as contest}
+    {#each contests.my_contests as contest}
+        <Cell on:click={() => navigate(`/tarot/contest/${contest.id}`)}>
+            <div class="demo-cell">
+                <div style="margin: 0 10px 10px">
+                    <h3>{contest.name}</h3>
+                    <div class="break" />
+                    {@html marked(insane(contest.description))}
+                </div>
+            </div>
+        </Cell>
+    {/each}
+</LayoutGrid>
+
+<h1>Javna tekmovanja</h1>
+<LayoutGrid>
+    {#each contests.public_contests as contest}
         <Cell on:click={() => navigate(`/tarot/contest/${contest.id}`)}>
             <div class="demo-cell">
                 <div style="margin: 0 10px 10px">
