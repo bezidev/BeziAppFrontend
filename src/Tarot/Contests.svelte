@@ -24,6 +24,11 @@
         contests = await makeRequest(`/tarot/contests`)
     }
 
+    async function joinContest(id: string) {
+        await makeRequest(`/tarot/contest/${id}/join`, "POST")
+        navigate(`/tarot/contest/${id}`);
+    }
+
     async function newContest() {
         let fd = new FormData();
         fd.append("contestants", JSON.stringify(contestants));
@@ -109,7 +114,7 @@
 <h1>Javna tekmovanja</h1>
 <LayoutGrid>
     {#each contests.public_contests as contest}
-        <Cell on:click={() => navigate(`/tarot/contest/${contest.id}`)}>
+        <Cell on:click={async () => await joinContest(contest.id)}>
             <div class="demo-cell">
                 <div style="margin: 0 10px 10px">
                     <h3>{contest.name}</h3>
