@@ -224,6 +224,11 @@
         await getContest();
     }
 
+    async function privatePublicContest() {
+        await makeRequest(`/tarot/contest/${id}/private_public`, "PATCH");
+        await getContest();
+    }
+
     async function deleteContest() {
         await makeRequest(`/tarot/contest/${id}`, "DELETE");
         navigate("/tarot/contests");
@@ -440,6 +445,15 @@
         <Button on:click={async () => await deleteContest()} variant="raised"><p/>
             <Icon class="material-icons">delete</Icon>
             <Label>Izbriši tekmovanje</Label>
+        </Button>
+        <Button on:click={async () => await privatePublicContest()} variant="raised"><p/>
+            {#if contest.is_private}
+                <Icon class="material-icons">public</Icon>
+                <Label>Naredi tekmovanje javno</Label>
+            {:else}
+                <Icon class="material-icons">vpn_lock</Icon>
+                <Label>Naredi tekmovanje zasebno</Label>
+            {/if}
         </Button>
     {/if}
 {/if}
