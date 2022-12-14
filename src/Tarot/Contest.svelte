@@ -279,6 +279,10 @@
             <Icon class="material-icons">add</Icon>
             <Label>Nova igra</Label>
         </Button>
+        <Button on:click={async () => await getContest()} variant="raised">
+            <Icon class="material-icons">refresh</Icon>
+            <Label>Osveži podatke</Label>
+        </Button>
         <br>
         <DataTable style="width: 100%;">
             <Head>
