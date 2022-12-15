@@ -155,72 +155,72 @@
 
     <h4>Trula</h4>
     <Select bind:value={trulo_zbral} label="Trulo zbral">
-        {#each ["", "igralci", "nasprotniki", ...JSON.parse(contest.contestants)] as contestant}
+        {#each ["", "igralci", "nasprotniki"] as contestant}
             <Option value={contestant}>{contestant}</Option>
         {/each}
     </Select>
     <Select bind:value={trulo_napovedal} label="Trulo napovedal">
-        {#each ["", "igralci", "nasprotniki", ...JSON.parse(contest.contestants)] as contestant}
+        {#each ["", "igralci", "nasprotniki"] as contestant}
             <Option value={contestant}>{contestant}</Option>
         {/each}
     </Select>
 
     <h4>Kralji</h4>
     <Select bind:value={kralji_zbral} label="Kralje zbral">
-        {#each ["", "igralci", "nasprotniki", ...JSON.parse(contest.contestants)] as contestant}
+        {#each ["", "igralci", "nasprotniki"] as contestant}
             <Option value={contestant}>{contestant}</Option>
         {/each}
     </Select>
     <Select bind:value={kralji_napovedal} label="Kralje napovedal">
-        {#each ["", "igralci", "nasprotniki", ...JSON.parse(contest.contestants)] as contestant}
+        {#each ["", "igralci", "nasprotniki"] as contestant}
             <Option value={contestant}>{contestant}</Option>
         {/each}
     </Select>
 
     <h4>Pagat ultimo</h4>
     <Select bind:value={pagat_zbral} label="Pagat ultimo zbral">
-        {#each ["", "igralci", "nasprotniki", ...JSON.parse(contest.contestants)] as contestant}
+        {#each ["", "igralci", "nasprotniki"] as contestant}
             <Option value={contestant}>{contestant}</Option>
         {/each}
     </Select>
     <Select bind:value={pagat_napovedal} label="Pagat ultimo napovedal">
-        {#each ["", "igralci", "nasprotniki", ...JSON.parse(contest.contestants)] as contestant}
+        {#each ["", "igralci", "nasprotniki"] as contestant}
             <Option value={contestant}>{contestant}</Option>
         {/each}
     </Select>
 
     <h4>Kralj ultimo</h4>
     <Select bind:value={kralj_zbral} label="Kralj ultimo zbral">
-        {#each ["", "igralci", "nasprotniki", ...JSON.parse(contest.contestants)] as contestant}
+        {#each ["", "igralci", "nasprotniki"] as contestant}
             <Option value={contestant}>{contestant}</Option>
         {/each}
     </Select>
     <Select bind:value={kralj_napovedal} label="Kralj ultimo napovedal">
-        {#each ["", "igralci", "nasprotniki", ...JSON.parse(contest.contestants)] as contestant}
+        {#each ["", "igralci", "nasprotniki"] as contestant}
             <Option value={contestant}>{contestant}</Option>
         {/each}
     </Select>
 
     <h4>Valat</h4>
     <Select bind:value={valat_zbral} label="Valat zbral">
-        {#each ["", "igralci", "nasprotniki", ...JSON.parse(contest.contestants)] as contestant}
+        {#each ["", "igralci", "nasprotniki"] as contestant}
             <Option value={contestant}>{contestant}</Option>
         {/each}
     </Select>
     <Select bind:value={valat_napovedal} label="Valat napovedal">
-        {#each ["", "igralci", "nasprotniki", ...JSON.parse(contest.contestants)] as contestant}
+        {#each ["", "igralci", "nasprotniki"] as contestant}
             <Option value={contestant}>{contestant}</Option>
         {/each}
     </Select>
 
     <h4>Barvni valat</h4>
     <Select bind:value={barvni_valat_zbral} label="Barvni valat zbral">
-        {#each ["", "igralci", "nasprotniki", ...JSON.parse(contest.contestants)] as contestant}
+        {#each ["", "igralci", "nasprotniki"] as contestant}
             <Option value={contestant}>{contestant}</Option>
         {/each}
     </Select>
     <Select bind:value={barvni_valat_napovedal} label="Barvni valat napovedal">
-        {#each ["", "igralci", "nasprotniki", ...JSON.parse(contest.contestants)] as contestant}
+        {#each ["", "igralci", "nasprotniki"] as contestant}
             <Option value={contestant}>{contestant}</Option>
         {/each}
     </Select>
