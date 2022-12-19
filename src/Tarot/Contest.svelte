@@ -11,6 +11,8 @@
     import Select, {Option} from "@smui/select";
     import Textfield from "@smui/textfield";
     import List, {Item, Text} from "@smui/list";
+    import FormField from "@smui/form-field";
+    import Switch from "@smui/switch";
 
     export let id: string;
     let options = {};
@@ -19,6 +21,7 @@
     let options_overtime = {};
     let options_wl = {};
     let igra = "";
+    let show_radlci = false;
 
     let oseba = "";
 
@@ -307,13 +310,16 @@
                             {#if Object.keys(game.contestants).includes(contestant)}
                                 {#each Object.keys(game.contestants) as cs}
                                     {#if cs === contestant}
-                                        {#if game.contestants[cs].razlika === 0}
-                                            <Cell style="font-size: 20px; color: gray;">+0</Cell>
-                                        {:else}
-                                            <Cell style="font-size: 20px; color: {game.contestants[cs].razlika < 0 ? '#F44336' : '#64DD17'};">
+                                        <Cell style="font-size: 20px; color: {game.contestants[cs].razlika === 0 ? 'gray' : (game.contestants[cs].razlika < 0  ? '#F44336' : '#64DD17')};">
+                                            {#if game.contestants[cs].razlika === 0}
+                                                +0
+                                            {:else}
                                                 {game.contestants[cs].razlika}
-                                            </Cell>
-                                        {/if}
+                                            {/if}
+                                            {#if game.contestants[cs].radlc_uporabljen}
+                                                <Icon class="material-icons" slot="leadingIcon"><div style="font-size: 15px !important;">stars</div></Icon>
+                                            {/if}
+                                        </Cell>
                                     {/if}
                                 {/each}
                             {:else}
@@ -330,14 +336,18 @@
                 {/each}
                 <Row>
                     <Cell>
-                        <b>Skupaj</b>
+                        {#if show_radlci}
+                            <b>Skupaj pred radlci</b>
+                        {:else}
+                            <b>Skupaj</b>
+                        {/if}
                     </Cell>
                     {#each JSON.parse(contest.contestants) as contestant}
                         {#if Object.keys(contest.status).includes(contestant)}
                             {#each Object.keys(contest.status) as cs}
                                 {#if cs === contestant}
                                     <Cell style="font-size: 20px; color: {contest.status[cs].total < 0 ? '#F44336' : '#64DD17'};">
-                                        <b>{contest.status[cs].total}</b> <!--<span style="font-size: 13px; color: grey;">{contest.status[cs].radlci_status}</span>-->
+                                        {#if show_radlci}{contest.status[cs].total}{:else}<b>{contest.status[cs].total}</b>{/if}
                                     </Cell>
                                 {/if}
                             {/each}
@@ -347,6 +357,47 @@
                     {/each}
                     <Cell/>
                 </Row>
+                {#if show_radlci}
+                    <Row>
+                        <Cell>
+                            <b>Kazen za radlce</b>
+                        </Cell>
+                            {#each JSON.parse(contest.contestants) as contestant}
+                                {#if Object.keys(contest.status).includes(contestant)}
+                                    {#each Object.keys(contest.status) as cs}
+                                        {#if cs === contestant}
+                                            {@const radlci = contest.status[cs].radlci_status * -40}
+                                            <Cell style="font-size: 20px; color: {radlci >= 0 ? '#64DD17' : '#F44336'};">
+                                                {radlci}
+                                            </Cell>
+                                        {/if}
+                                    {/each}
+                                {:else}
+                                    <Cell/>
+                                {/if}
+                            {/each}
+                        <Cell/>
+                    </Row>
+                    <Row>
+                        <Cell>
+                            <b>Skupaj</b>
+                        </Cell>
+                        {#each JSON.parse(contest.contestants) as contestant}
+                            {#if Object.keys(contest.status).includes(contestant)}
+                                {#each Object.keys(contest.status) as cs}
+                                    {#if cs === contestant}
+                                        <Cell style="font-size: 20px; color: {contest.status[cs].total_radlci < 0 ? '#F44336' : '#64DD17'};">
+                                            <b>{contest.status[cs].total_radlci}</b>
+                                        </Cell>
+                                    {/if}
+                                {/each}
+                            {:else}
+                                <Cell/>
+                            {/if}
+                        {/each}
+                        <Cell/>
+                    </Row>
+                {/if}
             </Body>
             <Pagination slot="paginate">
                 <svelte:fragment slot="rowsPerPage">
@@ -357,6 +408,10 @@
                         <Option value={25}>25</Option>
                         <Option value={100}>100</Option>
                     </Select>
+                    <FormField>
+                        <Switch bind:checked={show_radlci} />
+                        <span slot="label">Kazni</span>
+                    </FormField>
                 </svelte:fragment>
                 <svelte:fragment slot="total">
                     {start + 1}-{end} od {contest.games.length}
@@ -392,6 +447,10 @@
                 >
             </Pagination>
         </DataTable>
+        <p/>
+        {#if show_radlci}
+            Vsak neporabljen radlc se točkuje z -40 točkami.
+        {/if}
     {/if}
     {#if active.label === "Statistika"}
         <h1>Statistika iger</h1>

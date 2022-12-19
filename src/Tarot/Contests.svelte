@@ -95,6 +95,10 @@
     <Icon class="material-icons">add</Icon>
     <Label>Novo tekmovanje</Label>
 </Button>
+<Button on:click={() => navigate(`/tarot/rules`)} variant="raised">
+    <Icon class="material-icons">gavel</Icon>
+    <Label>Ogled pravil in točkovanja</Label>
+</Button>
 
 <h1>Moja tekmovanja</h1>
 <LayoutGrid>

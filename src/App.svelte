@@ -137,6 +137,13 @@
 							<Error err={e} />
 						{/await}
 					</Route>
+					<Route path="/tarot/rules">
+						{#await import('./Tarot/Rules.svelte') then Rules}
+							<Rules.default />
+						{:catch e}
+							<Error err={e} />
+						{/await}
+					</Route>
 					<Route path="/notes">
 						{#await import('./Notes.svelte') then Notes}
 							<Notes.default />
