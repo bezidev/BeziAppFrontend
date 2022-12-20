@@ -13,6 +13,7 @@
     import List, {Item, Text} from "@smui/list";
     import FormField from "@smui/form-field";
     import Switch from "@smui/switch";
+    import isMobile from "is-mobile";
 
     export let id: string;
     let options = {};
@@ -20,10 +21,12 @@
     let options_points = {};
     let options_overtime = {};
     let options_wl = {};
+    let options_points_radlci = {};
     let igra = "";
     let show_radlci = false;
 
     let oseba = "";
+    let activeStats = "";
 
     const GAMEMODES = {
         0: "Tri",
@@ -83,6 +86,8 @@
     let slice;
     let lastPage;
 
+    const CHART_HEIGHT = 600;
+
     $: {
         if (contest !== undefined) {
             start = currentPage * rowsPerPage;
@@ -118,7 +123,7 @@
             ],
             chart: {
                 type: 'bar',
-                height: 350
+                height: CHART_HEIGHT
             },
             plotOptions: {
                 bar: {
@@ -157,7 +162,32 @@
             }],
             chart: {
                 type: 'bar',
-                height: 350
+                height: CHART_HEIGHT
+            },
+            plotOptions: {
+                bar: {
+                    borderRadius: 4,
+                    horizontal: true,
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            xaxis: {
+                categories: parsed,
+            },
+            theme: {
+                mode: "dark",
+            }
+        };
+        options_points_radlci = {
+            series: [{
+                name: "Dobljenih točk s kaznimi za radlce",
+                data: Object.keys(contest.status).map((v) => contest.status[v].total_radlci)
+            }],
+            chart: {
+                type: 'bar',
+                height: CHART_HEIGHT
             },
             plotOptions: {
                 bar: {
@@ -182,7 +212,7 @@
             }],
             chart: {
                 type: 'bar',
-                height: 350
+                height: CHART_HEIGHT
             },
             plotOptions: {
                 bar: {
@@ -208,14 +238,14 @@
         options_overtime = {
             series: series,
             chart: {
-                height: 350,
+                height: CHART_HEIGHT,
                 type: 'line',
                 zoom: {
                     enabled: true
                 },
             },
             dataLabels: {
-                enabled: true
+                enabled: false
             },
             stroke: {
                 width: 5,
@@ -453,73 +483,83 @@
         {/if}
     {/if}
     {#if active.label === "Statistika"}
-        <h1>Statistika iger</h1>
-        <div use:chart={options}/>
-
-        <h1>Igre</h1>
-        <Select bind:value={igra} label="Igre">
-            {#each ["", ...Object.keys(GAMEMODES_KEYS)] as gamemode}
-                <Option value={gamemode} on:click={() => {
-                    setTimeout(() => {
-                        console.log(igra)
-                        options_gamemode = {
-                            series: [
-                                {
-                                    name: 'Iger igral',
-                                    data: Object.keys(contest.statistics).map((v) => contest.statistics[v].tipi_iger[GAMEMODES_KEYS[igra]])
-                                }
-                            ],
-                            chart: {
-                                type: 'bar',
-                                height: 350
-                            },
-                            plotOptions: {
-                                bar: {
-                                    horizontal: false,
-                                    columnWidth: '55%',
-                                    endingShape: 'rounded'
-                                },
-                            },
-                            dataLabels: {
-                                enabled: false
-                            },
-                            stroke: {
-                                show: true,
-                                width: 2,
-                                colors: ['transparent']
-                            },
-                            xaxis: {
-                                categories: JSON.parse(contest.contestants),
-                            },
-                            yaxis: {
-                                title: {
-                                    text: 'iger'
-                                }
-                            },
-                            fill: {
-                                opacity: 1
-                            },
-                            theme: {
-                                mode: "dark",
-                            }
-                        };
-                    }, 50);
-                }}>{gamemode}</Option>
-            {/each}
-        </Select>
-        <p/>
-        {#if !(options_gamemode === undefined || options_gamemode === "")}
-            <div use:chart={options_gamemode}/>
+        <TabBar tabs={['Splošno', 'Igre', 'Dobljenih točk', 'Dobljenih točk z radlci', "Razmerje zmaganih iger proti igranim igram", "Točk čez čas"]} let:tab bind:active={activeStats}>
+            <!-- Note: the `tab` property is required! -->
+            <Tab {tab}>
+                <Label>{tab}</Label>
+            </Tab>
+        </TabBar>
+        {#if activeStats === "Splošno"}
+            <div use:chart={options}/>
         {/if}
-
-        <h1>Dobljenih točk</h1>
-        <div use:chart={options_points}/>
-
-        <h1>Razmerje zmaganih iger proti igranim igram</h1>
-        <div use:chart={options_wl}/>
-
-        <h1>Točk čez čas</h1>
-        <div use:chart={options_overtime}/>
+        {#if activeStats === "Igre"}
+            <Select bind:value={igra} label="Igre">
+                {#each ["", ...Object.keys(GAMEMODES_KEYS)] as gamemode}
+                    <Option value={gamemode} on:click={() => {
+                        setTimeout(() => {
+                            console.log(igra)
+                            options_gamemode = {
+                                series: [
+                                    {
+                                        name: 'Iger igral',
+                                        data: Object.keys(contest.statistics).map((v) => contest.statistics[v].tipi_iger[GAMEMODES_KEYS[igra]])
+                                    }
+                                ],
+                                chart: {
+                                    type: 'bar',
+                                    height: CHART_HEIGHT
+                                },
+                                plotOptions: {
+                                    bar: {
+                                        horizontal: false,
+                                        columnWidth: '55%',
+                                        endingShape: 'rounded'
+                                    },
+                                },
+                                dataLabels: {
+                                    enabled: false
+                                },
+                                stroke: {
+                                    show: true,
+                                    width: 2,
+                                    colors: ['transparent']
+                                },
+                                xaxis: {
+                                    categories: JSON.parse(contest.contestants),
+                                },
+                                yaxis: {
+                                    title: {
+                                        text: 'iger'
+                                    }
+                                },
+                                fill: {
+                                    opacity: 1
+                                },
+                                theme: {
+                                    mode: "dark",
+                                }
+                            };
+                        }, 50);
+                    }}>{gamemode}</Option>
+                {/each}
+            </Select>
+            <p/>
+            {#if !(options_gamemode === undefined || igra === "")}
+                <div use:chart={options_gamemode}/>
+            {/if}
+        {/if}
+        {#if activeStats === "Dobljenih točk"}
+            <div use:chart={options_points}/>
+        {/if}
+        {#if activeStats === "Dobljenih točk z radlci"}
+            <div use:chart={options_points_radlci}/>
+        {/if}
+        {#if activeStats === "Razmerje zmaganih iger proti igranim igram"}
+            <div use:chart={options_wl}/>
+        {/if}
+        {#if activeStats === "Točk čez čas"}
+            <div use:chart={options_overtime}/>
+        {/if}
     {/if}
     {#if active.label === "Nastavitve"}
         <Textfield bind:value={oseba} helperLine$style="width: 100%;" style="width: 100%;" label="Uporabniško ime osebe (GimSIS)" />
