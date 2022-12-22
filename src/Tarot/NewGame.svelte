@@ -46,7 +46,26 @@
         Renons: 13,
     };
 
+    const GAMEMODES_IN_THREE = {
+        Tri: 0,
+        Dva: 1,
+        Ena: 2,
+        Pikolo: 3,
+        Berač: 7,
+        "Solo brez": 8,
+        "Odprti berač": 9,
+        Valat: 10,
+        "Barvni valat": 11,
+        Klop: 12,
+        Renons: 13,
+    };
+
     const NO_PREDICTIONS = ["Pikolo", "Berač", "Solo brez", "Odprti berač", "Valat", "Barvni valat", "Klop", "Renons"]
+    const SEPARATE_COUNTERS = ["Klop"]
+    const NO_DIFFERENCE = ["Pikolo", "Berač", "Solo brez", "Odprti berač", "Valat", "Barvni valat"]
+    const CONSTANT_GAMEMODE = ["Renons"];
+
+    let difference = 0;
 
     let contest;
 
@@ -54,23 +73,19 @@
         contest = await makeRequest(`/tarot/contest/${id}`);
     }
 
+    function preprocessUI() {
+        for (let i in contestants) {
+            if (contestants[i].playing && NO_DIFFERENCE.includes(gamemode)) contestants[i].difference = (contestants[i].won === undefined || contestants[i].won === false) ? -1 : 1;
+            if (contestants[i].playing &&
+                !(NO_DIFFERENCE.includes(gamemode) ||
+                    SEPARATE_COUNTERS.includes(gamemode) ||
+                    CONSTANT_GAMEMODE.includes(gamemode)
+                )) contestants[i].difference = difference;
+        }
+    }
+
     async function newGame() {
-        // let fd = new FormData();
-        // fd.append("gamemode", GAMEMODES[gamemode].toString());
-        // fd.append("trula_zbral", trulo_zbral);
-        // fd.append("trula_napovedal", trulo_napovedal);
-        // fd.append("kralji_zbral", kralji_zbral);
-        // fd.append("kralji_napovedal", kralji_napovedal);
-        // fd.append("pagat_zbral", pagat_zbral);
-        // fd.append("pagat_napovedal", pagat_napovedal);
-        // fd.append("kralj_zbral", kralj_zbral);
-        // fd.append("kralj_napovedal", kralj_napovedal);
-        // fd.append("valat_zbral", valat_zbral);
-        // fd.append("valat_napovedal", valat_napovedal);
-        // fd.append("barvni_valat_zbral", barvni_valat_zbral);
-        // fd.append("barvni_valat_napovedal", barvni_valat_napovedal);
-        // fd.append("izgubil_monda", izgubil_monda);
-        // fd.append("contestants", JSON.stringify(contestants).toString());
+        preprocessUI();
         await makeRequest(
             `/tarot/contest/${id}`,
             "POST",
@@ -102,17 +117,7 @@
 
 {#if contest !== undefined}
     <h1>Nova igra</h1>
-    <p/>
-    <SegmentedButton
-            segments={Object.keys(GAMEMODES)}
-            let:segment
-            singleSelect
-            bind:selected={gamemode}
-    >
-        <Segment {segment}><Label>{segment}</Label></Segment>
-    </SegmentedButton>
 
-    <p/>
     <Select bind:value={contestant} label="Igralci">
         {#each JSON.parse(contest.contestants) as contestant}
             <Option
@@ -129,6 +134,7 @@
               username: contestant,
               difference: 0,
               playing: false,
+              won: false,
             });
             contestants = contestants;
           }
@@ -144,112 +150,147 @@
             <Switch bind:checked={cont.playing}/>
             <span slot="label">Igra</span>
         </FormField>
-        <br/>
-        <Textfield
+        {#if SEPARATE_COUNTERS.includes(gamemode)}
+            <p/>
+            <Textfield
                 bind:value={cont.difference}
                 style="width: 100%;"
                 helperLine$style="width: 100%;"
                 label="Razlika"
                 type="number"
-        />
+            />
+        {/if}
+        <p/>
+        {#if NO_DIFFERENCE.includes(gamemode) && cont.playing}
+            <p/>
+            <FormField>
+                <Switch bind:checked={cont.won}/>
+                <span slot="label">Zmagal</span>
+            </FormField>
+        {/if}
         <p/>
         <Button
-                on:click={async () => {
-        let cs = [];
-        for (let i in contestants) {
-          if (contestants[i].username !== cont.username)
-            cs.push(contestants[i]);
-        }
-        contestants = cs;
-      }}
-                variant="raised"
+            on:click={async () => {
+                let cs = [];
+                for (let i in contestants) {
+                  if (contestants[i].username !== cont.username)
+                    cs.push(contestants[i]);
+                }
+                contestants = cs;
+              }}
+            variant="raised"
         >
             <Icon class="material-icons">delete</Icon>
             <Label>Izbriši</Label>
         </Button>
+        <p/>
     {/each}
 
-    {#if !NO_PREDICTIONS.includes(gamemode)}
-        <h4>Trula</h4>
-        <Select bind:value={trulo_zbral} label="Trulo zbral">
-            {#each ["", "igralci", "nasprotniki"] as contestant}
-                <Option value={contestant}>{contestant}</Option>
-            {/each}
-        </Select>
-        <Select bind:value={trulo_napovedal} label="Trulo napovedal">
-            {#each ["", "igralci", "nasprotniki"] as contestant}
-                <Option value={contestant}>{contestant}</Option>
-            {/each}
-        </Select>
+    {#if !(contestants.length < 3 || contestants.length > 4)}
+        <p/>
+        <SegmentedButton
+                segments={Object.keys(contestants.length === 3 ? GAMEMODES_IN_THREE : GAMEMODES)}
+                let:segment
+                singleSelect
+                bind:selected={gamemode}
+        >
+            <Segment {segment}><Label>{segment}</Label></Segment>
+        </SegmentedButton>
+        <p/>
+        {#if !(CONSTANT_GAMEMODE.includes(gamemode) || NO_DIFFERENCE.includes(gamemode) || SEPARATE_COUNTERS.includes(gamemode))}
+            <Textfield
+                    bind:value={difference}
+                    style="width: 100%;"
+                    helperLine$style="width: 100%;"
+                    label="Razlika"
+                    type="number"
+            />
+            <p/>
+        {/if}
+        {#if !NO_PREDICTIONS.includes(gamemode)}
+            <h4>Trula</h4>
+            <Select bind:value={trulo_zbral} label="Trulo zbral">
+                {#each ["", "igralci", "nasprotniki"] as contestant}
+                    <Option value={contestant}>{contestant}</Option>
+                {/each}
+            </Select>
+            <Select bind:value={trulo_napovedal} label="Trulo napovedal">
+                {#each ["", "igralci", "nasprotniki"] as contestant}
+                    <Option value={contestant}>{contestant}</Option>
+                {/each}
+            </Select>
 
-        <h4>Kralji</h4>
-        <Select bind:value={kralji_zbral} label="Kralje zbral">
-            {#each ["", "igralci", "nasprotniki"] as contestant}
-                <Option value={contestant}>{contestant}</Option>
-            {/each}
-        </Select>
-        <Select bind:value={kralji_napovedal} label="Kralje napovedal">
-            {#each ["", "igralci", "nasprotniki"] as contestant}
-                <Option value={contestant}>{contestant}</Option>
-            {/each}
-        </Select>
+            <h4>Kralji</h4>
+            <Select bind:value={kralji_zbral} label="Kralje zbral">
+                {#each ["", "igralci", "nasprotniki"] as contestant}
+                    <Option value={contestant}>{contestant}</Option>
+                {/each}
+            </Select>
+            <Select bind:value={kralji_napovedal} label="Kralje napovedal">
+                {#each ["", "igralci", "nasprotniki"] as contestant}
+                    <Option value={contestant}>{contestant}</Option>
+                {/each}
+            </Select>
 
-        <h4>Pagat ultimo</h4>
-        <Select bind:value={pagat_zbral} label="Pagat ultimo zbral">
-            {#each ["", "igralci", "nasprotniki"] as contestant}
-                <Option value={contestant}>{contestant}</Option>
-            {/each}
-        </Select>
-        <Select bind:value={pagat_napovedal} label="Pagat ultimo napovedal">
-            {#each ["", "igralci", "nasprotniki"] as contestant}
-                <Option value={contestant}>{contestant}</Option>
-            {/each}
-        </Select>
+            <h4>Pagat ultimo</h4>
+            <Select bind:value={pagat_zbral} label="Pagat ultimo zbral">
+                {#each ["", "igralci", "nasprotniki"] as contestant}
+                    <Option value={contestant}>{contestant}</Option>
+                {/each}
+            </Select>
+            <Select bind:value={pagat_napovedal} label="Pagat ultimo napovedal">
+                {#each ["", "igralci", "nasprotniki"] as contestant}
+                    <Option value={contestant}>{contestant}</Option>
+                {/each}
+            </Select>
 
-        <h4>Kralj ultimo</h4>
-        <Select bind:value={kralj_zbral} label="Kralj ultimo zbral">
-            {#each ["", "igralci", "nasprotniki"] as contestant}
-                <Option value={contestant}>{contestant}</Option>
-            {/each}
-        </Select>
-        <Select bind:value={kralj_napovedal} label="Kralj ultimo napovedal">
-            {#each ["", "igralci", "nasprotniki"] as contestant}
-                <Option value={contestant}>{contestant}</Option>
-            {/each}
-        </Select>
+            <h4>Kralj ultimo</h4>
+            <Select bind:value={kralj_zbral} label="Kralj ultimo zbral">
+                {#each ["", "igralci", "nasprotniki"] as contestant}
+                    <Option value={contestant}>{contestant}</Option>
+                {/each}
+            </Select>
+            <Select bind:value={kralj_napovedal} label="Kralj ultimo napovedal">
+                {#each ["", "igralci", "nasprotniki"] as contestant}
+                    <Option value={contestant}>{contestant}</Option>
+                {/each}
+            </Select>
 
-        <h4>Valat</h4>
-        <Select bind:value={valat_zbral} label="Valat zbral">
-            {#each ["", "igralci", "nasprotniki"] as contestant}
-                <Option value={contestant}>{contestant}</Option>
-            {/each}
-        </Select>
-        <Select bind:value={valat_napovedal} label="Valat napovedal">
-            {#each ["", "igralci", "nasprotniki"] as contestant}
-                <Option value={contestant}>{contestant}</Option>
-            {/each}
-        </Select>
+            <h4>Valat</h4>
+            <Select bind:value={valat_zbral} label="Valat zbral">
+                {#each ["", "igralci", "nasprotniki"] as contestant}
+                    <Option value={contestant}>{contestant}</Option>
+                {/each}
+            </Select>
+            <Select bind:value={valat_napovedal} label="Valat napovedal">
+                {#each ["", "igralci", "nasprotniki"] as contestant}
+                    <Option value={contestant}>{contestant}</Option>
+                {/each}
+            </Select>
 
-        <h4>Izguba monda</h4>
-        <Select bind:value={izgubil_monda} label="Izgubil monda">
-            {#each ["", ...JSON.parse(contest.contestants)] as contestant}
-                <Option value={contestant}>{contestant}</Option>
-            {/each}
-        </Select>
+            <h4>Izguba monda</h4>
+            <Select bind:value={izgubil_monda} label="Izgubil monda">
+                {#each ["", ...JSON.parse(contest.contestants)] as contestant}
+                    <Option value={contestant}>{contestant}</Option>
+                {/each}
+            </Select>
+        {/if}
+
+        <p/>
+        Z ustvarjanjem nove igre se strinjate s <a href="/tos.html">Pogoji uporabe</a>.
+
+        <p/>
+        <Button
+            on:click={async () => {
+                await newGame();
+                navigate(`/tarot/contest/${id}`);
+            }}
+            variant="raised"
+        >
+            <Icon class="material-icons">add</Icon>
+            <Label>OK</Label>
+        </Button>
+    {:else}
+        <b>Neveljavno število igralcev. Najdenih {contestants.length}.</b>
     {/if}
-
-    <p/>
-    Z ustvarjanjem nove igre se strinjate s <a href="/tos.html">Pogoji uporabe</a>.
 {/if}
-
-<p/>
-<Button
-    on:click={async () => {
-        await newGame();
-        navigate(`/tarot/contest/${id}`);
-    }}
-    variant="raised"
->
-    <Icon class="material-icons">add</Icon>
-    <Label>OK</Label>
-</Button>
