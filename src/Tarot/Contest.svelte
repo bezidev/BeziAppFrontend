@@ -14,6 +14,8 @@
     import FormField from "@smui/form-field";
     import Switch from "@smui/switch";
     import isMobile from "is-mobile";
+    import Dialog, { Title, Content, Actions } from '@smui/dialog';
+    import Tooltip, {Wrapper} from "@smui/tooltip";
 
     export let id: string;
     let options = {};
@@ -265,8 +267,12 @@
                 mode: "dark",
             }
         };
-
     }
+
+    let openWarning = false;
+    let func;
+    let title;
+    let props;
 
     async function deleteGame(game_id: string) {
         await makeRequest(`/tarot/game/${game_id}`, "DELETE");
@@ -297,6 +303,19 @@
         await getContest();
     })
 </script>
+
+<Dialog bind:open={openWarning} aria-labelledby="simple-title" aria-describedby="simple-content">
+    <Title id="simple-title">Izbriši {title}</Title>
+    <Content id="simple-content">Ali res želite izbrisati {title}?</Content>
+    <Actions>
+        <Button>
+            <Label>Ne</Label>
+        </Button>
+        <Button on:click={async () => await func(props)}>
+            <Label>Ja</Label>
+        </Button>
+    </Actions>
+</Dialog>
 
 {#if contest !== undefined}
     <TabBar {tabs} let:tab bind:active>
@@ -335,7 +354,15 @@
             <Body>
                 {#each slice as game}
                     <Row>
-                        <Cell>{GAMEMODES[game.type]}</Cell>
+                        <Cell>
+                            {GAMEMODES[game.type]}
+                            {#if game.warning}
+                                <Wrapper>
+                                    <Icon class="material-icons">warning</Icon>
+                                    <Tooltip>Oseba, ki je sodelovala v tej igri, je zapustila tekmovanje.</Tooltip>
+                                </Wrapper>
+                            {/if}
+                        </Cell>
                         {#each JSON.parse(contest.contestants) as contestant}
                             {#if Object.keys(game.contestants).includes(contestant)}
                                 {#each Object.keys(game.contestants) as cs}
@@ -359,7 +386,12 @@
                         <Cell>
                             <div style="display: flex; flex-direction: row; align-items: center;">
                                 <span>{game.id.substring(0, 5)}</span>
-                                <IconButton class="material-icons" on:click={async () => await deleteGame(game.id)}>delete</IconButton>
+                                <IconButton class="material-icons" on:click={() => {
+                                    openWarning = true;
+                                    func = deleteGame;
+                                    title = "igro";
+                                    props = game.id;
+                                }}>delete</IconButton>
                             </div>
                         </Cell>
                     </Row>
@@ -570,7 +602,12 @@
         <p/>
         <List style="width: 100%;">
             {#each JSON.parse(contest.contestants) as contestant}
-                <Item on:SMUI:action={async () => await removePerson(contestant)}><Text>{contestant}</Text></Item>
+                <Item on:SMUI:action={async () => {
+                    title = "osebo";
+                    func = removePerson;
+                    props = contestant;
+                    openWarning = true;
+                }}><Text>{contestant}</Text></Item>
             {/each}
         </List>
         <p/>
