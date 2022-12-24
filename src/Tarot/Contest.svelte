@@ -375,7 +375,7 @@
                                                     <span>{game.contestants[cs].razlika}</span>
                                                     <Tooltip>
                                                         {#each game.explanation[cs] as explanation}
-                                                            <span style="color: {explanation.diff < 0 ? '#F44336' : '#64DD17'}">{explanation.diff}</span> {explanation.title}
+                                                            <span style="color: {explanation.diff <= 0 ? '#F44336' : '#64DD17'}">{explanation.diff}</span> {explanation.title}
                                                             {#if explanation.kontra !== 1}
                                                                 <span style="color: yellow">s kontro {explanation.kontra}x</span>
                                                             {/if}
