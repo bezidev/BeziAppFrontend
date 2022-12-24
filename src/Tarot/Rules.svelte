@@ -144,3 +144,23 @@ s tem da vsem ostalim pripišete samo naključno število, manjše od 35 in več
 Sistem v tem primeru ne bo upošteval razlike drugih igralcev, ter jim bo pisal +0.
 Igralcu, ki pobere več ali enako kot 35 točk, se piše -70.
 
+<h2>Kontre</h2>
+Kontre se lahko postavijo na igro (igra + razlika) ali pa na napovedi.
+Prvo kontro ("Kontra (2x)") mora postaviti nasprotnik, nakar lahko igralec napove rekontro ("Rekontra (4x)").
+Nato je nasprotnik na potezi, in lahko napove subkontro ("Subkontra (8x)"), na to pa lahko igralec odgovori z
+mortkontro ("Mortkontra (16x)").
+<br>
+Če igralec piše napoved/igro dol (negativna števila), se mu dana kontra zmnoži v minus, drugače pa v plus.
+<p/>
+Primeri:
+<br>
+Igra je 30 (ena), dana je bila kontra, igralec je igro izgubil, posledično se mu piše -30. Ker je kontra 2x, se mu piše 2x toliko, torej -60.
+Če ima radlce se mu piše še dodatno dol, in sicer 2x, torej -120.
+<br>
+Igra je 30 (ena), dana je bila kontra, na katero je odgovoril z rekontro. Igralec je igro zmagal, posledično se mu piše +30.
+Ker je rekontra 4x, se mu piše 4x toliko, torej +120. Če ima radlce, se mu piše še dodatno navzgor, in sicer 2x, torej +240.
+
+<h2>Razno</h2>
+<h3>Poraba radlcov</h3>
+Radlci se porabljajo za vsako osebo posebej. V praksi to pomeni, da ima ena oseba lahko 2x, druga pa ne, če ta nima radlcov.
+
