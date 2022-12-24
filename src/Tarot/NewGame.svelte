@@ -8,22 +8,29 @@
     import Switch from "@smui/switch";
     import {navigate} from "svelte-navigator";
     import Select, {Option} from "@smui/select";
+    import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
 
     export let id: string;
 
     let open = false;
     let name = "";
     let gamemode = "";
+    let igra_kontre = "";
     let trulo_napovedal = "";
     let trulo_zbral = "";
+    let trula_kontre = "";
     let kralji_napovedal = "";
     let kralji_zbral = "";
+    let kralji_kontre = "";
     let pagat_napovedal = "";
     let pagat_zbral = "";
+    let pagat_kontre = "";
     let kralj_napovedal = "";
     let kralj_zbral = "";
+    let kralj_kontre = "";
     let valat_napovedal = "";
     let valat_zbral = "";
+    let valat_kontre = "";
     let izgubil_monda = "";
     let contestants = [];
 
@@ -46,6 +53,14 @@
         Renons: 13,
     };
 
+    const KONTRE = {
+        "": 0,
+        "Kontra (2x)": 1,
+        "Rekontra (4x)": 2,
+        "Subkontra (8x)": 3,
+        "Mortkontra (16x)": 4,
+    }
+
     const GAMEMODES_IN_THREE = {
         Tri: 0,
         Dva: 1,
@@ -64,6 +79,7 @@
     const SEPARATE_COUNTERS = ["Klop"]
     const NO_DIFFERENCE = ["Pikolo", "Berač", "Solo brez", "Odprti berač", "Valat", "Barvni valat"]
     const CONSTANT_GAMEMODE = ["Renons"];
+    const NO_REVERSALS = ["Klop", "Renons"]; // ni konter na igro
 
     let difference = 0;
 
@@ -91,16 +107,22 @@
             "POST",
             JSON.stringify({
                 gamemode: GAMEMODES[gamemode].toString(),
+                igra_kontre: KONTRE[igra_kontre],
                 trula_zbral: trulo_zbral,
                 trula_napovedal: trulo_napovedal,
+                trula_kontre: KONTRE[trula_kontre],
                 kralji_zbral: kralji_zbral,
                 kralji_napovedal: kralji_napovedal,
+                kralji_kontre: KONTRE[kralji_kontre],
                 pagat_zbral: pagat_zbral,
                 pagat_napovedal: pagat_napovedal,
+                pagat_kontre: KONTRE[pagat_kontre],
                 kralj_zbral: kralj_zbral,
                 kralj_napovedal: kralj_napovedal,
+                kralj_kontre: KONTRE[kralj_kontre],
                 valat_zbral: valat_zbral,
                 valat_napovedal: valat_napovedal,
+                valat_kontre: KONTRE[valat_kontre],
                 izgubil_monda: izgubil_monda,
                 contestants: JSON.stringify(contestants).toString(),
             }),
@@ -112,6 +134,20 @@
 
     onMount(async () => {
         await getContest();
+
+        function removeNulls(this) {
+            let newArray = [];
+            for (let i = 0; i < this.length; i++) {
+                if (this[i] !== null) {
+                    console.log(this[i]);
+                    newArray.push(this[i]);
+                }
+            }
+            console.log(newArray);
+            return newArray;
+        }
+
+        Array.prototype.removeNulls = removeNulls;
     });
 </script>
 
@@ -121,25 +157,34 @@
     <Select bind:value={contestant} label="Igralci">
         {#each JSON.parse(contest.contestants) as contestant}
             <Option
-                    value={contestant}
-                    on:click={() => {
-          let ok = true;
-          for (let i in contestants)
-            if (contestants[i].username === contestant) {
-              ok = false;
-              break;
-            }
-          if (ok) {
-            contestants.push({
-              username: contestant,
-              difference: 0,
-              playing: false,
-              won: false,
-            });
-            contestants = contestants;
-          }
-        }}>{contestant}</Option
-            >
+                value={contestant}
+                on:click={() => {
+                    let ok = true;
+                    for (let i in contestants) if (contestants[i].username === contestant) {
+                        ok = false;
+                        break;
+                    }
+                    if (ok) {
+                        contestants.push({
+                            username: contestant,
+                            difference: 0,
+                            playing: false,
+                            won: false,
+                        });
+                        contestants = contestants;
+                    }
+                    // hack as described in https://github.com/hperrin/svelte-material-ui/issues/356
+                    // ugly but works
+                    setTimeout(() => {
+                        const containers = document.getElementsByClassName("mdc-data-table__table-container");
+                        console.log(containers);
+                        for (let i = 0; i < containers.length; i++) {
+                            const container = containers[i];
+                            console.log(container);
+                            container.className += " overflow";
+                        }
+                    }, 50);
+            }}>{contestant}</Option>
         {/each}
     </Select>
 
@@ -207,74 +252,168 @@
             />
             <p/>
         {/if}
-        {#if !NO_PREDICTIONS.includes(gamemode)}
-            <h4>Trula</h4>
-            <Select bind:value={trulo_zbral} label="Trulo zbral">
-                {#each ["", "igralci", "nasprotniki"] as contestant}
-                    <Option value={contestant}>{contestant}</Option>
-                {/each}
-            </Select>
-            <Select bind:value={trulo_napovedal} label="Trulo napovedal">
-                {#each ["", "igralci", "nasprotniki"] as contestant}
-                    <Option value={contestant}>{contestant}</Option>
-                {/each}
-            </Select>
-
-            <h4>Kralji</h4>
-            <Select bind:value={kralji_zbral} label="Kralje zbral">
-                {#each ["", "igralci", "nasprotniki"] as contestant}
-                    <Option value={contestant}>{contestant}</Option>
-                {/each}
-            </Select>
-            <Select bind:value={kralji_napovedal} label="Kralje napovedal">
-                {#each ["", "igralci", "nasprotniki"] as contestant}
-                    <Option value={contestant}>{contestant}</Option>
-                {/each}
-            </Select>
-
-            <h4>Pagat ultimo</h4>
-            <Select bind:value={pagat_zbral} label="Pagat ultimo zbral">
-                {#each ["", "igralci", "nasprotniki"] as contestant}
-                    <Option value={contestant}>{contestant}</Option>
-                {/each}
-            </Select>
-            <Select bind:value={pagat_napovedal} label="Pagat ultimo napovedal">
-                {#each ["", "igralci", "nasprotniki"] as contestant}
-                    <Option value={contestant}>{contestant}</Option>
-                {/each}
-            </Select>
-
-            <h4>Kralj ultimo</h4>
-            <Select bind:value={kralj_zbral} label="Kralj ultimo zbral">
-                {#each ["", "igralci", "nasprotniki"] as contestant}
-                    <Option value={contestant}>{contestant}</Option>
-                {/each}
-            </Select>
-            <Select bind:value={kralj_napovedal} label="Kralj ultimo napovedal">
-                {#each ["", "igralci", "nasprotniki"] as contestant}
-                    <Option value={contestant}>{contestant}</Option>
-                {/each}
-            </Select>
-
-            <h4>Valat</h4>
-            <Select bind:value={valat_zbral} label="Valat zbral">
-                {#each ["", "igralci", "nasprotniki"] as contestant}
-                    <Option value={contestant}>{contestant}</Option>
-                {/each}
-            </Select>
-            <Select bind:value={valat_napovedal} label="Valat napovedal">
-                {#each ["", "igralci", "nasprotniki"] as contestant}
-                    <Option value={contestant}>{contestant}</Option>
-                {/each}
-            </Select>
-
-            <h4>Izguba monda</h4>
-            <Select bind:value={izgubil_monda} label="Izgubil monda">
-                {#each ["", ...JSON.parse(contest.contestants)] as contestant}
-                    <Option value={contestant}>{contestant}</Option>
-                {/each}
-            </Select>
-        {/if}
+        <h3>Napovedi</h3>
+        <DataTable table$aria-label="Napovedi" style="min-width: 100%;">
+            <Head>
+                <Row>
+                    <Cell>Napoved</Cell>
+                    <Cell>Napovedal</Cell>
+                    <Cell>Zbral</Cell>
+                    <Cell>Kontra</Cell>
+                </Row>
+            </Head>
+            <Body>
+                {#if !NO_REVERSALS.includes(gamemode)}
+                    <Row>
+                        {@const igralci = contestants.map((a) => a.playing === true ? a.username : null)}
+                        <Cell>{gamemode}</Cell>
+                        <Cell>{igralci.removeNulls().join(", ")}</Cell>
+                        <Cell />
+                        <Cell class="overflow">
+                            <Select bind:value={igra_kontre} label="Kontriranje igre">
+                                {#each Object.keys(KONTRE) as kontra}
+                                    <Option value={kontra}>{kontra}</Option>
+                                {/each}
+                            </Select>
+                        </Cell>
+                    </Row>
+                {/if}
+                {#if !NO_PREDICTIONS.includes(gamemode)}
+                    <Row>
+                        <Cell>Trula</Cell>
+                        <Cell class="overflow">
+                            <Select bind:value={trulo_napovedal} label="Trulo napovedal">
+                                {#each ["", "igralci", "nasprotniki"] as contestant}
+                                    <Option value={contestant}>{contestant}</Option>
+                                {/each}
+                            </Select>
+                        </Cell>
+                        <Cell class="overflow">
+                            <Select bind:value={trulo_zbral} label="Trulo zbral">
+                                {#each ["", "igralci", "nasprotniki"] as contestant}
+                                    <Option value={contestant}>{contestant}</Option>
+                                {/each}
+                            </Select>
+                        </Cell>
+                        <Cell class="overflow">
+                            <Select bind:value={trula_kontre} label="Kontriranje trule">
+                                {#each Object.keys(KONTRE) as kontra}
+                                    <Option value={kontra}>{kontra}</Option>
+                                {/each}
+                            </Select>
+                        </Cell>
+                    </Row>
+                    <Row>
+                        <Cell>Kralji</Cell>
+                        <Cell class="overflow">
+                            <Select bind:value={kralji_napovedal} label="Kralje napovedal">
+                                {#each ["", "igralci", "nasprotniki"] as contestant}
+                                    <Option value={contestant}>{contestant}</Option>
+                                {/each}
+                            </Select>
+                        </Cell>
+                        <Cell class="overflow">
+                            <Select bind:value={kralji_zbral} label="Kralje zbral">
+                                {#each ["", "igralci", "nasprotniki"] as contestant}
+                                    <Option value={contestant}>{contestant}</Option>
+                                {/each}
+                            </Select>
+                        </Cell>
+                        <Cell class="overflow">
+                            <Select bind:value={kralji_kontre} label="Kontriranje kraljev">
+                                {#each Object.keys(KONTRE) as kontra}
+                                    <Option value={kontra}>{kontra}</Option>
+                                {/each}
+                            </Select>
+                        </Cell>
+                    </Row>
+                    <Row>
+                        <Cell>Pagat ultimo</Cell>
+                        <Cell class="overflow">
+                            <Select bind:value={pagat_napovedal} label="Pagat ultimo napovedal">
+                                {#each ["", "igralci", "nasprotniki"] as contestant}
+                                    <Option value={contestant}>{contestant}</Option>
+                                {/each}
+                            </Select>
+                        </Cell>
+                        <Cell class="overflow">
+                            <Select bind:value={pagat_zbral} label="Pagat ultimo zbral">
+                                {#each ["", "igralci", "nasprotniki"] as contestant}
+                                    <Option value={contestant}>{contestant}</Option>
+                                {/each}
+                            </Select>
+                        </Cell>
+                        <Cell class="overflow">
+                            <Select bind:value={pagat_kontre} label="Kontriranje pagat ultima">
+                                {#each Object.keys(KONTRE) as kontra}
+                                    <Option value={kontra}>{kontra}</Option>
+                                {/each}
+                            </Select>
+                        </Cell>
+                    </Row>
+                    <Row>
+                        <Cell>Kralj ultimo</Cell>
+                        <Cell class="overflow">
+                            <Select bind:value={kralj_napovedal} label="Kralj ultimo napovedal">
+                                {#each ["", "igralci", "nasprotniki"] as contestant}
+                                    <Option value={contestant}>{contestant}</Option>
+                                {/each}
+                            </Select>
+                        </Cell>
+                        <Cell class="overflow">
+                            <Select bind:value={kralj_zbral} label="Kralj ultimo zbral">
+                                {#each ["", "igralci", "nasprotniki"] as contestant}
+                                    <Option value={contestant}>{contestant}</Option>
+                                {/each}
+                            </Select>
+                        </Cell>
+                        <Cell class="overflow">
+                            <Select bind:value={kralj_kontre} label="Kontriranje kralj ultima">
+                                {#each Object.keys(KONTRE) as kontra}
+                                    <Option value={kontra}>{kontra}</Option>
+                                {/each}
+                            </Select>
+                        </Cell>
+                    </Row>
+                    <Row>
+                        <Cell>Valat</Cell>
+                        <Cell class="overflow">
+                            <Select bind:value={valat_napovedal} label="Valat napovedal">
+                                {#each ["", "igralci", "nasprotniki"] as contestant}
+                                    <Option value={contestant}>{contestant}</Option>
+                                {/each}
+                            </Select>
+                        </Cell>
+                        <Cell class="overflow">
+                            <Select bind:value={valat_zbral} label="Valat zbral">
+                                {#each ["", "igralci", "nasprotniki"] as contestant}
+                                    <Option value={contestant}>{contestant}</Option>
+                                {/each}
+                            </Select>
+                        </Cell>
+                        <Cell class="overflow">
+                            <Select bind:value={valat_kontre} label="Kontriranje valata">
+                                {#each Object.keys(KONTRE) as kontra}
+                                    <Option value={kontra}>{kontra}</Option>
+                                {/each}
+                            </Select>
+                        </Cell>
+                    </Row>
+                    <Row>
+                        <Cell>Izguba monda</Cell>
+                        <Cell />
+                        <Cell class="overflow">
+                            <Select bind:value={izgubil_monda} label="Izgubil monda">
+                                {#each ["", ...JSON.parse(contest.contestants)] as contestant}
+                                    <Option value={contestant}>{contestant}</Option>
+                                {/each}
+                            </Select>
+                        </Cell>
+                        <Cell />
+                    </Row>
+                {/if}
+            </Body>
+        </DataTable>
 
         <p/>
         Z ustvarjanjem nove igre se strinjate s <a href="/tos.html">Pogoji uporabe</a>.

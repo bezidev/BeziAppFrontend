@@ -209,3 +209,7 @@ button:focus {
 	position: absolute;
 	top: 25%;
 }
+
+.overflow {
+	overflow: visible;
+}

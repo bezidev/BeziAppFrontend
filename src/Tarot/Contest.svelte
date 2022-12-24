@@ -371,7 +371,21 @@
                                             {#if game.contestants[cs].razlika === 0}
                                                 +0
                                             {:else}
-                                                {game.contestants[cs].razlika}
+                                                <Wrapper>
+                                                    <span>{game.contestants[cs].razlika}</span>
+                                                    <Tooltip>
+                                                        {#each game.explanation[cs] as explanation}
+                                                            <span style="color: {explanation.diff < 0 ? '#F44336' : '#64DD17'}">{explanation.diff}</span> {explanation.title}
+                                                            {#if explanation.kontra !== 1}
+                                                                <span style="color: yellow">s kontro {explanation.kontra}x</span>
+                                                            {/if}
+                                                            <br>
+                                                        {/each}
+                                                        {#if game.contestants[cs].radlc_uporabljen}
+                                                            <span style="color: {game.contestants[cs].razlika < 0 ? '#F44336' : '#64DD17'}">{game.contestants[cs].razlika/2}</span> Radlc
+                                                        {/if}
+                                                    </Tooltip>
+                                                </Wrapper>
                                             {/if}
                                             {#if game.contestants[cs].radlc_uporabljen}
                                                 <Icon class="material-icons" slot="leadingIcon"><div style="font-size: 15px !important;">stars</div></Icon>
