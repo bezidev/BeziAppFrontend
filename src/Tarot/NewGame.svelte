@@ -157,7 +157,7 @@
                 style="width: 100%;"
                 helperLine$style="width: 100%;"
                 label="Razlika"
-                type="number"
+                type="tel"
             />
         {/if}
         <p/>
@@ -203,7 +203,7 @@
                     style="width: 100%;"
                     helperLine$style="width: 100%;"
                     label="Razlika"
-                    type="number"
+                    type="tel"
             />
             <p/>
         {/if}
