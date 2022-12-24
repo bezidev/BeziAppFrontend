@@ -1,9 +1,5 @@
 <script lang="ts">
-    import List, {Graphic, Item, Text} from "@smui/list";
-    import PrimaryText from "@smui/list/src/PrimaryText";
-    import SecondaryText from "@smui/list/src/SecondaryText";
-    import Meta from "@smui/list/src/Meta";
-    import {navigate} from "svelte-navigator";
+    import List, {PrimaryText, SecondaryText, Item, Text} from "@smui/list";
     import AboutPerson from "./Widgets/AboutPerson.svelte";
 
     const developers = [

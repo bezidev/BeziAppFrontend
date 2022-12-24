@@ -187,3 +187,25 @@ button:focus {
 	flex-grow: 1;
 	overflow: auto;
 }
+
+.center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.meta {
+	font-size: 20px;
+	float: right;
+	color: rgba(255, 255, 255, 0.5);
+	right: 10px;
+}
+
+.grades-center {
+	position: relative;
+}
+
+.absolute {
+	position: absolute;
+	top: 25%;
+}

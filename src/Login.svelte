@@ -1,19 +1,13 @@
 <script lang="ts">
     import Paper from "@smui/paper";
     import Textfield from "@smui/textfield";
-
     import Icon from '@smui/textfield/icon';
     import Button, {Label} from "@smui/button";
     import IconButton from "@smui/icon-button";
-
     import { navigate } from "svelte-navigator";
-
     import Snackbar, {Actions} from "@smui/snackbar";
-    import type { SnackbarComponentDev } from '@smui/snackbar';
     import * as constants from "./constants";
     import Cookies from "js-cookie";
-    import {Content, Title} from "@smui/drawer";
-    import Subtitle from "@smui/paper/src/Subtitle";
     import Notification from "./Widgets/Notification.svelte";
 
     // <b style="color: rgba(0, 77, 50, 1);">Beži</b><span style="color: rgba(0, 128, 83, 1);">App</span>
@@ -52,7 +46,7 @@
 
     export let loginType = "gimsis";
 
-    let snackbarWithClose: SnackbarComponentDev;
+    let snackbarWithClose: InstanceType<typeof Snackbar>;
 </script>
 
 <style>

@@ -35,7 +35,7 @@ Ta pravila so spisana predvsem zato, da predstavim kako modul šteje točke.
             <td>20 + razlika</td>
         </tr>
         <tr>
-            <td>Ena oz. Solo ena (v 1)</td>
+            <td>Ena oz. Solo ena (v 3)</td>
             <td>30 + razlika</td>
             <td>30 + razlika</td>
         </tr>
@@ -130,3 +130,17 @@ Kazen za neporabljene radlce je -40 točk na radlc.
 
 <h3>Izguba monda</h3>
 Kdor izgubi monda, piše -21 točk. Na te točke se NE štejejo radlci.
+
+<h2>Vpis razlike</h2>
+<h3>Tri -> Solo ena</h3>
+Pri teh igrah se vpiše normalno - če je igralec igral z negativno razliko (npr. -3), se vpiše negativno celo število (-3, <b>vključno z minusom</b>).
+Če je igralec igral s pozitivno razliko ali ničlo (npr. 3), se vpiše naravno število ali ničla (3, <b>brez minusa</b>).
+
+<h3>Klop</h3>
+Pri klopu se vpiše razlika vsakega igralca. Razlika je lahko katerokoli celo število, sistem bo to pretvoril v pripadajoče negativno število.
+V primeru, da igralec ni pobral ničesar, se mu vpiše 0, sistem pa mu potemtakem prizna pripadajočih +70 točk.
+V primeru, da je igralec pobral več ali enako kot 35 točk, v sistem lahko vpišete pripadajoče točke igralcu,
+s tem da vsem ostalim pripišete samo naključno število, manjše od 35 in večje od -35.
+Sistem v tem primeru ne bo upošteval razlike drugih igralcev, ter jim bo pisal +0.
+Igralcu, ki pobere več ali enako kot 35 točk, se piše -70.
+

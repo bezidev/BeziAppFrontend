@@ -4,9 +4,7 @@
     import {onMount} from "svelte";
     import {navigate} from "svelte-navigator";
     import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
-    import Select, { Option } from '@smui/select';
     import Button, {Icon, Label} from "@smui/button";
-    import insane from "insane";
     import FormField from "@smui/form-field";
     import Switch from "@smui/switch";
     import { Datepicker } from "svelte-calendar";
