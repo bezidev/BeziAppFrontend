@@ -45,6 +45,8 @@
         11: "Barvni valat",
         12: "Klop",
         13: "Renons",
+        14: "Ročni vpis",
+        15: "Ročni vpis z radlcem"
     }
 
     const GAMEMODES_KEYS = {
@@ -62,6 +64,8 @@
         "Barvni valat": 11,
         "Klop": 12,
         "Renons": 13,
+        "Ročni vpis": 14,
+        "Ročni vpis z radlcem": 15,
     }
 
     let tabs = [

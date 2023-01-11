@@ -51,6 +51,8 @@
         "Barvni valat": 11,
         Klop: 12,
         Renons: 13,
+        "Ročni vpis": 14,
+        "Ročni vpis z radlcem": 15,
     };
 
     const KONTRE = {
@@ -73,13 +75,15 @@
         "Barvni valat": 11,
         Klop: 12,
         Renons: 13,
+        "Ročni vpis": 14,
+        "Ročni vpis z radlcem": 15,
     };
 
-    const NO_PREDICTIONS = ["Pikolo", "Berač", "Solo brez", "Odprti berač", "Valat", "Barvni valat", "Klop", "Renons"]
-    const SEPARATE_COUNTERS = ["Klop"]
+    const NO_PREDICTIONS = ["Pikolo", "Berač", "Solo brez", "Odprti berač", "Valat", "Barvni valat", "Klop", "Renons", "Ročni vpis", "Ročni vpis z radlcem"]
+    const SEPARATE_COUNTERS = ["Klop", "Ročni vpis", "Ročni vpis z radlcem"];
     const NO_DIFFERENCE = ["Pikolo", "Berač", "Solo brez", "Odprti berač", "Valat", "Barvni valat"]
     const CONSTANT_GAMEMODE = ["Renons"];
-    const NO_REVERSALS = ["Klop", "Renons"]; // ni konter na igro
+    const NO_REVERSALS = ["Klop", "Renons", "Ročni vpis", "Ročni vpis z radlcem"]; // ni konter na igro
 
     let difference = 0;
 
@@ -132,22 +136,20 @@
         );
     }
 
+    function removeNulls(arr) {
+        let newArray = [];
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i] !== null) {
+                console.log(arr[i]);
+                newArray.push(arr[i]);
+            }
+        }
+        console.log(newArray);
+        return newArray;
+    }
+
     onMount(async () => {
         await getContest();
-
-        function removeNulls(this) {
-            let newArray = [];
-            for (let i = 0; i < this.length; i++) {
-                if (this[i] !== null) {
-                    console.log(this[i]);
-                    newArray.push(this[i]);
-                }
-            }
-            console.log(newArray);
-            return newArray;
-        }
-
-        Array.prototype.removeNulls = removeNulls;
     });
 </script>
 
@@ -191,19 +193,23 @@
     <h4>Tekmovalci</h4>
     {#each contestants as cont}
         <h5>{cont.username}</h5>
-        <FormField>
-            <Switch bind:checked={cont.playing}/>
-            <span slot="label">Igra</span>
-        </FormField>
+        {#if gamemode !== "Klop"}
+            <FormField>
+                <Switch bind:checked={cont.playing}/>
+                <span slot="label">Igra</span>
+            </FormField>
+        {/if}
         {#if SEPARATE_COUNTERS.includes(gamemode)}
-            <p/>
-            <Textfield
-                bind:value={cont.difference}
-                style="width: 100%;"
-                helperLine$style="width: 100%;"
-                label="Razlika"
-                type="tel"
-            />
+            {#if !(gamemode === "Ročni vpis" || gamemode === "Ročni vpis z radlcem") || ((gamemode === "Ročni vpis" || gamemode === "Ročni vpis z radlcem") && cont.playing)}
+                <p/>
+                <Textfield
+                    bind:value={cont.difference}
+                    style="width: 100%;"
+                    helperLine$style="width: 100%;"
+                    label="Razlika"
+                    type="tel"
+                />
+            {/if}
         {/if}
         <p/>
         {#if NO_DIFFERENCE.includes(gamemode) && cont.playing}
@@ -217,12 +223,12 @@
         <Button
             on:click={async () => {
                 let cs = [];
-                for (let i in contestants) {
-                  if (contestants[i].username !== cont.username)
+                for (let i in contestants) if (contestants[i].username !== cont.username) {
+                    console.log(contestants, i);
                     cs.push(contestants[i]);
                 }
                 contestants = cs;
-              }}
+            }}
             variant="raised"
         >
             <Icon class="material-icons">delete</Icon>
@@ -267,7 +273,7 @@
                     <Row>
                         {@const igralci = contestants.map((a) => a.playing === true ? a.username : null)}
                         <Cell>{gamemode}</Cell>
-                        <Cell>{igralci.removeNulls().join(", ")}</Cell>
+                        <Cell>{removeNulls(igralci).join(", ")}</Cell>
                         <Cell />
                         <Cell class="overflow">
                             <Select bind:value={igra_kontre} label="Kontriranje igre">
