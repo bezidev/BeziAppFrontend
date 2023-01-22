@@ -45,11 +45,6 @@
         font-size: 10px;
     }
 
-    .substitution { border-top: 20px solid red; }
-    .sharepoint-substitution { border-top: 20px solid yellow; }
-    .not-realized { border-top: 20px solid lightblue; }
-    .grading { border-top: 20px solid magenta; }
-
     a:link { text-decoration: none; }
 
     a:visited { text-decoration: none; }
@@ -79,7 +74,8 @@
             {/each}
         </span>
         <div
-                class="triangle {n.ocenjevanje ? 'grading' : ''} {n.vpisano_nadomescanje ? 'substitution' : ''} {n.fixed_by_sharepoint ? 'sharepoint-substitution' : ''} {n.odpade ? 'not-realized' : ''}"
+                class="triangle {n.rocno ? 'manual-intervention' : ''} {n.vpisano_nadomescanje ? 'substitution' : ''} {n.fixed_by_sharepoint ? 'sharepoint-substitution' : ''} {n.ocenjevanje ? 'grading' : ''} {n.odpade ? 'not-realized' : ''}"
+                style="border-top: 20px solid {n.odpade ? 'lightblue': (n.ocenjevanje ? 'magenta' : (n.fixed_by_sharepoint ? 'yellow' : (n.vpisano_nadomescanje ? 'red' : (n.rocno ? 'LightSlateGray' : 'transparent'))))};"
         ></div>
         <span class="classroom">
             {#if mobile}
@@ -103,6 +99,9 @@
                     <b>Dnevniški zapis obstaja.</b><br>
                 {:else}
                     <b>Dnevniški zapis NE obstaja.</b><br>
+                {/if}
+                {#if n.rocno}
+                    <b>Ura je ročno vpisana s strani razvijalcev BežiApp sistema.</b><br>
                 {/if}
                 {#if n.vpisano_nadomescanje}
                     <b>Nadomeščanje je vpisano v GimSIS-u.</b><br>
@@ -139,6 +138,9 @@
                 <b>Dnevniški zapis obstaja.</b><br>
             {:else}
                 <b>Dnevniški zapis NE obstaja.</b><br>
+            {/if}
+            {#if n.rocno}
+                <b>Ura je ročno vpisana s strani razvijalcev BežiApp sistema.</b><br>
             {/if}
             {#if n.vpisano_nadomescanje}
                 <b>Nadomeščanje je vpisano v GimSIS-u.</b><br>
