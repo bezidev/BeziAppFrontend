@@ -74,7 +74,7 @@
             {/each}
         </span>
         <div
-                class="triangle {n.rocno ? 'manual-intervention' : ''} {n.vpisano_nadomescanje ? 'substitution' : ''} {n.fixed_by_sharepoint ? 'sharepoint-substitution' : ''} {n.ocenjevanje ? 'grading' : ''} {n.odpade ? 'not-realized' : ''}"
+                class="triangle"
                 style="border-top: 20px solid {n.odpade ? 'lightblue': (n.ocenjevanje ? 'magenta' : (n.fixed_by_sharepoint ? 'yellow' : (n.vpisano_nadomescanje ? 'red' : (n.rocno ? 'LightSlateGray' : 'transparent'))))};"
         ></div>
         <span class="classroom">
