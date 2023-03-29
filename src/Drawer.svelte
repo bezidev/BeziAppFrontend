@@ -134,6 +134,13 @@
                 </Item>
                 <Item
                         href="javascript:void(0)"
+                        on:click={() => window.open("https://umetnost.beziapp.si")}
+                >
+                    <Graphic class="material-icons" aria-hidden="true">brush</Graphic>
+                    <Text>Umetnostna zgodovina</Text>
+                </Item>
+                <Item
+                        href="javascript:void(0)"
                         on:click={() => navigate('/about')}
                         activated={active === 'about'}
                 >
