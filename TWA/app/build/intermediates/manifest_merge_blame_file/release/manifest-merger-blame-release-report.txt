@@ -23,8 +23,8 @@
 23-->
 24<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 25    package="com.mytja.beziapp"
-26    android:versionCode="4"
-27    android:versionName="2.0.0" >
+26    android:versionCode="8"
+27    android:versionName="2.0.2" >
 28
 29    <uses-sdk
 30        android:minSdkVersion="19"
@@ -37,21 +37,21 @@
 34        <intent>
 34-->[com.google.androidbrowserhelper:androidbrowserhelper:2.4.0] /home/mitja/.gradle/caches/transforms-2/files-2.1/2a4780e5ae3e94fb64dd0623d9799b3d/androidbrowserhelper-2.4.0/AndroidManifest.xml:27:9-33:18
 35            <action android:name="android.intent.action.VIEW" />
-35-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:134:17-68
-35-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:134:25-66
+35-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:131:17-68
+35-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:131:25-66
 36
 37            <category android:name="android.intent.category.BROWSABLE" />
-37-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:136:17-77
-37-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:136:27-75
+37-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:133:17-77
+37-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:133:27-75
 38
 39            <data android:scheme="https" />
-39-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:137:17-138:54
-39-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:137:23-45
+39-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:134:17-135:54
+39-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:134:23-45
 40        </intent>
 41    </queries>
 42
 43    <application
-43-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:33:5-177:19
+43-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:33:5-174:19
 44        android:name="com.mytja.beziapp.Application"
 44-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:34:9-35
 45        android:allowBackup="true"
@@ -98,7 +98,7 @@
 65-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:66:17-50
 66        </activity>
 67        <activity
-67-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:70:9-142:20
+67-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:70:9-139:20
 68            android:name="com.mytja.beziapp.LauncherActivity"
 68-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:70:19-50
 69            android:alwaysRetainTaskState="true"
@@ -180,104 +180,98 @@
 107                android:value="@string/fallbackType" />
 107-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:112:17-53
 108            <meta-data
-108-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:117:13-118:45
-109                android:name="android.support.customtabs.trusted.DISPLAY_MODE"
-109-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:117:24-86
-110                android:value="immersive" />
-110-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:118:17-42
-111            <meta-data
-111-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:121:13-122:54
-112                android:name="android.support.customtabs.trusted.SCREEN_ORIENTATION"
-112-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:121:24-92
-113                android:value="@string/orientation" />
-113-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:122:17-52
+108-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:118:13-119:54
+109                android:name="android.support.customtabs.trusted.SCREEN_ORIENTATION"
+109-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:118:24-92
+110                android:value="@string/orientation" />
+110-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:119:17-52
+111
+112            <intent-filter>
+112-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:125:13-128:29
+113                <action android:name="android.intent.action.MAIN" />
+113-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:126:17-69
+113-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:126:25-66
 114
-115            <intent-filter>
-115-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:128:13-131:29
-116                <action android:name="android.intent.action.MAIN" />
-116-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:129:17-69
-116-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:129:25-66
-117
-118                <category android:name="android.intent.category.LAUNCHER" />
-118-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:130:17-77
-118-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:130:27-74
-119            </intent-filter>
-120            <intent-filter android:autoVerify="true" >
-120-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:133:13-139:29
-120-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:133:28-53
-121                <action android:name="android.intent.action.VIEW" />
-121-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:134:17-68
-121-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:134:25-66
+115                <category android:name="android.intent.category.LAUNCHER" />
+115-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:127:17-77
+115-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:127:27-74
+116            </intent-filter>
+117            <intent-filter android:autoVerify="true" >
+117-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:130:13-136:29
+117-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:130:28-53
+118                <action android:name="android.intent.action.VIEW" />
+118-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:131:17-68
+118-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:131:25-66
+119
+120                <category android:name="android.intent.category.DEFAULT" />
+120-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:132:17-76
+120-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:132:27-73
+121                <category android:name="android.intent.category.BROWSABLE" />
+121-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:133:17-77
+121-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:133:27-75
 122
-123                <category android:name="android.intent.category.DEFAULT" />
-123-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:135:17-76
-123-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:135:27-73
-124                <category android:name="android.intent.category.BROWSABLE" />
-124-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:136:17-77
-124-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:136:27-75
-125
-126                <data
-126-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:137:17-138:54
-127                    android:host="@string/hostName"
-127-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:138:21-52
-128                    android:scheme="https" />
-128-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:137:23-45
-129            </intent-filter>
-130        </activity>
-131        <activity android:name="com.google.androidbrowserhelper.trusted.FocusActivity" />
-131-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:144:9-90
-131-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:144:19-87
-132        <activity
-132-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:146:9-147:62
-133            android:name="com.google.androidbrowserhelper.trusted.WebViewFallbackActivity"
-133-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:146:19-97
-134            android:configChanges="orientation|screenSize" />
-134-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:147:13-59
-135
-136        <provider
-136-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:149:9-157:20
-137            android:name="androidx.core.content.FileProvider"
-137-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:150:13-62
-138            android:authorities="@string/providerAuthority"
-138-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:151:13-60
-139            android:exported="false"
-139-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:153:13-37
-140            android:grantUriPermissions="true" >
-140-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:152:13-47
-141            <meta-data
-141-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:154:13-156:53
-142                android:name="android.support.FILE_PROVIDER_PATHS"
-142-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:155:17-67
-143                android:resource="@xml/filepaths" />
-143-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:156:17-50
-144        </provider>
-145
-146        <service
-146-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:159:9-174:19
-147            android:name="com.mytja.beziapp.DelegationService"
-147-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:160:13-46
-148            android:enabled="@bool/enableNotification"
-148-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:161:13-55
-149            android:exported="@bool/enableNotification" >
-149-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:162:13-56
-150            <meta-data
-150-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:165:17-167:73
-151                android:name="android.support.customtabs.trusted.SMALL_ICON"
-151-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:166:21-81
-152                android:resource="@drawable/ic_notification_icon" />
-152-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:167:21-70
+123                <data
+123-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:134:17-135:54
+124                    android:host="@string/hostName"
+124-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:135:21-52
+125                    android:scheme="https" />
+125-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:134:23-45
+126            </intent-filter>
+127        </activity>
+128        <activity android:name="com.google.androidbrowserhelper.trusted.FocusActivity" />
+128-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:141:9-90
+128-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:141:19-87
+129        <activity
+129-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:143:9-144:62
+130            android:name="com.google.androidbrowserhelper.trusted.WebViewFallbackActivity"
+130-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:143:19-97
+131            android:configChanges="orientation|screenSize" />
+131-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:144:13-59
+132
+133        <provider
+133-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:146:9-154:20
+134            android:name="androidx.core.content.FileProvider"
+134-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:147:13-62
+135            android:authorities="@string/providerAuthority"
+135-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:148:13-60
+136            android:exported="false"
+136-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:150:13-37
+137            android:grantUriPermissions="true" >
+137-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:149:13-47
+138            <meta-data
+138-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:151:13-153:53
+139                android:name="android.support.FILE_PROVIDER_PATHS"
+139-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:152:17-67
+140                android:resource="@xml/filepaths" />
+140-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:153:17-50
+141        </provider>
+142
+143        <service
+143-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:156:9-171:19
+144            android:name="com.mytja.beziapp.DelegationService"
+144-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:157:13-46
+145            android:enabled="@bool/enableNotification"
+145-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:158:13-55
+146            android:exported="@bool/enableNotification" >
+146-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:159:13-56
+147            <meta-data
+147-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:162:17-164:73
+148                android:name="android.support.customtabs.trusted.SMALL_ICON"
+148-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:163:21-81
+149                android:resource="@drawable/ic_notification_icon" />
+149-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:164:21-70
+150
+151            <intent-filter>
+151-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:167:13-170:29
+152                <action android:name="android.support.customtabs.trusted.TRUSTED_WEB_ACTIVITY_SERVICE" />
+152-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:168:17-105
+152-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:168:25-103
 153
-154            <intent-filter>
-154-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:170:13-173:29
-155                <action android:name="android.support.customtabs.trusted.TRUSTED_WEB_ACTIVITY_SERVICE" />
-155-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:171:17-105
-155-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:171:25-103
-156
-157                <category android:name="android.intent.category.DEFAULT" />
-157-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:135:17-76
-157-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:135:27-73
-158            </intent-filter>
-159        </service>
-160    </application>
-161
-162</manifest>
+154                <category android:name="android.intent.category.DEFAULT" />
+154-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:132:17-76
+154-->/home/mitja/WebstormProjects/BežiApp/TWA/app/src/main/AndroidManifest.xml:132:27-73
+155            </intent-filter>
+156        </service>
+157    </application>
+158
+159</manifest>

@@ -1,50 +1,50 @@
-androidx.core.content.FileProvider: FileProvider()
-android.support.v4.graphics.drawable.IconCompatParcelizer: androidx.core.graphics.drawable.IconCompat read(androidx.versionedparcelable.VersionedParcel)
+com.mytja.beziapp.LauncherActivity
 androidx.versionedparcelable.ParcelImpl
-androidx.core.content.FileProvider
-com.mytja.beziapp.Application
-androidx.core.graphics.drawable.IconCompatParcelizer
-com.google.androidbrowserhelper.trusted.WebViewFallbackActivity: WebViewFallbackActivity()
-androidx.core.app.RemoteActionCompatParcelizer: void write(androidx.core.app.RemoteActionCompat,androidx.versionedparcelable.VersionedParcel)
+com.google.androidbrowserhelper.trusted.FocusActivity
+androidx.core.graphics.drawable.IconCompat
+android.support.v4.app.RemoteActionCompatParcelizer: RemoteActionCompatParcelizer()
+androidx.core.app.RemoteActionCompatParcelizer: RemoteActionCompatParcelizer()
+androidx.core.app.CoreComponentFactory
 androidx.versionedparcelable.ParcelImpl: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.RemoteActionCompatParcelizer: void write(androidx.core.app.RemoteActionCompat,androidx.versionedparcelable.VersionedParcel)
+com.mytja.beziapp.LauncherActivity: LauncherActivity()
+android.support.v4.app.RemoteActionCompatParcelizer
+com.google.androidbrowserhelper.trusted.LauncherActivity: LauncherActivity()
+com.mytja.beziapp.DelegationService: DelegationService()
+androidx.core.content.FileProvider: FileProvider()
+com.google.androidbrowserhelper.trusted.FocusActivity: FocusActivity()
+androidx.core.app.RemoteActionCompatParcelizer
+androidx.browser.browseractions.BrowserActionsFallbackMenuView: BrowserActionsFallbackMenuView(android.content.Context,android.util.AttributeSet)
+androidx.browser.browseractions.BrowserActionsFallbackMenuView
+androidx.lifecycle.CompositeGeneratedAdaptersObserver
+androidx.core.app.CoreComponentFactory: CoreComponentFactory()
+com.mytja.beziapp.Application: Application()
+androidx.core.app.RemoteActionCompatParcelizer: void write(androidx.core.app.RemoteActionCompat,androidx.versionedparcelable.VersionedParcel)
+androidx.versionedparcelable.CustomVersionedParcelable: CustomVersionedParcelable()
+androidx.lifecycle.SingleGeneratedAdapterObserver
+androidx.browser.trusted.TrustedWebActivityService: TrustedWebActivityService()
+androidx.core.graphics.drawable.IconCompatParcelizer: IconCompatParcelizer()
+com.mytja.beziapp.DelegationService
+androidx.annotation.Keep
+com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity: ManageDataLauncherActivity()
+androidx.core.graphics.drawable.IconCompat: IconCompat()
+androidx.lifecycle.FullLifecycleObserverAdapter
+android.support.v4.graphics.drawable.IconCompatParcelizer: IconCompatParcelizer()
+android.support.v4.graphics.drawable.IconCompatParcelizer: androidx.core.graphics.drawable.IconCompat read(androidx.versionedparcelable.VersionedParcel)
+androidx.core.app.RemoteActionCompat: RemoteActionCompat()
+com.google.androidbrowserhelper.trusted.WebViewFallbackActivity: WebViewFallbackActivity()
+com.mytja.beziapp.Application
+androidx.core.content.FileProvider
+androidx.core.graphics.drawable.IconCompatParcelizer: androidx.core.graphics.drawable.IconCompat read(androidx.versionedparcelable.VersionedParcel)
+androidx.lifecycle.ReflectiveGenericLifecycleObserver
+androidx.versionedparcelable.CustomVersionedParcelable
+android.support.v4.app.RemoteActionCompatParcelizer: androidx.core.app.RemoteActionCompat read(androidx.versionedparcelable.VersionedParcel)
 com.google.androidbrowserhelper.trusted.DelegationService: DelegationService()
 com.google.androidbrowserhelper.trusted.WebViewFallbackActivity
-com.mytja.beziapp.LauncherActivity
-androidx.core.graphics.drawable.IconCompatParcelizer: androidx.core.graphics.drawable.IconCompat read(androidx.versionedparcelable.VersionedParcel)
+androidx.core.app.RemoteActionCompat
 androidx.core.graphics.drawable.IconCompatParcelizer: void write(androidx.core.graphics.drawable.IconCompat,androidx.versionedparcelable.VersionedParcel)
-androidx.core.graphics.drawable.IconCompat: IconCompat()
-android.support.v4.app.RemoteActionCompatParcelizer: RemoteActionCompatParcelizer()
-com.mytja.beziapp.LauncherActivity: LauncherActivity()
-androidx.lifecycle.ReflectiveGenericLifecycleObserver
-androidx.core.app.CoreComponentFactory: CoreComponentFactory()
-androidx.annotation.Keep
-android.support.v4.app.RemoteActionCompatParcelizer: androidx.core.app.RemoteActionCompat read(androidx.versionedparcelable.VersionedParcel)
-android.support.v4.graphics.drawable.IconCompatParcelizer: void write(androidx.core.graphics.drawable.IconCompat,androidx.versionedparcelable.VersionedParcel)
-androidx.core.app.CoreComponentFactory
-com.google.androidbrowserhelper.trusted.LauncherActivity: LauncherActivity()
-androidx.browser.browseractions.BrowserActionsFallbackMenuView: BrowserActionsFallbackMenuView(android.content.Context,android.util.AttributeSet)
-androidx.lifecycle.FullLifecycleObserverAdapter
-com.google.androidbrowserhelper.trusted.FocusActivity: FocusActivity()
+androidx.core.graphics.drawable.IconCompatParcelizer
 androidx.core.app.RemoteActionCompatParcelizer: androidx.core.app.RemoteActionCompat read(androidx.versionedparcelable.VersionedParcel)
 com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity
-androidx.browser.trusted.TrustedWebActivityService: TrustedWebActivityService()
-com.mytja.beziapp.Application: Application()
-android.support.v4.graphics.drawable.IconCompatParcelizer: IconCompatParcelizer()
 android.support.v4.graphics.drawable.IconCompatParcelizer
-androidx.core.graphics.drawable.IconCompatParcelizer: IconCompatParcelizer()
-androidx.core.app.RemoteActionCompatParcelizer
-com.mytja.beziapp.DelegationService: DelegationService()
-com.google.androidbrowserhelper.trusted.FocusActivity
-androidx.core.app.RemoteActionCompat: RemoteActionCompat()
-android.support.v4.app.RemoteActionCompatParcelizer: void write(androidx.core.app.RemoteActionCompat,androidx.versionedparcelable.VersionedParcel)
-com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity: ManageDataLauncherActivity()
-androidx.core.app.RemoteActionCompatParcelizer: RemoteActionCompatParcelizer()
-androidx.lifecycle.SingleGeneratedAdapterObserver
-androidx.core.graphics.drawable.IconCompat
-androidx.core.app.RemoteActionCompat
-com.mytja.beziapp.DelegationService
-androidx.versionedparcelable.CustomVersionedParcelable: CustomVersionedParcelable()
-androidx.browser.browseractions.BrowserActionsFallbackMenuView
-android.support.v4.app.RemoteActionCompatParcelizer
-androidx.lifecycle.CompositeGeneratedAdaptersObserver
-androidx.versionedparcelable.CustomVersionedParcelable
+android.support.v4.graphics.drawable.IconCompatParcelizer: void write(androidx.core.graphics.drawable.IconCompat,androidx.versionedparcelable.VersionedParcel)

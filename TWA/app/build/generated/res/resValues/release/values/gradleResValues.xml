@@ -16,13 +16,13 @@
     <!-- Value from default config. -->
     <string name="fallbackType" translatable="false">customtabs</string>
     <!-- Value from default config. -->
-    <string name="fullScopeUrl" translatable="false">https://beziapp.meetplan.si/</string>
+    <string name="fullScopeUrl" translatable="false">https://beziapp.si/</string>
     <!-- Value from default config. -->
     <string name="generatorApp" translatable="false">bubblewrap-cli</string>
     <!-- Value from default config. -->
-    <string name="hostName" translatable="false">beziapp.meetplan.si</string>
+    <string name="hostName" translatable="false">beziapp.si</string>
     <!-- Value from default config. -->
-    <string name="launchUrl" translatable="false">https://beziapp.meetplan.si/</string>
+    <string name="launchUrl" translatable="false">https://beziapp.si/</string>
     <!-- Value from default config. -->
     <string name="launcherName" translatable="false">BežiApp</string>
     <!-- Value from default config. -->
@@ -40,6 +40,6 @@
     <!-- Value from default config. -->
     <integer name="splashScreenFadeOutDuration">300</integer>
     <!-- Value from default config. -->
-    <string name="webManifestUrl" translatable="false">https://beziapp.meetplan.si/manifest.json</string>
+    <string name="webManifestUrl" translatable="false">https://beziapp.si/manifest.json</string>
 
 </resources>

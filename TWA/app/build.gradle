@@ -22,7 +22,7 @@ plugins {
 
 def twaManifest = [
     applicationId: 'com.mytja.beziapp',
-    hostName: 'beziapp.meetplan.si', // The domain being opened in the TWA.
+    hostName: 'beziapp.si', // The domain being opened in the TWA.
     launchUrl: '/', // The start path for the TWA. Must be relative to the domain.
     name: 'BežiApp', // The application name.
     launcherName: 'BežiApp', // The name shown on the Android Launcher.
@@ -55,8 +55,8 @@ android {
         applicationId "com.mytja.beziapp"
         minSdkVersion 19
         targetSdkVersion 31
-        versionCode 4
-        versionName "2.0.0"
+        versionCode 8
+        versionName "2.0.2"
 
         // The name for the application
         resValue "string", "appName", twaManifest.name
@@ -72,12 +72,12 @@ android {
             // The URL the Web Manifest for the Progressive Web App that the TWA points to. This
             // is used by Chrome OS and Meta Quest to open the Web version of the PWA instead of
             // the TWA, as it will probably give a better user experience for non-mobile devices.
-            resValue "string", "webManifestUrl", 'https://beziapp.meetplan.si/manifest.json'
+            resValue "string", "webManifestUrl", 'https://beziapp.si/manifest.json'
         
 
         
             // This is used by Meta Quest.
-            resValue "string", "fullScopeUrl", 'https://beziapp.meetplan.si/'
+            resValue "string", "fullScopeUrl", 'https://beziapp.si/'
         
 
         
