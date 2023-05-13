@@ -4,11 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "npm run prepare-css && vite build --outDir public",
+    "build": "npm run prepare-css && vite build --outDir dist",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "dev": "vite --port 8080",
-    "start": "sirv public --no-clear -s -G",
+    "start": "sirv dist --no-clear -s -G",
     "tauri": "tauri",
     "tauri-build": "TAURI=true tauri build",
     "tauri-dev": "TAURI=true tauri dev",
