@@ -6,6 +6,21 @@
 	import {onDestroy, onMount} from "svelte";
 	import TopAppBar, { Row, Section, Title } from '@smui/top-app-bar';
 	import IconButton from '@smui/icon-button';
+	import Grades from "./Grades.svelte";
+	import Absences from "./Absences.svelte";
+	import Gradings from "./Gradings.svelte";
+	import Login from "./Login.svelte";
+	import LoPolis from "./LoPolis.svelte";
+	import About from "./About.svelte";
+	import Contests from "./Tarot/Contests.svelte";
+	import Contest from "./Tarot/Contest.svelte";
+	import NewGame from "./Tarot/NewGame.svelte";
+	import Rules from "./Tarot/Rules.svelte";
+	import Notes from "./Notes.svelte";
+	import Radio from "./Radio.svelte";
+	import ErrorPage from "./ErrorPage.svelte";
+	import Home from "./Home.svelte";
+	import NewSuggestion from "./NewSuggestion.svelte";
 
 	let open = false;
 
@@ -68,102 +83,52 @@
 			<main class="main-content">
 				<div>
 					<Route path="/grades">
-						{#await import('./Grades.svelte') then Grades}
-							<Grades.default />
-						{:catch e}
-							<Error err={e} />
-						{/await}
+						<Grades />
 					</Route>
 					<Route path="/absences">
-						{#await import('./Absences.svelte') then Absences}
-							<Absences.default />
-						{:catch e}
-							<Error err={e} />
-						{/await}
+						<Absences />
 					</Route>
 					<Route path="/gradings">
-						{#await import('./Gradings.svelte') then Gradings}
-							<Gradings.default />
-						{:catch e}
-							<Error err={e} />
-						{/await}
+						<Gradings />
 					</Route>
 					<Route path="/login">
-						{#await import('./Login.svelte') then Login}
-							<Login.default />
-						{:catch e}
-							<Error err={e} />
-						{/await}
+						<Login />
 					</Route>
 					<Route path="/lopolis/login">
-						{#await import('./Login.svelte') then Login}
-							<Login.default loginType="lopolis" />
-						{:catch e}
-							<Error err={e} />
-						{/await}
+						<Login loginType="lopolis" />
 					</Route>
 					<Route path="/lopolis">
-						{#await import('./LoPolis.svelte') then LoPolis}
-							<LoPolis.default />
-						{:catch e}
-							<Error err={e} />
-						{/await}
+						<LoPolis />
 					</Route>
 					<Route path="/about">
-						{#await import('./About.svelte') then About}
-							<About.default />
-						{:catch e}
-							<Error err={e} />
-						{/await}
+						<About />
 					</Route>
 					<Route path="/tarot/contests">
-						{#await import('./Tarot/Contests.svelte') then Contests}
-							<Contests.default />
-						{:catch e}
-							<Error err={e} />
-						{/await}
+						<Contests />
 					</Route>
 					<Route path="/tarot/contest/:id" let:params>
-						{#await import('./Tarot/Contest.svelte') then Contest}
-							<Contest.default id={params.id} />
-						{:catch e}
-							<Error err={e} />
-						{/await}
+						<Contest id={params.id} />
 					</Route>
 					<Route path="/tarot/contest/:id/games" let:params>
-						{#await import('./Tarot/NewGame.svelte') then NewGame}
-							<NewGame.default id={params.id} />
-						{:catch e}
-							<Error err={e} />
-						{/await}
+						<NewGame id={params.id} />
 					</Route>
 					<Route path="/tarot/rules">
-						{#await import('./Tarot/Rules.svelte') then Rules}
-							<Rules.default />
-						{:catch e}
-							<Error err={e} />
-						{/await}
+						<Rules />
 					</Route>
 					<Route path="/notes">
-						{#await import('./Notes.svelte') then Notes}
-							<Notes.default />
-						{:catch e}
-							<Error err={e} />
-						{/await}
+						<Notes />
+					</Route>
+					<Route path="/radio/new">
+						<NewSuggestion />
+					</Route>
+					<Route path="/radio">
+						<Radio />
 					</Route>
 					<Route path="/napaka">
-						{#await import('./ErrorPage.svelte') then ErrorPage}
-							<ErrorPage.default />
-						{:catch e}
-							<Error err={e} />
-						{/await}
+						<ErrorPage />
 					</Route>
 					<Route path="/">
-						{#await import('./Home.svelte') then Home}
-							<Home.default />
-						{:catch e}
-							<Error err={e} />
-						{/await}
+						<Home />
 					</Route>
 				</div>
 			</main>

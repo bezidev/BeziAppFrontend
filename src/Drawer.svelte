@@ -59,6 +59,7 @@
                 "/notes": "notes",
                 "/about": "about",
                 "/tarot/contests": "contests",
+                "/radio": "radio"
             }
             active = allPaths[path]
             return
@@ -123,6 +124,14 @@
                 >
                     <Graphic class="material-icons" aria-hidden="true">note</Graphic>
                     <Text>Testi in zapiski</Text>
+                </Item>
+                <Item
+                        href="javascript:void(0)"
+                        on:click={() => navigate('/radio')}
+                        activated={active === 'radio'}
+                >
+                    <Graphic class="material-icons" aria-hidden="true">speaker</Graphic>
+                    <Text>Šolski radio</Text>
                 </Item>
                 <Item
                         href="javascript:void(0)"
