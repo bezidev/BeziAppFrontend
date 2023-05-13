@@ -13,8 +13,8 @@
     "tauri-build": "TAURI=true tauri build",
     "tauri-dev": "TAURI=true tauri dev",
     "prepare-css": "npm run smui-theme-light && npm run smui-theme-dark",
-    "smui-theme-light": "smui-theme compile smui.css -i src/theme",
-    "smui-theme-dark": "smui-theme compile smui-dark.css -i src/theme/dark"
+    "smui-theme-light": "smui-theme compile src/smui.css -i src/theme",
+    "smui-theme-dark": "smui-theme compile src/smui-dark.css -i src/theme/dark"
   },
   "devDependencies": {
     "@capacitor/cli": "^5.0.3",
