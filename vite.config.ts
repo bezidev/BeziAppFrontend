@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import replace from "@rollup/plugin-replace";
+import viteCompression from 'vite-plugin-compression';
 
 const production = 'import.meta.env.PROD';
 
@@ -12,5 +13,6 @@ export default {
             isProduction: production,
         }),
         svelte({}),
+        viteCompression(),
     ],
 };
