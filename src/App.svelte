@@ -6,21 +6,6 @@
 	import {onDestroy, onMount} from "svelte";
 	import TopAppBar, { Row, Section, Title } from '@smui/top-app-bar';
 	import IconButton from '@smui/icon-button';
-	import Grades from "./Grades.svelte";
-	import Absences from "./Absences.svelte";
-	import Gradings from "./Gradings.svelte";
-	import Login from "./Login.svelte";
-	import LoPolis from "./LoPolis.svelte";
-	import About from "./About.svelte";
-	import Contests from "./Tarot/Contests.svelte";
-	import Contest from "./Tarot/Contest.svelte";
-	import NewGame from "./Tarot/NewGame.svelte";
-	import Rules from "./Tarot/Rules.svelte";
-	import Notes from "./Notes.svelte";
-	import Radio from "./Radio.svelte";
-	import ErrorPage from "./ErrorPage.svelte";
-	import Home from "./Home.svelte";
-	import NewSuggestion from "./NewSuggestion.svelte";
 
 	let open = false;
 
@@ -83,52 +68,132 @@
 			<main class="main-content">
 				<div>
 					<Route path="/grades">
-						<Grades />
+						{#await import("./Grades.svelte")}
+						{:then Grades}
+							<Grades.default />
+						{:catch e}
+							<Error error={e} />
+						{/await}
 					</Route>
 					<Route path="/absences">
-						<Absences />
+						{#await import("./Absences.svelte")}
+						{:then Page}
+							<Page.default />
+						{:catch e}
+							<Error error={e} />
+						{/await}
 					</Route>
 					<Route path="/gradings">
-						<Gradings />
+						{#await import("./Gradings.svelte")}
+						{:then Page}
+							<Page.default />
+						{:catch e}
+							<Error error={e} />
+						{/await}
 					</Route>
 					<Route path="/login">
-						<Login />
+						{#await import("./Login.svelte")}
+						{:then Page}
+							<Page.default />
+						{:catch e}
+							<Error error={e} />
+						{/await}
 					</Route>
 					<Route path="/lopolis/login">
-						<Login loginType="lopolis" />
+						{#await import("./Login.svelte")}
+						{:then Page}
+							<Page.default loginType="lopolis" />
+						{:catch e}
+							<Error error={e} />
+						{/await}
 					</Route>
 					<Route path="/lopolis">
-						<LoPolis />
+						{#await import("./LoPolis.svelte")}
+						{:then Page}
+							<Page.default />
+						{:catch e}
+							<Error error={e} />
+						{/await}
 					</Route>
 					<Route path="/about">
-						<About />
+						{#await import("./About.svelte")}
+						{:then Page}
+							<Page.default />
+						{:catch e}
+							<Error error={e} />
+						{/await}
 					</Route>
 					<Route path="/tarot/contests">
-						<Contests />
+						{#await import("./Tarot/Contests.svelte")}
+						{:then Page}
+							<Page.default />
+						{:catch e}
+							<Error error={e} />
+						{/await}
 					</Route>
 					<Route path="/tarot/contest/:id" let:params>
-						<Contest id={params.id} />
+						{#await import("./Tarot/Contest.svelte")}
+						{:then Page}
+							<Page.default id={params.id} />
+						{:catch e}
+							<Error error={e} />
+						{/await}
 					</Route>
 					<Route path="/tarot/contest/:id/games" let:params>
-						<NewGame id={params.id} />
+						{#await import("./Tarot/NewGame.svelte")}
+						{:then Page}
+							<Page.default id={params.id} />
+						{:catch e}
+							<Error error={e} />
+						{/await}
 					</Route>
 					<Route path="/tarot/rules">
-						<Rules />
+						{#await import("./Tarot/Rules.svelte")}
+						{:then Page}
+							<Page.default />
+						{:catch e}
+							<Error error={e} />
+						{/await}
 					</Route>
 					<Route path="/notes">
-						<Notes />
+						{#await import("./Notes.svelte")}
+						{:then Page}
+							<Page.default />
+						{:catch e}
+							<Error error={e} />
+						{/await}
 					</Route>
 					<Route path="/radio/new">
-						<NewSuggestion />
+						{#await import("./NewSuggestion.svelte")}
+						{:then Page}
+							<Page.default />
+						{:catch e}
+							<Error error={e} />
+						{/await}
 					</Route>
 					<Route path="/radio">
-						<Radio />
+						{#await import("./Radio.svelte")}
+						{:then Page}
+							<Page.default />
+						{:catch e}
+							<Error error={e} />
+						{/await}
 					</Route>
 					<Route path="/napaka">
-						<ErrorPage />
+						{#await import("./ErrorPage.svelte")}
+						{:then Page}
+							<Page.default />
+						{:catch e}
+							<Error error={e} />
+						{/await}
 					</Route>
 					<Route path="/">
-						<Home />
+						{#await import("./Home.svelte")}
+						{:then Page}
+							<Page.default />
+						{:catch e}
+							<Error error={e} />
+						{/await}
 					</Route>
 				</div>
 			</main>
