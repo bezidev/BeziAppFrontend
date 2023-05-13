@@ -23,43 +23,6 @@ a:visited {
     color: rgb(0,80,160);
 }
 
-label {
-    display: block;
-}
-
-input, button, select, textarea {
-    font-family: inherit;
-    font-size: inherit;
-    -webkit-padding: 0.4em 0;
-    padding: 0.4em;
-    margin: 0 0 0.5em 0;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-}
-
-input:disabled {
-    color: #ccc;
-}
-
-button {
-    color: #333;
-    background-color: #f4f4f4;
-    outline: none;
-}
-
-button:disabled {
-    color: #999;
-}
-
-button:not(:disabled):active {
-    background-color: #ddd;
-}
-
-button:focus {
-    border-color: #666;
-}
-
 .drawer-container {
     position: relative;
     display: flex;
@@ -92,27 +55,6 @@ button:focus {
     display: inline-block;
 }
 
-.flexy {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.flexor {
-    display: inline-flex;
-    flex-direction: column;
-}
-
-.flexor-content {
-    flex-basis: 0;
-    height: 0;
-    flex-grow: 1;
-    overflow: auto;
-}
-
-.row {
-    display: flex;
-    flex-direction: row;
-}
 .column {
     display: flex;
     flex-direction: column;
@@ -121,15 +63,12 @@ button:focus {
     flex-grow: 1;
     flex-shrink: 0;
 }
-.row.items-center,
 .column.items-center {
     align-items: center;
 }
-.row.justify-center,
 .column.justify-center {
     justify-content: center;
 }
-.row.justify-end,
 .column.justify-end {
     justify-content: flex-end;
 }
@@ -169,29 +108,6 @@ button:focus {
     .top-app-bar-container {
         margin-right: 0;
     }
-}
-
-.flexy {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.flexor {
-    display: inline-flex;
-    flex-direction: column;
-}
-
-.flexor-content {
-    flex-basis: 0;
-    height: 0;
-    flex-grow: 1;
-    overflow: auto;
-}
-
-.center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .meta {
