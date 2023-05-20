@@ -7,6 +7,8 @@
 
     export let stalne;
 
+    export let isSurpassed = false;
+
     const mobile = isMobile();
 
     let open = false;
@@ -20,6 +22,12 @@
     ];
 </script>
 
+<style>
+    .old-grade {
+        color: gray;
+    }
+</style>
+
 {#if (stalne && grade.je_zakljucena) || !stalne}
     <Wrapper>
         <div style="color: {gradeColors[parseInt(grade.ocena) - 1]}; display:inline-block; font-size: 1.25rem; font-weight: 600;" on:click={(e) => {
@@ -27,7 +35,7 @@
                 open = true;
             }
         }}>
-            <span class="{grade.je_zakljucena ? '' : 'zacasna'}">
+            <span class="{grade.je_zakljucena && !isSurpassed ? '' : 'zacasna'} {isSurpassed ? 'old-grade' : ''}">
                 {grade.ocena}
             </span>
         </div>
@@ -43,6 +51,9 @@
                 <hr>
                 {#if grade.je_zakljucena}
                     <b>Ocena je STALNA</b>
+                {/if}
+                {#if isSurpassed}
+                    <b>Ocena je bila popravljana.</b>
                 {/if}
             </Tooltip>
         {/if}
@@ -63,4 +74,7 @@
             </main>
         </BottomSheet>
     {/if}
+    {#each grade.popravljane_ocene as g}
+        <svelte:self grade={g} stalne={stalne} isSurpassed={true} />
+    {/each}
 {/if}
