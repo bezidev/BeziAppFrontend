@@ -6,6 +6,8 @@
 	import {onDestroy, onMount} from "svelte";
 	import TopAppBar, { Row, Section, Title } from '@smui/top-app-bar';
 	import IconButton from '@smui/icon-button';
+	import Button from "@smui/button";
+	import Banner, {Label} from "@smui/banner";
 
 	let open = false;
 
@@ -65,6 +67,12 @@
 	<div class="drawer-container" id="router">
 		<Drawer open={open} statusFunction={(o) => open=o} />
 		<AppContent class="app-content">
+			<Banner open fixed mobileStacked content$style="max-width: max-content;">
+				<Label slot="label">
+					Čestitke! Ugotovili ste našo malo skrivnost. Ker ima Google očitno posebne potrebe in zahteva moje prijavne podatke za GimSIS, ker morajo "potestirati" aplikacijo, sem ustvaril ta fejk profil. Z njim se <b>NE</b> morete prijaviti v GimSIS, lahko pa v BežiApp. Ta profil onemogoča večino stvari, ampak jih dopusti ravno dovolj, da ta aplikacija izgleda, kot da je bogo narejena (<i>kašelj</i> pol nedelujoča <i>kašelj</i>), ampak še vedno gre čez Googlovo maltretiranje prijave. Tukaj ne boste našli ničesar, večina storitev je za ta račun onemogočenih, po tistih, ki pa delajo, pa ne morete delati ničesar drugega, kot si ogledovati stvari (ne morete ustvarjati novih).
+				</Label>
+				<Button slot="actions">Okej</Button>
+			</Banner>
 			<main class="main-content">
 				<div>
 					<Route path="/grades">

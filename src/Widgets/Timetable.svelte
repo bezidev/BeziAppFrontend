@@ -21,6 +21,8 @@
     import MeetingCard from "../MeetingCard.svelte";
     import {Icon} from "@smui/button";
     import Tooltip, {Wrapper} from "@smui/tooltip";
+    import Banner, { Label } from '@smui/banner';
+    import Button from '@smui/button';
 
     export let date: Date = new Date();
     let currentDate = new Date(date);
