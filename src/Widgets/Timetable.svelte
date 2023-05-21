@@ -96,6 +96,10 @@
     let fri: Meeting[] = [];
 </script>
 
+{#if localStorage.getItem(`gimsis_username`).toLowerCase() === "test"}
+    Čestitke! Ugotovili ste našo malo skrivnost. Ker ima Google očitno posebne potrebe in zahteva moje prijavne podatke za GimSIS, ker morajo "potestirati" aplikacijo, sem ustvaril ta fejk profil. Z njim se <b>NE</b> morete prijaviti v GimSIS, lahko pa v BežiApp. Ta profil onemogoča večino stvari, ampak jih dopusti ravno dovolj, da ta aplikacija izgleda, kot da je bogo narejena (<i>kašelj</i> pol nedelujoča <i>kašelj</i>), ampak še vedno gre čez Googlovo maltretiranje prijave. Tukaj ne boste našli ničesar, večina storitev je za ta račun onemogočenih, po tistih, ki pa delajo, pa ne morete delati ničesar drugega, kot si ogledovati stvari (ne morete ustvarjati novih).
+{/if}
+
 <IconButton class="material-icons" on:click={() => {
     currentDate.setDate(currentDate.getDate() - 7);
     remakeCalendar();
