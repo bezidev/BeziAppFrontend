@@ -2,6 +2,7 @@
     import isMobile from "is-mobile";
     import BottomSheet from "./BottomSheet.svelte";
     import Tooltip, {Wrapper} from "@smui/tooltip";
+    import {gradeColors} from "../constants";
 
     export let grade;
 
@@ -12,14 +13,6 @@
     const mobile = isMobile();
 
     let open = false;
-
-    const gradeColors = [
-        "#F44336",
-        "#FF9800",
-        "#FFC107",
-        "#8BC34A",
-        "#64DD17"
-    ];
 </script>
 
 <style>

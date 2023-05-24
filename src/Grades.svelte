@@ -1,6 +1,6 @@
 <script lang="ts">
     import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
-    import {makeRequest} from "./constants";
+    import {gradeColors, makeRequest} from "./constants";
     import Grade from "./Widgets/Grade.svelte";
     import FormField from "@smui/form-field";
     import Switch from "@smui/switch";
@@ -8,6 +8,8 @@
     let grades = [];
     let total_average = 0.0;
     let stalne = false;
+
+    let izpitniRoki = localStorage.getItem("izpitniRoki") === "true";
 
     async function getGrades() {
         let r = await makeRequest("/grades");
@@ -22,6 +24,14 @@
     <Switch bind:checked={stalne} />
     <span slot="label">Stalne ocene</span>
 </FormField>
+<FormField on:click={() => {
+    let value = (izpitniRoki).toString();
+    localStorage.setItem("izpitniRoki", value);
+    setTimeout(() => izpitniRoki = localStorage.getItem("izpitniRoki") === "true", 20);
+}}>
+    <Switch bind:checked={izpitniRoki} />
+    <span slot="label">Izpitni roki</span>
+</FormField>
 <p/>
 Učni uspeh: <span style="color: rgba(255, 255, 255, 0.5); display:inline-block;">{total_average.toFixed(2)}</span>
 <p/>
@@ -31,8 +41,10 @@ Učni uspeh: <span style="color: rgba(255, 255, 255, 0.5); display:inline-block;
             <Cell>Predmet</Cell>
             <Cell>1. ocenjevalno obdobje</Cell>
             <Cell>2. ocenjevalno obdobje</Cell>
-            <Cell>Spomladanski izpitni rok</Cell>
-            <Cell>Jesenski izpitni rok</Cell>
+            {#if izpitniRoki}
+                <Cell>Spomladanski izpitni rok</Cell>
+                <Cell>Jesenski izpitni rok</Cell>
+            {/if}
         </Row>
     </Head>
     <Body>
@@ -40,7 +52,16 @@ Učni uspeh: <span style="color: rgba(255, 255, 255, 0.5); display:inline-block;
             <Row>
                 <Cell class="sameline">
                     <div class="inline">{subject.name}</div>
-                    <div class="meta inline grades-center">{stalne ? subject["perm_average"].toFixed(2) : subject["average"].toFixed(2)}</div>
+                    <div class="meta inline grades-center">
+                        {#if (subject["final"] === undefined || subject["final"] === null)}
+                            {stalne ? subject["perm_average"].toFixed(2) : subject["average"].toFixed(2)}
+                        {:else}
+                            <span style="color: {gradeColors[parseInt(subject.final) - 1]}; display:inline-block; font-size: 1.25rem; font-weight: 600;">
+                                {subject.final}
+                            </span>
+                            <span class="zacasna">({stalne ? subject["perm_average"].toFixed(2) : subject["average"].toFixed(2)})</span>
+                        {/if}
+                    </div>
                 </Cell>
                 <Cell class="sameline">
                     {#each subject[0]["grades"] as grade}
@@ -54,18 +75,20 @@ Učni uspeh: <span style="color: rgba(255, 255, 255, 0.5); display:inline-block;
                     {/each}
                     <div class="meta inline grades-center">{stalne ? subject[1]["perm_average"].toFixed(2) : subject[1]["average"].toFixed(2)}</div>
                 </Cell>
-                <Cell class="sameline">
-                    {#each subject[2]["grades"] as grade}
-                        <Grade grade={grade} stalne={stalne} />
-                    {/each}
-                    <div class="meta inline grades-center">{stalne ? subject[2]["perm_average"].toFixed(2) : subject[2]["average"].toFixed(2)}</div>
-                </Cell>
-                <Cell class="sameline">
-                    {#each subject[3]["grades"] as grade}
-                        <Grade grade={grade} stalne={stalne} />
-                    {/each}
-                    <div class="meta inline grades-center">{stalne ? subject[3]["perm_average"].toFixed(2) : subject[3]["average"].toFixed(2)}</div>
-                </Cell>
+                {#if izpitniRoki}
+                    <Cell class="sameline">
+                        {#each subject[2]["grades"] as grade}
+                            <Grade grade={grade} stalne={stalne} />
+                        {/each}
+                        <div class="meta inline grades-center">{stalne ? subject[2]["perm_average"].toFixed(2) : subject[2]["average"].toFixed(2)}</div>
+                    </Cell>
+                    <Cell class="sameline">
+                        {#each subject[3]["grades"] as grade}
+                            <Grade grade={grade} stalne={stalne} />
+                        {/each}
+                        <div class="meta inline grades-center">{stalne ? subject[3]["perm_average"].toFixed(2) : subject[3]["average"].toFixed(2)}</div>
+                    </Cell>
+                {/if}
             </Row>
         {/each}
     </Body>
