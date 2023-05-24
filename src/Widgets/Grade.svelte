@@ -46,7 +46,7 @@
                     <b>Ocena je STALNA</b>
                 {/if}
                 {#if isSurpassed}
-                    <b>Ocena je bila popravljana.</b>
+                    <b>Ocena je bila popravljena.</b>
                 {/if}
             </Tooltip>
         {/if}
