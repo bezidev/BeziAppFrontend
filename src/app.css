@@ -127,5 +127,5 @@ a:visited {
 }
 
 .overflow {
-    overflow: visible;
+    overflow: visible !important;
 }
