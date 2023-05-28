@@ -150,6 +150,13 @@
                 </Item>
                 <Item
                         href="javascript:void(0)"
+                        on:click={() => window.open("https://smp.beziapp.si")}
+                >
+                    <Graphic aria-hidden="true" style="height: 24px;"><img src="/mc.svg" alt="Minecraft server" style="height: 24px; color: rgba(255, 255, 255, 0.6);"></Graphic>
+                    <Text>BežiSMP</Text>
+                </Item>
+                <Item
+                        href="javascript:void(0)"
                         on:click={() => navigate('/about')}
                         activated={active === 'about'}
                 >
