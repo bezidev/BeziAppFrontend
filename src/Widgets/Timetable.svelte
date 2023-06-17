@@ -16,19 +16,23 @@
         endOfWeek
     } from "date-fns";
     import IconButton from "@smui/icon-button";
-    import {makeRequest} from "../constants";
+    import {makeRequest, timeConverter} from "../constants";
     import isMobile from "is-mobile";
     import MeetingCard from "../MeetingCard.svelte";
-    import {Icon} from "@smui/button";
+    import Button, {Icon, Label} from "@smui/button";
     import Tooltip, {Wrapper} from "@smui/tooltip";
-    import Banner, { Label } from '@smui/banner';
-    import Button from '@smui/button';
+    import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
+    import {onMount} from "svelte";
+    import insane from "insane";
+    import CircularProgress from '@smui/circular-progress';
 
     export let date: Date = new Date();
     let currentDate = new Date(date);
 
     let start: Date = startOfWeek(currentDate, {weekStartsOn: 1})
     let end: Date = endOfWeek(currentDate, {weekStartsOn: 1})
+
+    let notifications = [];
 
     const mobile: boolean = isMobile();
 
@@ -87,6 +91,14 @@
         }
     }
 
+    async function getNotifications() {
+        notifications = await makeRequest(`/notifications?only_new=true`)
+    }
+
+    onMount(async () => {
+        await getNotifications();
+    })
+
     const hours: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     let dates: string[] = ["", "", "", "", "", ""]
     let mon: Meeting[] = [];
@@ -94,9 +106,11 @@
     let wed: Meeting[] = [];
     let thu: Meeting[] = [];
     let fri: Meeting[] = [];
+
+    let neprimerniKomentarji = localStorage.getItem("komentarji") === "true";
 </script>
 
-{#if localStorage.getItem(`gimsis_username`).toLowerCase() === "test"}
+{#if localStorage.getItem(`gimsis_username`).toLowerCase() === "test" && neprimerniKomentarji}
     Čestitke! Ugotovili ste našo malo skrivnost. Ker ima Google očitno posebne potrebe in zahteva moje prijavne podatke za GimSIS, ker morajo "potestirati" aplikacijo, sem ustvaril ta fejk profil. Z njim se <b>NE</b> morete prijaviti v GimSIS, lahko pa v BežiApp. Ta profil onemogoča večino stvari, ampak jih dopusti ravno dovolj, da ta aplikacija izgleda, kot da je bogo narejena (<i>kašelj</i> pol nedelujoča <i>kašelj</i>), ampak še vedno gre čez Googlovo maltretiranje prijave. Tukaj ne boste našli ničesar, večina storitev je za ta račun onemogočenih, po tistih, ki pa delajo, pa ne morete delati ničesar drugega, kot si ogledovati stvari (ne morete ustvarjati novih).
     <p/>
 {/if}
@@ -113,6 +127,14 @@
 }}>arrow_forward</IconButton>
 
 {#await getTimetable()}
+    <div style="display: flex; justify-content: center">
+        <CircularProgress style="height: 100px; width: 100px;" indeterminate />
+    </div>
+    <div style="display: flex; justify-content: center">
+        {#if neprimerniKomentarji}
+            jAvAsCrIpT je toooooook počasen.
+        {/if}
+    </div>
 {:then _}
     <table class="coolTable">
         <tr>
@@ -175,3 +197,56 @@
         {/each}
     </table>
 {/await}
+
+<div style="height: 70px;"/>
+
+<h2>Obvestila</h2>
+
+{#if neprimerniKomentarji}
+    BežiApp <s>krade</s> si izposoja obvestila iz intraneta Gimnazije Bežigrad, zato da ne potrebujete uporabljati obupnega intraneta.
+{/if}
+
+<p/>
+
+<div class="accordion-container">
+    <Accordion>
+        {#each notifications as notification}
+            <Panel>
+                <Header>{notification.name}</Header>
+                <Content>
+                    {@html insane(notification.description)}
+
+                    <hr>
+
+                    {#if notification.has_attachments}
+                        <b>Obvestilo ima <a href="https://gimnazijabezigrad.sharepoint.com/Lists/ObvAkt/DispForm.aspx?ID={notification.id}">priponke</a>.</b>
+                        {#if neprimerniKomentarji}
+                            BežiApp ne more prikazovati priponk zaradi Microsoftove nesposobnosti (niso naredili API-ja za priponke), zato vas bo klik na povezavo preusmeril na pripadajočo spletno stran na intranetu.
+                        {/if}
+                    {/if}
+
+                    <p/>
+
+                    Obvestilo poteče dne <b>{timeConverter(notification.expires_on)}</b>
+                    Obvestilo je ustvaril <b>{notification.created_by}</b> dne <b>{timeConverter(notification.created_on)}</b>.
+                    Obvestilo je nazadnje spremenil <b>{notification.modified_by}</b> dne <b>{timeConverter(notification.modified_on)}</b>.
+
+                    <p/>
+
+                    <Button on:click={async () => {
+                        let fd = new FormData();
+                        await makeRequest(`/notifications/${notification.id}`, "POST", fd);
+                        await getNotifications();
+                    }} variant="raised">
+                        <Icon class="material-icons">visibility</Icon>
+                        <Label>Označi kot prebrano</Label>
+                    </Button>
+
+                    <p/>
+
+                    BežiApp vam ne bo prikazoval več tega obvestila, če ga označite kot prebranega, razen v primeru, da se obvestilo na intranetu posodobi.
+                </Content>
+            </Panel>
+        {/each}
+    </Accordion>
+</div>

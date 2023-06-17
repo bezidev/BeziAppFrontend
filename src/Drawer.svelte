@@ -157,6 +157,14 @@
                 </Item>
                 <Item
                         href="javascript:void(0)"
+                        on:click={() => navigate('/settings')}
+                        activated={active === 'settings'}
+                >
+                    <Graphic class="material-icons" aria-hidden="true">settings</Graphic>
+                    <Text>Nastavitve</Text>
+                </Item>
+                <Item
+                        href="javascript:void(0)"
                         on:click={() => navigate('/about')}
                         activated={active === 'about'}
                 >

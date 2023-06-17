@@ -2,7 +2,7 @@
     import Tab, { Icon, Label } from '@smui/tab';
     import TabBar from '@smui/tab-bar';
     import Button from "@smui/button";
-    import {makeRequest} from "./constants";
+    import {makeRequest, timeConverter} from "./constants";
     import {onMount} from "svelte";
     import SegmentedButton, { Segment } from '@smui/segmented-button';
     import DataTable, {Body, Cell, Head, Row} from "@smui/data-table";
@@ -39,19 +39,6 @@
         },
     ];
     let active = tabs[0];
-
-    function timeConverter(UNIX_timestamp){
-        var a = new Date(UNIX_timestamp * 1000);
-        var months = ['januar','februar','marec','april','maj','junij','julij','avgust','september','oktober','november','december'];
-        var year = a.getFullYear();
-        var month = months[a.getMonth()];
-        var date = a.getDate();
-        var hour = a.getHours();
-        var min = a.getMinutes();
-        var sec = a.getSeconds();
-        var time = date + '. ' + month + ' ' + year;
-        return time;
-    }
 
     let suggestions = [];
     let denied_id = "";

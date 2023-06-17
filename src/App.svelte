@@ -181,6 +181,14 @@
 							<Error error={e} />
 						{/await}
 					</Route>
+					<Route path="/settings">
+						{#await import("./Settings.svelte")}
+						{:then Page}
+							<Page.default />
+						{:catch e}
+							<Error error={e} />
+						{/await}
+					</Route>
 					<Route path="/napaka">
 						{#await import("./ErrorPage.svelte")}
 						{:then Page}

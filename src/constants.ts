@@ -13,6 +13,19 @@ export const gradeColors = [
     "#64DD17"
 ];
 
+export function timeConverter(UNIX_timestamp){
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['januar','februar','marec','april','maj','junij','julij','avgust','september','oktober','november','december'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
+    var sec = a.getSeconds();
+    var time = date + '. ' + month + ' ' + year;
+    return time;
+}
+
 const blobToBinary = async blob => {
     const buffer = await blob.arrayBuffer();
 
