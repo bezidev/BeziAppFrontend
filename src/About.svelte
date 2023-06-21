@@ -7,8 +7,9 @@
             name: "Mitja Ševerkar",
             social: [
                 {id: "github", name: "mytja"},
-                {id: "discord", name: "mytja#4761"},
-                {id: "mail", name: "mitja.severkar@gimb.org"}
+                {id: "discord", name: "@mytja (mytja#4761)", uuid: "761599472454205531"},
+                {id: "mail", name: "mitja.severkar@gimb.org"},
+                {id: "mail", name: "mitja@severkar.eu"},
             ],
             pfp: "https://avatars.githubusercontent.com/u/52399966?v=4",
             desc: "Razvijalec prenovljene verzije",

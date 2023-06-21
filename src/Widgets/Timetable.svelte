@@ -25,6 +25,7 @@
     import {onMount} from "svelte";
     import insane from "insane";
     import CircularProgress from '@smui/circular-progress';
+    import Error from "./Error.svelte";
 
     export let date: Date = new Date();
     let currentDate = new Date(date);
@@ -67,7 +68,10 @@
         console.log(fmtStart)
         console.log(classId, teacherId, subjectId)
 
-        let r = await makeRequest(`/timetable?date=${fmtStart}`)
+        let r = await makeRequest(`/timetable?date=${fmtStart}`, "GET", null, false, false, false, true)
+        if (r.status_code !== 200) {
+            return false;
+        }
         mon = r["classes"][0];
         tue = r["classes"][1];
         wed = r["classes"][2];
@@ -89,6 +93,7 @@
                 }
             }
         }
+        return true;
     }
 
     async function getNotifications() {
@@ -110,7 +115,7 @@
     let neprimerniKomentarji = localStorage.getItem("komentarji") === "true";
 </script>
 
-{#if localStorage.getItem(`gimsis_username`).toLowerCase() === "test" && neprimerniKomentarji}
+{#if localStorage.getItem(`account_username`).toLowerCase() === "test" && neprimerniKomentarji}
     Čestitke! Ugotovili ste našo malo skrivnost. Ker ima Google očitno posebne potrebe in zahteva moje prijavne podatke za GimSIS, ker morajo "potestirati" aplikacijo, sem ustvaril ta fejk profil. Z njim se <b>NE</b> morete prijaviti v GimSIS, lahko pa v BežiApp. Ta profil onemogoča večino stvari, ampak jih dopusti ravno dovolj, da ta aplikacija izgleda, kot da je bogo narejena (<i>kašelj</i> pol nedelujoča <i>kašelj</i>), ampak še vedno gre čez Googlovo maltretiranje prijave. Tukaj ne boste našli ničesar, večina storitev je za ta račun onemogočenih, po tistih, ki pa delajo, pa ne morete delati ničesar drugega, kot si ogledovati stvari (ne morete ustvarjati novih).
     <p/>
 {/if}
@@ -135,67 +140,71 @@
             jAvAsCrIpT je toooooook počasen.
         {/if}
     </div>
-{:then _}
-    <table class="coolTable">
-        <tr>
-            <th>URA</th>
-            <th>{mobile ? "PON" : "PONEDELJEK"} {dates[0]} {#if warn[0] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. Prosimo, če ročno preverite nadomeščanja za ta dan.</Tooltip></Wrapper>{/if}</th>
-            <th>{mobile ? "TOR" : "TOREK"} {dates[1]} {#if warn[1] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. Prosimo, če ročno preverite nadomeščanja za ta dan.</Tooltip></Wrapper>{/if}</th>
-            <th>{mobile ? "SRE" : "SREDA"} {dates[2]} {#if warn[2] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. Prosimo, če ročno preverite nadomeščanja za ta dan.</Tooltip></Wrapper>{/if}</th>
-            <th>{mobile ? "ČET" : "ČETRTEK"} {dates[3]} {#if warn[3] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. Prosimo, če ročno preverite nadomeščanja za ta dan.</Tooltip></Wrapper>{/if}</th>
-            <th>{mobile ? "PET" : "PETEK"} {dates[4]} {#if warn[4] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. Prosimo, če ročno preverite nadomeščanja za ta dan.</Tooltip></Wrapper>{/if}</th>
-        </tr>
-        {#each hours as m, i}
-        <tr>
-            <th>{i}.</th>
-            <td>
-                <div class="sameline">
-                    {#each Array(mon[i]) as m}
-                        {#if m}
-                            <MeetingCard n={m} />
-                        {/if}
-                    {/each}
-                </div>
-            </td>
-            <td>
-                <div class="sameline">
-                    {#each Array(tue[i]) as m}
-                        {#if m}
-                            <MeetingCard n={m} />
-                        {/if}
-                    {/each}
-                </div>
-            </td>
-            <td>
-                <div class="sameline">
-                    {#each Array(wed[i]) as m}
-                        {#if m}
-                            <MeetingCard n={m} />
-                        {/if}
-                    {/each}
-                </div>
-            </td>
-            <td>
-                <div class="sameline">
-                    {#each Array(thu[i]) as m}
-                        {#if m}
-                            <MeetingCard n={m} />
-                        {/if}
-                    {/each}
-                </div>
-            </td>
-            <td>
-                <div class="sameline">
-                    {#each Array(fri[i]) as m}
-                        {#if m}
-                            <MeetingCard n={m} />
-                        {/if}
-                    {/each}
-                </div>
-            </td>
-        </tr>
-        {/each}
-    </table>
+{:then ok}
+    {#if ok}
+        <table class="coolTable">
+            <tr>
+                <th>URA</th>
+                <th>{mobile ? "PON" : "PONEDELJEK"} {dates[0]} {#if warn[0] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. Prosimo, če ročno preverite nadomeščanja za ta dan.</Tooltip></Wrapper>{/if}</th>
+                <th>{mobile ? "TOR" : "TOREK"} {dates[1]} {#if warn[1] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. Prosimo, če ročno preverite nadomeščanja za ta dan.</Tooltip></Wrapper>{/if}</th>
+                <th>{mobile ? "SRE" : "SREDA"} {dates[2]} {#if warn[2] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. Prosimo, če ročno preverite nadomeščanja za ta dan.</Tooltip></Wrapper>{/if}</th>
+                <th>{mobile ? "ČET" : "ČETRTEK"} {dates[3]} {#if warn[3] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. Prosimo, če ročno preverite nadomeščanja za ta dan.</Tooltip></Wrapper>{/if}</th>
+                <th>{mobile ? "PET" : "PETEK"} {dates[4]} {#if warn[4] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. Prosimo, če ročno preverite nadomeščanja za ta dan.</Tooltip></Wrapper>{/if}</th>
+            </tr>
+            {#each hours as m, i}
+            <tr>
+                <th>{i}.</th>
+                <td>
+                    <div class="sameline">
+                        {#each Array(mon[i]) as m}
+                            {#if m}
+                                <MeetingCard n={m} />
+                            {/if}
+                        {/each}
+                    </div>
+                </td>
+                <td>
+                    <div class="sameline">
+                        {#each Array(tue[i]) as m}
+                            {#if m}
+                                <MeetingCard n={m} />
+                            {/if}
+                        {/each}
+                    </div>
+                </td>
+                <td>
+                    <div class="sameline">
+                        {#each Array(wed[i]) as m}
+                            {#if m}
+                                <MeetingCard n={m} />
+                            {/if}
+                        {/each}
+                    </div>
+                </td>
+                <td>
+                    <div class="sameline">
+                        {#each Array(thu[i]) as m}
+                            {#if m}
+                                <MeetingCard n={m} />
+                            {/if}
+                        {/each}
+                    </div>
+                </td>
+                <td>
+                    <div class="sameline">
+                        {#each Array(fri[i]) as m}
+                            {#if m}
+                                <MeetingCard n={m} />
+                            {/if}
+                        {/each}
+                    </div>
+                </td>
+            </tr>
+            {/each}
+        </table>
+    {:else}
+        <Error error="Neuspešna prijava v GimSIS. Če ste si spremenili geslo za GimSIS, ga morate spremeniti tudi v BežiAppu v zavihku Nastavitve. V nasprotnem primeru kontaktirajte strežniškega administratorja."/>
+    {/if}
 {/await}
 
 <div style="height: 70px;"/>

@@ -4,6 +4,7 @@
     import Grade from "./Widgets/Grade.svelte";
     import FormField from "@smui/form-field";
     import Switch from "@smui/switch";
+    import {navigate} from "svelte-navigator";
 
     let grades = [];
     let total_average = 0.0;
@@ -13,8 +14,12 @@
 
     async function getGrades() {
         let r = await makeRequest("/grades");
+        let ttotal_average = r["grades"]["average"];
+        if (ttotal_average === undefined) {
+            navigate(`/napaka?error=Neuspešna prijava v GimSIS. Če ste si spremenili geslo za GimSIS, ga morate spremeniti tudi v BežiAppu v zavihku Nastavitve. V nasprotnem primeru kontaktirajte strežniškega administratorja.`);
+        }
         grades = r["grades"]["subjects"];
-        total_average = r["grades"]["average"];
+        total_average = ttotal_average;
     }
 
     getGrades();

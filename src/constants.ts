@@ -32,44 +32,29 @@ const blobToBinary = async blob => {
     return new Uint8Array(buffer);
 };
 
-export async function makeRequest(url: string, method: string = "GET", formData: FormData | string = new FormData(), forcefullyReturn: boolean = false, blob: boolean = false, json: boolean = false) {
+export async function makeRequest(url: string, method: string = "GET", formData: FormData | string = new FormData(), forcefullyReturn: boolean = false, blob: boolean = false, json: boolean = false, status_code: boolean = false) {
     let headers = {"Authorization": Cookies.get("key")}
     if (json) headers["Content-Type"] = "application/json";
     let response = await fetch(`${baseurl}${url}`, {method: method, body: (method === "POST" || method === "DELETE" || method === "PATCH" || method === "PUT") ? formData : null, headers: headers})
     if ((response.status < 200 || response.status >= 300) && !forcefullyReturn) {
-        if (localStorage.getItem("gimsis_password") === null || localStorage.getItem("gimsis_username") === null) {
+        if (localStorage.getItem("account_password") === null || localStorage.getItem("account_username") === null) {
             navigate("/login");
             return;
         }
         let fd = new FormData();
-        fd.append("username", localStorage.getItem("gimsis_username"));
-        fd.append("password", localStorage.getItem("gimsis_password"));
-        let loginResponse = await fetch(`${baseurl}/gimsis/login`, {body: fd, method: "POST"})
+        fd.append("username", localStorage.getItem("account_username"));
+        fd.append("password", localStorage.getItem("account_password"));
+        let loginResponse = await fetch(`${baseurl}/account/login`, {body: fd, method: "POST"})
         Cookies.set("key", (await loginResponse.json())["session"], {sameSite: "strict"});
-        if (url.includes("lopolis") && localStorage.getItem("lopolis_password") !== null && localStorage.getItem("lopolis_username") !== null) {
-            // We try to log in Lo.Polis
-            let fd = new FormData();
-            fd.append("username", localStorage.getItem("lopolis_username"));
-            fd.append("password", localStorage.getItem("lopolis_password"));
-            await fetch(`${baseurl}/lopolis/login`, {body: fd, method: "POST", headers: {"Authorization": Cookies.get("key")}})
-        }
-        return await makeRequest(url, method, formData, true, blob, json)
+        let r = await makeRequest(url, method, formData, true, blob, json);
+        return r
     }
     if (blob) return await response.blob();
+    if (status_code) return {...await response.json(), "status_code": response.status};
     return await response.json();
 }
 
 export const saveBlob = async blob => {
-    if (isTauri) {
-        dialog.save()
-            .then(async (path)=>{
-                await fs.writeBinaryFile({
-                    path: path,
-                    contents: await blobToBinary(blob),
-                })
-            })
-    } else {
-        let _url = window.URL.createObjectURL(blob);
-        window.open(_url, "_blank").focus();
-    }
+    let _url = window.URL.createObjectURL(blob);
+    window.open(_url, "_blank").focus();
 }

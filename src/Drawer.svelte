@@ -59,7 +59,8 @@
                 "/notes": "notes",
                 "/about": "about",
                 "/tarot/contests": "contests",
-                "/radio": "radio"
+                "/radio": "radio",
+                "/settings": "settings"
             }
             active = allPaths[path]
             return

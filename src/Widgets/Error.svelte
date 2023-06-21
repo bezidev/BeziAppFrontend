@@ -27,7 +27,7 @@
         {:else}
             <span class="material-icons" style="font-size: 20px;">navigate_next</span>
         {/if}
-        <span style="font: 16px/24px Google Sans,Helvetica Neue,sans-serif;">Prosimo, pošljite razvijalcem tega sistema naslednjo napako. (če je napaka undefined, samo osvežite spletno stran. {#if neprimerniKomentarji}Sovražim JavaScript predpomnilnik{/if})</span>
+        <span style="font: 16px/24px Google Sans,Helvetica Neue,sans-serif;">Prosimo, pošljite razvijalcem tega sistema naslednjo napako. (če je napaka undefined, poskusite osvežiti spletno stran. {#if neprimerniKomentarji}Sovražim JavaScript predpomnilnik{/if})</span>
     </div>
     {#if open}
         <pre>

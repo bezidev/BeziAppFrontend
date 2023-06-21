@@ -66,8 +66,15 @@
 
     async function getMeals() {
         meals = undefined;
-        meals = await makeRequest(`/lopolis/meals?year=${selectedYear}&month=${selectedMonth}`)
+        let ms = await makeRequest(`/lopolis/meals?year=${selectedYear}&month=${selectedMonth}`, "GET", null, false, false, false, true);
+        if (ms.status_code !== 200) {
+            meals = [];
+            return false;
+        }
+        delete ms.status_code;
+        meals = ms;
         await selected_meals();
+        return true;
     }
 
     async function getCheckouts() {
@@ -89,17 +96,16 @@
     }
 
     async function fetchData() {
-        await getMeals();
+        let preflight = await getMeals();
+        if (!preflight) {
+            navigate("/settings?type=lopolis_fail");
+            return;
+        }
         await getCheckouts();
     }
 
     onMount(async () => {
-        try {
-            await fetchData();
-        } catch (e) {
-            console.log(e)
-            navigate("/lopolis/login")
-        }
+        await fetchData();
     })
 </script>
 

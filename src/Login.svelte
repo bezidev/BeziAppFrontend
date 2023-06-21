@@ -9,6 +9,8 @@
     import * as constants from "./constants";
     import Cookies from "js-cookie";
     import Notification from "./Widgets/Notification.svelte";
+    import Tooltip, {Wrapper} from "@smui/tooltip";
+    import HelperText from "@smui/textfield/helper-text";
 
     // <b style="color: rgba(0, 77, 50, 1);">Beži</b><span style="color: rgba(0, 128, 83, 1);">App</span>
 
@@ -21,15 +23,11 @@
         localStorage.setItem(`${loginType}_password`, password);
 
         try {
-            let r = await fetch(`${constants.baseurl}/${loginType}/login`, {body: fd, method: "POST", headers: {"Authorization": loginType === "lopolis" ? Cookies.get("key") : ""}})
+            let r = await fetch(`${constants.baseurl}/${loginType}/login`, {body: fd, method: "POST"})
             let response = await r.json();
             if (r.status === 200) {
-                if (loginType === "gimsis") {
-                    Cookies.set("key", response["session"], {sameSite: "strict", expires: 365});
-                    navigate("/")
-                } else {
-                    navigate("/lopolis");
-                }
+                Cookies.set("key", response["session"], {sameSite: "strict", expires: 365});
+                navigate("/")
             } else {
                 snackbarWithClose.open();
             }
@@ -44,7 +42,7 @@
     let email = "";
     let password = "";
 
-    export let loginType = "gimsis";
+    export let loginType = "account";
 
     let snackbarWithClose: InstanceType<typeof Snackbar>;
 </script>
@@ -77,15 +75,16 @@
 
 <main>
     <Snackbar bind:this={snackbarWithClose}>
-        <Label>Login failed.</Label>
+        <Label>Prijava neuspešna.</Label>
         <Actions>
             <IconButton class="material-icons" title="Dismiss">close</IconButton>
         </Actions>
     </Snackbar>
     <div class="center">
         <Paper>
-            <h1>Prijava v {#if loginType === "gimsis"}BežiApp (GimSIS){:else}Lo.Polis{/if}</h1>
+            <h1>Prijava v {#if loginType === "gimsis"}BežiApp (GimSIS){:else}{#if loginType === "account"}BežiApp{:else}Lo.Polis{/if}{/if}</h1>
             <Textfield type="text" bind:value={email} label="Uporabniško ime" style="width: 80%;" helperLine$style="width: 80%;">
+                <HelperText slot="helper" style="left: 12%; position: relative;">GimSIS uporabniško ime</HelperText>
                 <Icon class="material-icons" slot="leadingIcon">person</Icon>
             </Textfield>
             <p />
@@ -94,12 +93,19 @@
                     login();
                 }
             }} type="password" bind:value={password} label="Geslo" style="width: 80%;" helperLine$style="width: 80%;">
+                <HelperText slot="helper" style="left: 12%; position: relative;">GimSIS geslo, razen če ste si spremenili geslo BežiApp računa</HelperText>
                 <Icon class="material-icons" slot="leadingIcon">key</Icon>
             </Textfield>
             <p />
             <Button on:click={async () => await login()} variant="raised">
                 <Label>PRIJAVA</Label>
             </Button>
+
+            {#if loginType === "account"}
+                <p/>
+                Ob kliku na gumb Prijava, se vam bo avtomatično ustvaril BežiApp račun, ki olajša prijavo v BežiApp sistem in omogoči dodatne funkcije.
+                S klikom na gumb se prav tako strinjate s <a href="/tos.html">pogoji uporabe storitve BežiApp</a>.
+            {/if}
             {#if loginType === "gimsis"}
                 <p/>
                 <Notification/>
