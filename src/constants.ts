@@ -46,8 +46,7 @@ export async function makeRequest(url: string, method: string = "GET", formData:
         fd.append("password", localStorage.getItem("account_password"));
         let loginResponse = await fetch(`${baseurl}/account/login`, {body: fd, method: "POST"})
         Cookies.set("key", (await loginResponse.json())["session"], {sameSite: "strict"});
-        let r = await makeRequest(url, method, formData, true, blob, json);
-        return r
+        return await makeRequest(url, method, formData, true, blob, json, status_code);
     }
     if (blob) return await response.blob();
     if (status_code) return {...await response.json(), "status_code": response.status};

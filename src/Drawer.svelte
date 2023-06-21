@@ -60,7 +60,8 @@
                 "/about": "about",
                 "/tarot/contests": "contests",
                 "/radio": "radio",
-                "/settings": "settings"
+                "/settings": "settings",
+                "/developers": "developers",
             }
             active = allPaths[path]
             return
@@ -163,6 +164,14 @@
                 >
                     <Graphic class="material-icons" aria-hidden="true">settings</Graphic>
                     <Text>Nastavitve</Text>
+                </Item>
+                <Item
+                        href="javascript:void(0)"
+                        on:click={() => navigate('/developers')}
+                        activated={active === 'developers'}
+                >
+                    <Graphic class="material-icons" aria-hidden="true">code</Graphic>
+                    <Text>BežiApp za razvijalce</Text>
                 </Item>
                 <Item
                         href="javascript:void(0)"

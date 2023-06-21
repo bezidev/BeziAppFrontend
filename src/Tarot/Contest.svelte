@@ -211,10 +211,15 @@
                 mode: "dark",
             }
         };
+        let wl_data = Object.keys(contest.statistics).map((v) => {
+            let n: number = Number((contest.statistics[v].iger_zmagal / contest.statistics[v].iger_igral).toFixed(2));
+            return isNaN(n) ? 0 : n;
+        });
+        console.log("ok", wl_data);
         options_wl = {
             series: [{
                 name: "Razmerje med igranimi in zmaganimi igrami",
-                data: Object.keys(contest.statistics).map((v) => (contest.statistics[v].iger_zmagal/contest.statistics[v].iger_igral).toFixed(2))
+                data: wl_data,
             }],
             chart: {
                 type: 'bar',
