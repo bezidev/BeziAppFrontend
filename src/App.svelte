@@ -6,13 +6,12 @@
 	import {onDestroy, onMount} from "svelte";
 	import TopAppBar, { Row, Section, Title } from '@smui/top-app-bar';
 	import IconButton from '@smui/icon-button';
-	import Button from "@smui/button";
-	import Banner, {Label} from "@smui/banner";
 
 	let open = false;
 
 	let pathname = window.location.pathname;
 	let unsub;
+
 	onMount(() => {
 		let touchstartX = 0;
 		let touchendX = 0
@@ -39,6 +38,7 @@
 			pathname = location.pathname;
 		});
 	});
+
 	onDestroy(() => {
 		unsub();
 	});

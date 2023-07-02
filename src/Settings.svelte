@@ -15,6 +15,7 @@
     import {Content, Title, Actions as DialogActions} from "@smui/dialog";
 
     let neprimerniKomentarji = localStorage.getItem("komentarji") === "true";
+    let errorReporting = localStorage.getItem("error_reporting") === "true";
 
     const urlParams = new URLSearchParams(window.location.search);
     const type = urlParams.get('type');
@@ -102,6 +103,19 @@
     }}/>
 
     <span slot="label">Vklopite komentarje razvijalcev. Ker to zna razburiti marsikoga (večina teh komentarjev je zelo družbeno kritičnih), vas ne prisilim, da imate to vključeno.</span>
+</FormField>
+
+<p/>
+
+<FormField>
+    <Switch bind:checked={errorReporting} on:click={() => {
+        setTimeout(() => {
+            localStorage.setItem("error_reporting", errorReporting.toString());
+            errorReporting = localStorage.getItem("error_reporting") === "true";
+        }, 50);
+    }}/>
+
+    <span slot="label">Pošiljanje napak. Ob zaznani napaki v aplikaciji pošljite to napako razvijalcem. Privzeto ne pošilja napak, saj lahko vsebujejo določene zaupne vrednosti.</span>
 </FormField>
 
 <h1>Nastavitve BežiApp računa</h1>
