@@ -32,12 +32,43 @@ const blobToBinary = async blob => {
     return new Uint8Array(buffer);
 };
 
+export async function handleRejection(r) {
+    if (!production) {
+        return true;
+    }
+    if (localStorage.getItem("error_reporting") !== "true") {
+        return true;
+    }
+
+    console.log("Reporting an error to BežiApp developer team.");
+
+    let password = localStorage.getItem("account_password");
+    let fd = new FormData();
+    fd.append("message", `${r.message}`);
+    fd.append("source", r.fileName);
+    fd.append("line", `${r.lineNumber}`);
+    fd.append("col", `${r.columnNumber}`);
+    fd.append("error", `${r.stack}`);
+    fd.append("username", localStorage.getItem("account_username"));
+    fd.append("password", `${password === null || password === undefined || password === ""}`);
+    fd.append("session", Cookies.get("key"));
+
+    await fetch(`${baseurl}/report/error`, {body: fd, method: "POST"})
+}
+
 export async function makeRequest(url: string, method: string = "GET", formData: FormData | string = new FormData(), forcefullyReturn: boolean = false, blob: boolean = false, json: boolean = false, status_code: boolean = false) {
     let headers = {"Authorization": Cookies.get("key")}
     if (json) headers["Content-Type"] = "application/json";
     let response = await fetch(`${baseurl}${url}`, {method: method, body: (method === "POST" || method === "DELETE" || method === "PATCH" || method === "PUT") ? formData : null, headers: headers})
     if ((response.status < 200 || response.status >= 300) && !forcefullyReturn) {
         if (localStorage.getItem("account_password") === null || localStorage.getItem("account_username") === null) {
+            await handleRejection({
+                message: "account_password or account_username is for some reason null",
+                fileName: `constants.ts/makeRequest() ${url} ${method} ${forcefullyReturn} ${blob} ${json} ${status_code}`,
+                lineNumber: 64,
+                columnNumber: 0,
+                stack: "No stacktrace available for this manual request.",
+            })
             navigate("/login");
             return;
         }
