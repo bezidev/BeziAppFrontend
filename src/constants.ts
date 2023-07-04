@@ -33,9 +33,14 @@ const blobToBinary = async blob => {
 };
 
 export async function handleRejection(r) {
+    console.log("Called handleRejection", r);
+
     if (!production) {
         return true;
     }
+
+    console.log("Running in production environment");
+
     if (localStorage.getItem("error_reporting") !== "true") {
         return true;
     }
@@ -62,13 +67,14 @@ export async function makeRequest(url: string, method: string = "GET", formData:
     let response = await fetch(`${baseurl}${url}`, {method: method, body: (method === "POST" || method === "DELETE" || method === "PATCH" || method === "PUT") ? formData : null, headers: headers})
     if ((response.status < 200 || response.status >= 300) && !forcefullyReturn) {
         if (localStorage.getItem("account_password") === null || localStorage.getItem("account_username") === null) {
-            await handleRejection({
+            let j = {
                 message: "account_password or account_username is for some reason null",
                 fileName: `constants.ts/makeRequest() ${url} ${method} ${forcefullyReturn} ${blob} ${json} ${status_code}`,
                 lineNumber: 64,
                 columnNumber: 0,
                 stack: "No stacktrace available for this manual request.",
-            })
+            };
+            await handleRejection(j);
             navigate("/login");
             return;
         }

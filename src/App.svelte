@@ -54,7 +54,6 @@
 				</Section>
 				<Section align="end" toolbar>
 					<IconButton style="margin: 0;" class="material-icons" aria-hidden="true" on:click={() => {
-						document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
 						localStorage.clear();
 						navigate("/login");
 					}}>

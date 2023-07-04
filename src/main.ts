@@ -5,7 +5,6 @@ import Cookies from "js-cookie";
 import {handleRejection} from "./constants";
 
 window.onunhandledrejection = async (e) => {
-	console.log("Zaznana težava", e);
 	let r = e.reason;
 	await handleRejection(r);
 	return true;

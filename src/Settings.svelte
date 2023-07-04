@@ -7,7 +7,6 @@
     import Button, {Label} from "@smui/button";
     import {makeRequest} from "./constants";
     import * as constants from "./constants";
-    import Cookies from "js-cookie";
     import {navigate} from "svelte-navigator";
     import Snackbar, {Actions} from "@smui/snackbar";
     import IconButton from "@smui/icon-button";
@@ -55,7 +54,7 @@
         r = await fetch(`${constants.baseurl}/account/login`, {body: fd, method: "POST"})
         let response = await r.json();
         if (r.status === 200) {
-            Cookies.set("key", response["session"], {sameSite: "strict", expires: 365});
+            localStorage.setItem("key", response["session"]);
             snackbarOK.open();
             return;
         }

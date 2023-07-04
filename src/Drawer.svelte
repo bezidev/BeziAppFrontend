@@ -11,7 +11,7 @@
     import isMobile from "is-mobile";
 
     import {useLocation} from "svelte-navigator";
-    import Cookies from "js-cookie";
+    import {handleRejection} from "./constants";
 
     const location = useLocation();
 
@@ -39,8 +39,16 @@
         if (!($location.pathname === "/login" || $location.pathname === "/register")) {
             showDrawer = true;
 
-            const token = Cookies.get("key");
-            if (token === null || token === undefined) {
+            const token = localStorage.getItem("key");
+            if (token === null || token === undefined || token === "") {
+                let j = {
+                    message: "Token cookie is either null or undefined",
+                    fileName: `Drawer.svelte/onMount()`,
+                    lineNumber: 0,
+                    columnNumber: 0,
+                    stack: token,
+                };
+                await handleRejection(j);
                 navigate("/login");
             }
 

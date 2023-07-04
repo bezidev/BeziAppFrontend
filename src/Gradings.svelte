@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {makeRequest} from "./constants";
+    import {handleRejection, makeRequest} from "./constants";
     import IconButton from "@smui/icon-button";
     import {onMount} from "svelte";
     import {navigate} from "svelte-navigator";
@@ -17,7 +17,14 @@
         try {
             await getGradings();
         } catch (e) {
-            console.log(e)
+            let j = {
+                message: "Error while fetching gradings",
+                fileName: `Gradings.svelte/onMount()`,
+                lineNumber: 0,
+                columnNumber: 0,
+                stack: e.toString(),
+            };
+            await handleRejection(j);
             navigate("/login")
         }
     })
