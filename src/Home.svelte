@@ -11,7 +11,7 @@
             columnNumber: 0,
             stack: token,
         };
-        await handleRejection(j);
+        handleRejection(j);
         localStorage.removeItem("key");
         window.location.href = "/login";
     }
