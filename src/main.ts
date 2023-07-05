@@ -1,7 +1,6 @@
 import './app.css';
 import './smui-dark.css';
 import App from './App.svelte';
-import Cookies from "js-cookie";
 import {handleRejection} from "./constants";
 
 window.onunhandledrejection = async (e) => {

@@ -196,6 +196,14 @@
 							<Error error={e} />
 						{/await}
 					</Route>
+					<Route path="/oauth2/:id" let:params>
+						{#await import("./OAUTH2.svelte")}
+						{:then Page}
+							<Page.default id={params.id} />
+						{:catch e}
+							<Error error={e} />
+						{/await}
+					</Route>
 					<Route path="/napaka">
 						{#await import("./ErrorPage.svelte")}
 						{:then Page}
