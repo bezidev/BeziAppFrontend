@@ -9,15 +9,11 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "dev": "vite --port 8080",
     "start": "sirv dist --no-clear -s -G",
-    "tauri": "tauri",
-    "tauri-build": "TAURI=true tauri build",
-    "tauri-dev": "TAURI=true tauri dev",
-    "prepare-css": "npm run smui-theme-light && npm run smui-theme-dark",
+    "prepare": "npm run smui-theme-light && npm run smui-theme-dark",
     "smui-theme-light": "smui-theme compile src/smui.css -i src/theme",
     "smui-theme-dark": "smui-theme compile src/smui-dark.css -i src/theme/dark"
   },
   "devDependencies": {
-    "@capacitor/cli": "^5.0.3",
     "@material/elevation": "^14.0.0",
     "@material/theme": "^14.0.0",
     "@material/typography": "^14.0.0",
@@ -45,8 +41,6 @@
     "@smui/tooltip": "^7.0.0-beta.8",
     "@smui/top-app-bar": "^7.0.0-beta.8",
     "@sveltejs/vite-plugin-svelte": "^2.2.0",
-    "@tauri-apps/api": "^1.3.0",
-    "@tauri-apps/cli": "^1.3.1",
     "@tsconfig/svelte": "^4.0.1",
     "@types/js-cookie": "^3.0.3",
     "@types/marked": "^4.3.0",
@@ -66,7 +60,6 @@
     "svelte-apexcharts": "^1.0.2",
     "svelte-avatar": "^1.2.0",
     "svelte-calendar": "^3.1.6",
-    "svelte-calendar-resurrected": "^1.0.0-alpha.2",
     "svelte-check": "^3.3.2",
     "svelte-dnd-action": "^0.9.22",
     "svelte-material-ui": "^7.0.0-beta.8",
@@ -75,12 +68,8 @@
     "tslib": "^2.5.0",
     "typescript": "^5.0.4",
     "uniqolor": "^1.1.0",
-    "vite": "^4.3.5",
+    "vite": "4.3.9",
     "vite-plugin-compression": "^0.5.1"
   },
-  "dependencies": {
-    "@capacitor/android": "^5.0.3",
-    "@capacitor/core": "^5.0.3",
-    "@capacitor/ios": "^5.0.3"
-  }
+  "dependencies": {}
 }

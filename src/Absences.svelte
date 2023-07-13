@@ -91,6 +91,7 @@
         }
     })
 </script>
+
 <style>
     .absence-date-select-grid {
         display: flex;
@@ -98,18 +99,25 @@
     .absence-date-picker-button {
         margin: 0 0 0 1em;
     }
+    .col-auto :global(.datepicker .sc-popover .contents-wrapper) {
+        z-index: 1000;
+        position: absolute;
+    }
 </style>
+
 <div class="absence-date-select-grid">
     <h3>Izberite začetni datum: </h3>
-    <Datepicker bind:store={store1} let:key let:send let:receive theme={datePickerTheme} style="min-height: auto">
-        <button in:receive|local={{ key }} out:send|local={{ key }} class="absence-date-picker-button mdc-button">
-            {#if $store1?.hasChosen}
-                {date1}
-            {:else}
-                Izberite datum
-            {/if}
-        </button>
-    </Datepicker>
+    <div class="col-auto">
+        <Datepicker bind:store={store1} let:key let:send let:receive theme={datePickerTheme}>
+            <button in:receive|local={{ key }} out:send|local={{ key }} class="absence-date-picker-button mdc-button">
+                {#if $store1?.hasChosen}
+                    {date1}
+                {:else}
+                    Izberite datum
+                {/if}
+            </button>
+        </Datepicker>
+    </div>
 </div>
 <div class="absence-date-select-grid">
     <h3>Izberite končni datum: </h3>

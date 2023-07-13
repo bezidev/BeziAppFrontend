@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {Router, Route, globalHistory, navigate} from "svelte-navigator";
 	import Drawer from "./Drawer.svelte";
-	import {AppContent, Scrim} from "@smui/drawer";
+	import {AppContent} from "@smui/drawer";
 	import Error from "./Widgets/Error.svelte";
 	import {onDestroy, onMount} from "svelte";
 	import TopAppBar, { Row, Section, Title } from '@smui/top-app-bar';
@@ -14,13 +14,13 @@
 
 	onMount(() => {
 		let touchstartX = 0;
-		let touchendX = 0
+		let touchendX = 0;
 		const distance = 110;
 
 		function checkDirection() {
 			console.log(touchstartX, touchendX)
 			if (touchendX < touchstartX && distance < Math.abs(touchstartX-touchendX)) open = false
-			if (touchendX > touchstartX && distance < Math.abs(touchstartX-touchendX) && touchstartX - 20 < 0) open = true
+			if (touchendX > touchstartX && distance < Math.abs(touchstartX-touchendX) && touchstartX - 50 < 0) open = true
 		}
 
 		document.addEventListener('touchstart', e => {
@@ -46,7 +46,7 @@
 
 <Router>
 	{#if !(pathname === "/login" || pathname === "/lopolis/login")}
-		<TopAppBar variant="static" style="background-color: rgba(0, 128, 83, 1);">
+		<TopAppBar variant="static" style="background-color: rgba(0, 128, 83, 1); position: sticky; top: 0; flex: 0 1 auto;">
 			<Row>
 				<Section style="display: flex; flex-direction: row; align-items: center;">
 					<IconButton style="margin: 0 0 0 0.5em;" class="material-icons" on:click={() => open=!open}>{#if open}close{:else}menu{/if}</IconButton>
@@ -86,6 +86,14 @@
 					</Route>
 					<Route path="/gradings">
 						{#await import("./Gradings.svelte")}
+						{:then Page}
+							<Page.default />
+						{:catch e}
+							<Error error={e} />
+						{/await}
+					</Route>
+					<Route path="/teachers">
+						{#await import("./Teachers.svelte")}
 						{:then Page}
 							<Page.default />
 						{:catch e}
