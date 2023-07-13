@@ -23,6 +23,10 @@
             name: "preveri vaše ocene",
             icon: "grade",
         },
+        "gimsis.teachers": {
+            name: "preveri vaše učitelje",
+            icon: "class",
+        },
         "gimsis.user.read.usernameemail": {
             name: "bere vaš elektronski naslov in uporabniško ime za GimSIS/BežiApp račun",
             icon: "email",
