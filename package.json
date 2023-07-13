@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "npm run prepare-css && vite build --outDir dist",
+    "build": "vite build --outDir dist",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "dev": "vite --port 8080",
