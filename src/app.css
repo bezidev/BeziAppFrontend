@@ -36,12 +36,14 @@ a:visited {
 .app-content {
     overflow: auto;
     position: relative;
+    min-height: calc(100vh - 64px);
 }
 
 .main-content {
     overflow: auto;
     padding: 16px;
-    height: 100%;
+    height: auto;
+    min-height: calc(100vh - 64px);
     box-sizing: border-box;
 }
 
