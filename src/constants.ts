@@ -1,5 +1,3 @@
-import {dialog, fs} from "@tauri-apps/api";
-import Cookies from "js-cookie";
 import {navigate} from "svelte-navigator";
 
 export const production: boolean = isProduction;
@@ -56,13 +54,13 @@ export async function handleRejection(r) {
     fd.append("error", `${r.stack}`);
     fd.append("username", localStorage.getItem("account_username"));
     fd.append("password", `${password === null || password === undefined || password === ""}`);
-    fd.append("session", Cookies.get("key"));
+    fd.append("session", localStorage.getItem("key"));
 
     await fetch(`${baseurl}/report/error`, {body: fd, method: "POST"})
 }
 
 export async function makeRequest(url: string, method: string = "GET", formData: FormData | string = new FormData(), forcefullyReturn: boolean = false, blob: boolean = false, json: boolean = false, status_code: boolean = false) {
-    let headers = {"Authorization": Cookies.get("key")}
+    let headers = {"Authorization": localStorage.getItem("key")}
     if (json) headers["Content-Type"] = "application/json";
     let response = await fetch(`${baseurl}${url}`, {method: method, body: (method === "POST" || method === "DELETE" || method === "PATCH" || method === "PUT") ? formData : null, headers: headers})
     if ((response.status < 200 || response.status >= 300) && !forcefullyReturn) {
@@ -82,7 +80,7 @@ export async function makeRequest(url: string, method: string = "GET", formData:
         fd.append("username", localStorage.getItem("account_username"));
         fd.append("password", localStorage.getItem("account_password"));
         let loginResponse = await fetch(`${baseurl}/account/login`, {body: fd, method: "POST"})
-        Cookies.set("key", (await loginResponse.json())["session"], {sameSite: "strict"});
+        localStorage.setItem("key", (await loginResponse.json())["session"]);
         return await makeRequest(url, method, formData, true, blob, json, status_code);
     }
     if (blob) return await response.blob();
