@@ -3,7 +3,7 @@
   "short_name": "BežiApp",
   "description": "Unofficial app for GimB students",
 
-  "start_url": "https://beziapp.meetplan.si",
+  "start_url": "https://beziapp.si",
   "scope": "",
 
   "display": "standalone",
