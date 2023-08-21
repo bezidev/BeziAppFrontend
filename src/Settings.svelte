@@ -12,6 +12,7 @@
     import IconButton from "@smui/icon-button";
     import Dialog from "@smui/dialog";
     import {Content, Title, Actions as DialogActions} from "@smui/dialog";
+    import Accordion, {Header, Panel, Content as AccordionContent} from "@smui-extra/accordion";
 
     let neprimerniKomentarji = localStorage.getItem("komentarji") === "true";
     let errorReporting = localStorage.getItem("error_reporting") === "true";
@@ -69,7 +70,13 @@
 >
     <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
     <Title id="simple-title">Neuspešna prijava</Title>
-    <Content id="simple-content">Sem ste bili preusmerjeni, saj smo nedavno preklopili na BežiApp račune. BežiApp račun ne dela enako, kakor prejšnja avtentikacija, zato morate posodobiti podatke za vaš Lo.Polis račun. Prosimo vas, da spodaj vnesete uporabniško ime in geslo vašega Lo.Polis računa, če želite uporabljati storitev Lo.Polis.</Content>
+    <Content id="simple-content">
+        Sem ste bili preusmerjeni, saj smo nedavno preklopili na BežiApp račune.
+        BežiApp račun ne dela enako, kakor prejšnja avtentikacija, zato morate posodobiti podatke oz. na novo vnesti podatke za vaš Lo.Polis račun.
+        To morate storiti samo enkrat in nikoli več, deluje na vseh napravah.
+        Prosimo vas, da sledite navodilom v razdelku "Nastavitve BežiApp računa" in vnesete uporabniško ime in geslo vašega Lo.Polis računa,
+        če želite uporabljati storitev Lo.Polis.
+    </Content>
     <DialogActions>
         <Button>
             <Label>OK</Label>
@@ -119,7 +126,7 @@
 
 <h1>Nastavitve BežiApp računa</h1>
 
-Za spreminjanje vseh gesel morate vpisati vaše trenutno geslo BežiApp računa (geslo BežiApp računa ni nujno isto kot geslo GimSIS računa - uporabite tisto geslo, s katerim se prijavljate v BežiApp).
+Za spreminjanje vseh gesel (vse spodnje zahteve) morate vpisati vaše trenutno geslo BežiApp računa (geslo BežiApp računa ni nujno isto kot geslo GimSIS računa - uporabite tisto geslo, s katerim se prijavljate v BežiApp).
 
 Vsa gesla (GimSIS in Lo.Polis) razen BežiApp gesla so šifrirana z AES algoritmom za šifriranje. Dešifrirate jih lahko samo, če poznate geslo BežiApp računa.
 
@@ -127,7 +134,7 @@ BežiApp geslo je šifrirano z bcrypt enosmernim algoritmom - gesla se ne da de�
 
 <p/>
 
-Spodnje geslo je <b>POTREBNO</b> izpolniti, ne glede na to, katero izmed gesel želite spremeniti.
+Spodnje geslo je <b>POTREBNO</b> izpolniti, ne glede na to, katero izmed gesel želite spremeniti oz. katero izmed dejanj želite izvesti.
 
 <p/>
 
@@ -136,75 +143,93 @@ Spodnje geslo je <b>POTREBNO</b> izpolniti, ne glede na to, katero izmed gesel �
     <Icon class="material-icons" slot="leadingIcon">key</Icon>
 </Textfield>
 
-<h2>GimSIS geslo</h2>
-Če ste si spremenili GimSIS geslo morate o tem obvestiti BežiApp račun, da lahko še naprej nemoteno delujejo vse GimSIS storitve BežiApp-a.
 
-S tem, ko spremenite GimSIS geslo, se <b>NE</b> spremeni geslo BežiApp računa, razen če tudi tega posebej spremenite.
+<Accordion>
+    <Panel>
+        <Header>Sprememba oz. posodobitev GimSIS gesla</Header>
+        <AccordionContent>
+            Če ste si spremenili GimSIS geslo morate o tem obvestiti BežiApp račun, da lahko še naprej nemoteno delujejo vse GimSIS storitve BežiApp-a.
 
-<p/>
+            S tem, ko spremenite GimSIS geslo, se <b>NE</b> spremeni geslo BežiApp računa, razen če tudi tega posebej spremenite.
 
-Gesla za GimSIS račun <b>NE</b> spreminjate tukaj. S tem obrazcem samo sporočite BežiApp sistemu vaše novo geslo GimSIS računa.
+            <p/>
 
-Geslo GimSIS računa si lahko spremenite samo v <a href="https://zgimsis.gimb.org/Page_Gim/Uporabnik/Profil.aspx">GimSIS-u</a>.
+            Gesla za GimSIS račun <b>NE</b> spreminjate tukaj. S tem obrazcem samo sporočite BežiApp sistemu vaše novo geslo GimSIS računa.
 
-<p/>
+            Geslo GimSIS računa si lahko spremenite samo v <a href="https://zgimsis.gimb.org/Page_Gim/Uporabnik/Profil.aspx">GimSIS-u</a>.
 
-<Textfield type="password" bind:value={gimsisPassword} label="Geslo GimSIS računa" style="width: 100%;" helperLine$style="width: 100%;">
-    <HelperText slot="helper">Novo GimSIS geslo</HelperText>
-    <Icon class="material-icons" slot="leadingIcon">key</Icon>
-</Textfield>
+            <p/>
 
-<p/>
+            <Textfield type="password" bind:value={gimsisPassword} label="Geslo GimSIS računa" style="width: 100%;" helperLine$style="width: 100%;">
+                <HelperText slot="helper">Novo GimSIS geslo</HelperText>
+                <Icon class="material-icons" slot="leadingIcon">key</Icon>
+            </Textfield>
 
-<Button variant="raised" on:click={async () => {await changePassword("gimsis")}}>
-    <Icon class="material-icons">key</Icon>
-    <Label>Spremeni geslo</Label>
-</Button>
+            <p/>
 
-<h2>Lo.Polis prijavni podatki</h2>
-Če želite dostopati do storitve Lo.Polis ali pa ste si spremenili Lo.Polis geslo, morate o tem obvestiti BežiApp račun, da lahko še naprej nemoteno delujejo vse Lo.Polis storitve BežiApp-a.
+            <Button variant="raised" on:click={async () => {await changePassword("gimsis")}}>
+                <Icon class="material-icons">key</Icon>
+                <Label>Spremeni geslo</Label>
+            </Button>
+        </AccordionContent>
+    </Panel>
+    <Panel>
+        <Header>Prvi vnos ali sprememba Lo.Polis prijavnih podatkov</Header>
+        <AccordionContent>
+            Če želite dostopati do storitve Lo.Polis ali pa ste si spremenili Lo.Polis geslo, morate o tem obvestiti BežiApp račun, da lahko še naprej nemoteno delujejo vse Lo.Polis storitve BežiApp-a.
 
-S tem, ko spremenite ali dodate Lo.Polis geslo, se <b>NE</b> spremeni geslo BežiApp računa, razen če tudi tega posebej spremenite.
+            S tem, ko spremenite ali dodate Lo.Polis geslo, se <b>NE</b> spremeni geslo BežiApp računa, razen če tudi tega posebej spremenite.
 
-<p/>
+            <p/>
 
-Gesla za Lo.Polis račun <b>NE</b> spreminjate tukaj. S tem obrazcem samo sporočite BežiApp sistemu vaše novo geslo Lo.Polis računa.
+            Gesla za Lo.Polis račun <b>NE</b> spreminjate tukaj. S tem obrazcem samo sporočite BežiApp sistemu vaše novo geslo Lo.Polis računa.
 
-Geslo Lo.Polis računa si lahko spremenite samo v <a href="https://www.lopolis.si/Account/ForgotPassword">Lo.Polis-u</a>.
+            Geslo Lo.Polis računa si lahko spremenite samo v <a href="https://www.lopolis.si/Account/ForgotPassword">Lo.Polis-u</a>.
 
-<p/>
+            <p/>
 
-<Textfield type="text" bind:value={lopolisUsername} label="Uporabniško ime Lo.Polis računa" style="width: 100%;" helperLine$style="width: 100%;">
-    <HelperText slot="helper">Lo.Polis uporabniško ime</HelperText>
-    <Icon class="material-icons" slot="leadingIcon">person</Icon>
-</Textfield>
+            <Textfield type="text" bind:value={lopolisUsername} label="Uporabniško ime Lo.Polis računa" style="width: 100%;" helperLine$style="width: 100%;">
+                <HelperText slot="helper">Lo.Polis uporabniško ime</HelperText>
+                <Icon class="material-icons" slot="leadingIcon">person</Icon>
+            </Textfield>
 
-<Textfield type="password" bind:value={lopolisPassword} label="Geslo Lo.Polis računa" style="width: 100%;" helperLine$style="width: 100%;">
-    <HelperText slot="helper">Novo Lo.Polis geslo</HelperText>
-    <Icon class="material-icons" slot="leadingIcon">key</Icon>
-</Textfield>
+            <Textfield type="password" bind:value={lopolisPassword} label="Geslo Lo.Polis računa" style="width: 100%;" helperLine$style="width: 100%;">
+                <HelperText slot="helper">Novo Lo.Polis geslo</HelperText>
+                <Icon class="material-icons" slot="leadingIcon">key</Icon>
+            </Textfield>
 
-<p/>
+            <p/>
 
-<Button variant="raised" on:click={async () => {await changePassword("lopolis")}}>
-    <Icon class="material-icons">key</Icon>
-    <Label>Spremeni geslo</Label>
-</Button>
+            <Button variant="raised" on:click={async () => {await changePassword("lopolis")}}>
+                <Icon class="material-icons">key</Icon>
+                <Label>Spremeni geslo</Label>
+            </Button>
+        </AccordionContent>
+    </Panel>
+    <Panel>
+        <Header>Sprememba BežiApp gesla</Header>
+        <AccordionContent>
+            S tem geslom se prijavljate v BežiApp račun, ki deluje popolnoma neodvisno od GimSIS-a in Lo.Polisa.
+            Če katera izmed teh storitev ne deluje, lahko še vedno dostopate do BežiApp-a in uporabljate vse ostale ponujene storitve.
 
-<h2>BežiApp geslo</h2>
-S tem geslom se prijavljate v BežiApp račun, ki deluje popolnoma neodvisno od GimSIS-a in Lo.Polisa.
-Če katera izmed teh storitev ne deluje, lahko še vedno dostopate do BežiApp-a in uporabljate vse ostale ponujene storitve.
+            <p/>
 
-<p/>
+            Prav tako bo sistem avtomatično dešifriral vsa vaša gesla do drugih storitev in jih ponovno šifriral z novim geslom, tako da ni potrebno ponovno
+            nastavljati gesel za vse druge storitve.
 
-<Textfield type="password" bind:value={beziPassword} label="Geslo BežiApp računa" style="width: 100%;" helperLine$style="width: 100%;">
-    <HelperText slot="helper">Novo BežiApp geslo</HelperText>
-    <Icon class="material-icons" slot="leadingIcon">key</Icon>
-</Textfield>
+            <p/>
 
-<p/>
+            <Textfield type="password" bind:value={beziPassword} label="Geslo BežiApp računa" style="width: 100%;" helperLine$style="width: 100%;">
+                <HelperText slot="helper">Novo BežiApp geslo</HelperText>
+                <Icon class="material-icons" slot="leadingIcon">key</Icon>
+            </Textfield>
 
-<Button variant="raised" on:click={async () => {await changePassword("beziapp")}}>
-    <Icon class="material-icons">key</Icon>
-    <Label>Spremeni geslo</Label>
-</Button>
+            <p/>
+
+            <Button variant="raised" on:click={async () => {await changePassword("beziapp")}}>
+                <Icon class="material-icons">key</Icon>
+                <Label>Spremeni geslo</Label>
+            </Button>
+        </AccordionContent>
+    </Panel>
+</Accordion>
