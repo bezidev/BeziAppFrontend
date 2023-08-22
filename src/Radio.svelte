@@ -130,7 +130,7 @@ Samo administratorji Radio modula (BežiApp razvijalci in uredniki šolskega rad
                 <Row>
                     <Cell>{suggestion.name}</Cell>
                     <Cell><a href="https://youtu.be/{suggestion.youtube_id}">https://youtu.be/{suggestion.youtube_id}</a></Cell>
-                    <Cell>{@html marked(insane(suggestion.description))}</Cell>
+                    <Cell>{@html insane(marked(suggestion.description))}</Cell>
                     <Cell>
                         <SegmentedButton segments={choices} let:segment singleSelect bind:selected={suggestion.status}>
                             <!-- Note: the `segment` property is required! -->

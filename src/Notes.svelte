@@ -336,7 +336,7 @@
 
         {#if description !== ""}
             <h3>Predogled</h3>
-            {@html marked(insane(description))}
+            {@html insane(marked(description))}
         {/if}
 
         <Autocomplete options={classes} textfield$style="width: 100%;" style="width: 100%;" bind:value={class_name} label="Izberite razred" />
@@ -368,7 +368,7 @@
         aria-describedby="simple-content"
 >
     <Content id="simple-content">
-        {@html marked(insane(view_contents))}
+        {@html insane(marked(view_contents))}
     </Content>
     <Actions>
         <Button on:click={async () => await uploadFile()} variant="raised">
@@ -414,7 +414,7 @@
                     <div class="break" />
                     Opis:
                     <div class="break" />
-                    {@html marked(insane(note.description))}
+                    {@html insane(marked(note.description))}
                     <div class="big-break" />
                     {#if note.filename.endsWith(".md")}
                         <Button on:click={async () => await viewFile(note.id)} variant="raised">

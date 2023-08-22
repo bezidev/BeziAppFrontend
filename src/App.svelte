@@ -204,6 +204,14 @@
 							<Error error={e} />
 						{/await}
 					</Route>
+					<Route path="/notifications">
+						{#await import("./Notifications.svelte")}
+						{:then Page}
+							<Page.default />
+						{:catch e}
+							<Error error={e} />
+						{/await}
+					</Route>
 					<Route path="/oauth2/:id" let:params>
 						{#await import("./OAUTH2.svelte")}
 						{:then Page}

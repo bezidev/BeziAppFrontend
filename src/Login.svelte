@@ -9,9 +9,18 @@
     import * as constants from "./constants";
     import Notification from "./Widgets/Notification.svelte";
     import Tooltip, {Wrapper} from "@smui/tooltip";
+    import LayoutGrid, { Cell } from '@smui/layout-grid';
     import HelperText from "@smui/textfield/helper-text";
+    import {makeRequest} from "./constants";
+    import insane from "insane";
+    import {marked} from "marked";
 
     // <b style="color: rgba(0, 77, 50, 1);">Beži</b><span style="color: rgba(0, 128, 83, 1);">App</span>
+
+    let notifications = [];
+    async function getNotifications() {
+        notifications = await makeRequest("/developers/notifications");
+    }
 
     async function login() {
         let fd = new FormData();
@@ -43,32 +52,20 @@
 
     export let loginType = "account";
 
+    let width = window.innerWidth;
+    addEventListener("resize", (event) => {
+        width = window.innerWidth
+        console.log(width);
+    });
+
     let snackbarWithClose: InstanceType<typeof Snackbar>;
+
+    getNotifications();
 </script>
 
 <style>
     .center {
-        margin: 0;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 30%;
-        -ms-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
         text-align: center;
-    }
-
-    @media only screen and (max-device-width: 800px) {
-        .center {
-            margin: 0;
-            position: absolute;
-            top: 45%;
-            left: 50%;
-            width: 80%;
-            -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
     }
 </style>
 
@@ -80,7 +77,6 @@
         </Actions>
     </Snackbar>
     <div class="center">
-        <Paper>
             <h1>Prijava v {#if loginType === "gimsis"}BežiApp (GimSIS){:else}{#if loginType === "account"}BežiApp{:else}Lo.Polis{/if}{/if}</h1>
             <Textfield type="text" bind:value={email} label="Uporabniško ime" style="width: 80%;" helperLine$style="width: 80%;">
                 <HelperText slot="helper" style="left: 12%; position: relative;">GimSIS uporabniško ime</HelperText>
@@ -109,7 +105,19 @@
                 <p/>
                 <Notification/>
             {/if}
-        </Paper>
+            <p/>
+            <LayoutGrid>
+                {#each notifications as notification}
+                    {#if notification.notification_type === "gimsis_closed" || notification.notification_type === "login"}
+                        <Cell span={12 / Math.floor(95 / Math.max(width / 700, 1))}>
+                            <div style="padding: 10px; background-color: darkorange; border-radius: 10px;">
+                                <h2>{notification.name}</h2>
+                                {@html insane(marked(notification.description))}
+                            </div>
+                        </Cell>
+                    {/if}
+                {/each}
+            </LayoutGrid>
         <p/>
     </div>
     {#if loginType === "gimsis"}

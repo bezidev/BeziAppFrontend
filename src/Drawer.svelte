@@ -59,6 +59,7 @@
                 "/radio": "radio",
                 "/settings": "settings",
                 "/developers": "developers",
+                "/notifications": "notifications",
             }
             active = allPaths[path]
             return
@@ -179,6 +180,16 @@
                         <Graphic class="material-icons" aria-hidden="true">code</Graphic>
                         <Text>BežiApp za razvijalce</Text>
                     </Item>
+                    {#if localStorage.getItem("account_username") === "mitja.severkar"}
+                        <Item
+                                href="javascript:void(0)"
+                                on:click={() => navigate('/notifications')}
+                                activated={active === 'notifications'}
+                        >
+                            <Graphic class="material-icons" aria-hidden="true">notifications</Graphic>
+                            <Text>Obvestila razvijalcev</Text>
+                        </Item>
+                    {/if}
                     <Item
                             href="javascript:void(0)"
                             on:click={() => navigate('/about')}

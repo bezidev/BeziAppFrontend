@@ -60,7 +60,7 @@
 
         {#if description !== ""}
             <h3>Predogled</h3>
-            {@html marked(insane(description))}
+            {@html insane(marked(description))}
         {/if}
 
         <FormField>
@@ -108,7 +108,7 @@
                 <div style="margin: 0 10px 10px">
                     <h3>{contest.name}</h3>
                     <div class="break" />
-                    {@html marked(insane(contest.description))}
+                    {@html insane(marked(contest.description))}
                 </div>
             </div>
         </Cell>
@@ -123,7 +123,7 @@
                 <div style="margin: 0 10px 10px">
                     <h3>{contest.name}</h3>
                     <div class="break" />
-                    {@html marked(insane(contest.description))}
+                    {@html insane(marked(contest.description))}
                 </div>
             </div>
         </Cell>

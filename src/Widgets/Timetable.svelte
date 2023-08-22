@@ -24,8 +24,10 @@
     import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
     import {onMount} from "svelte";
     import insane from "insane";
+    import LayoutGrid, { Cell } from '@smui/layout-grid';
     import CircularProgress from '@smui/circular-progress';
     import Error from "./Error.svelte";
+    import {marked} from "marked";
 
     export let date: Date = new Date();
     let currentDate = new Date(date);
@@ -38,6 +40,11 @@
     const mobile: boolean = isMobile();
 
     let ok: number | boolean = -1;
+
+    let developerNotifications = [];
+    async function getDeveloperNotifications() {
+        developerNotifications = await makeRequest("/developers/notifications");
+    }
 
     function remakeCalendar() {
         start = startOfWeek(currentDate, {weekStartsOn: 1})
@@ -102,10 +109,15 @@
         notifications = await makeRequest(`/notifications?only_new=true`)
     }
 
-    onMount(async () => {
-        ok = await getTimetable();
-        await getNotifications();
-    })
+    let width = window.innerWidth;
+    addEventListener("resize", (event) => {
+        width = window.innerWidth
+        console.log(width);
+    });
+
+    getNotifications();
+    getDeveloperNotifications();
+    getTimetable().then((o) => ok = o);
 
     const hours: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     let dates: string[] = ["", "", "", "", "", ""]
@@ -260,3 +272,18 @@
         {/each}
     </Accordion>
 </div>
+
+<p/>
+
+<LayoutGrid>
+    {#each developerNotifications as notification}
+        {#if notification.notification_type === "gimsis_closed" || notification.notification_type === "general"}
+            <Cell span={12 / Math.floor(95 / Math.max(width / 700, 1))}>
+                <div style="padding: 10px; background-color: darkorange; border-radius: 10px;">
+                    <h2>{notification.name}</h2>
+                    {@html insane(marked(notification.description))}
+                </div>
+            </Cell>
+        {/if}
+    {/each}
+</LayoutGrid>

@@ -92,7 +92,7 @@
             icon: "radio delete",
         },
         "radio.suggestion.status.change": {
-            name: "spreminja stanje predloga za šolski radio (na voljo samo administratorjem sistema)",
+            name: "spreminja stanje predloga za šolski radio (samo administratorski računi)",
             icon: "radio warning",
         },
         "tarot.read": {
@@ -114,6 +114,14 @@
         "tarot.contests.delete": {
             name: "briše tekmovanja v tarok sistemu",
             icon: "casino delete",
+        },
+        "notifications.write": {
+            name: "ustvarja nova obvestila razvijalcev (samo administratorski računi)",
+            icon: "notifications edit",
+        },
+        "notifications.delete": {
+            name: "briše obvestila razvijalcev (samo administratorski računi)",
+            icon: "notifications delete",
         },
     }
 
