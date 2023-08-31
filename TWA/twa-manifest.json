@@ -18,8 +18,8 @@
     "path": "/home/mitja/WebstormProjects/BežiApp/TWA/android.keystore",
     "alias": "android"
   },
-  "appVersionName": "2.0.2",
-  "appVersionCode": 8,
+  "appVersionName": "8",
+  "appVersionCode": 9,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://beziapp.si/manifest.json",
@@ -37,5 +37,5 @@
   "fingerprints": [],
   "additionalTrustedOrigins": [],
   "retainedBundles": [],
-  "appVersion": "2.0.2"
+  "appVersion": "8"
 }

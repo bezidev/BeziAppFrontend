@@ -31,6 +31,19 @@ je BežiApp avtentikacija prava za vas.
 
 Poleg tega BežiApp ponuja dostop do našega lepo urejenega API-ja, s katerim se lahko aplikacije res dobro integrirajo.
 
+<h2>Prijava z BežiApp računom - "branding"</h2>
+
+<!--
+<div style="height: 400px; background-color: #028155; width: 1500px;">
+    <div style="display:flex; justify-content:center; align-items:center; width:1500px; height:400px;">
+        <img src="/icons/icon_512.png" alt="Prijava z BežiApp računom" style="height: 400px; width: 400px;">
+        <div style="width: 50px" />
+        <span style="color: white; font-size: 125px; width: 1050px;">Prijava z BežiApp računom</span>
+    </div>
+</div>-->
+
+<img src="/signin.png" alt="Prijava z BežiApp računom" style="height: 80px; width: 300px;">
+
 <h2>Nova aplikacija</h2>
 
 <TextField bind:value={name} label="Ime aplikacije" style="width: 100%;" helperLine$style="width: 100%;" />

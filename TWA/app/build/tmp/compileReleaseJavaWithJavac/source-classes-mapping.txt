@@ -1,8 +1,0 @@
-com/mytja/beziapp/Application.java
- com.mytja.beziapp.Application
-com/mytja/beziapp/LauncherActivity.java
- com.mytja.beziapp.LauncherActivity
-com/mytja/beziapp/BuildConfig.java
- com.mytja.beziapp.BuildConfig
-com/mytja/beziapp/DelegationService.java
- com.mytja.beziapp.DelegationService

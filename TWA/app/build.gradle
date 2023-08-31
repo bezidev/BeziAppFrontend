@@ -55,8 +55,8 @@ android {
         applicationId "com.mytja.beziapp"
         minSdkVersion 19
         targetSdkVersion 31
-        versionCode 8
-        versionName "2.0.2"
+        versionCode 9
+        versionName "8"
 
         // The name for the application
         resValue "string", "appName", twaManifest.name
