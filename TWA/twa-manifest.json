@@ -5,6 +5,7 @@
   "launcherName": "BežiApp",
   "display": "standalone",
   "themeColor": "#004D32",
+  "themeColorDark": "#000000",
   "navigationColor": "#000000",
   "navigationColorDark": "#000000",
   "navigationDividerColor": "#000000",
@@ -13,13 +14,15 @@
   "enableNotifications": true,
   "startUrl": "/",
   "iconUrl": "https://beziapp.si/icons/icon_512.png",
+  "maskableIconUrl": "https://beziapp.si/icons/icon_512_maskable.png",
+  "monochromeIconUrl": "https://beziapp.si/icons/icon_432_monochrome.png",
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
     "path": "/home/mitja/WebstormProjects/BežiApp/TWA/android.keystore",
     "alias": "android"
   },
-  "appVersionName": "8",
-  "appVersionCode": 9,
+  "appVersionName": "10",
+  "appVersionCode": 10,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://beziapp.si/manifest.json",
@@ -37,5 +40,5 @@
   "fingerprints": [],
   "additionalTrustedOrigins": [],
   "retainedBundles": [],
-  "appVersion": "8"
+  "appVersion": "10"
 }
