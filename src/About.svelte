@@ -67,6 +67,8 @@
             url: "https://github.com/bezidev/lopolis-api",
         },
     ];
+
+    let neprimerniKomentarji = localStorage.getItem("komentarji") === "true";
 </script>
 
 <h1>Razvijalci</h1>
@@ -100,3 +102,9 @@ Koda je prosto dostopna, saj je ta sistem odprtokoden. Večina glavnih repozitor
         </Item>
     {/each}
 </List>
+
+{#if neprimerniKomentarji}
+    <h1>Zanimiva dejstva</h1>
+    <li>BežiApp je spisan v Svelte JavaScript frameworku</li>
+    <li>Na strani z nastavitvami so namenoma nastavljene Fluent (Microsoftovi) ikone namesto Material (Googlove) ikone za odkritje gesla, saj se s tem posmehujemo Microsoftu in dizajnu GimSIS-a.</li>
+{/if}
