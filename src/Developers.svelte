@@ -1,10 +1,11 @@
 <script lang="ts">
-    import {makeRequest} from "./constants";
+    import {handleRejection, makeRequest} from "./constants";
     import TextField from "@smui/textfield";
     import CharacterCounter from "@smui/textfield/character-counter";
     import Icon from "@smui/textfield/icon";
     import Button, {Label} from "@smui/button";
     import {onMount} from "svelte";
+    import {navigate} from "svelte-navigator";
 
     let apps = [];
 
@@ -17,7 +18,18 @@
     }
 
     onMount(async () => {
-        await myApps();
+        try {
+            await myApps();
+        } catch (e) {
+            let j = {
+                message: "Error while fetching my apps",
+                fileName: `Developers.svelte/onMount()`,
+                lineNumber: 0,
+                columnNumber: 0,
+                stack: e.toString(),
+            };
+            await handleRejection(j);
+        }
     })
 </script>
 
@@ -93,6 +105,13 @@ Poleg tega BežiApp ponuja dostop do našega lepo urejenega API-ja, s katerim se
     }} variant="raised">
         <Icon class="material-icons">save</Icon>
         <Label>Shrani spremembe</Label>
+    </Button>
+    <Button on:click={async () => {
+        await makeRequest(`/oauth2/apps/${app.id}`, "DELETE");
+        await myApps();
+    }} variant="raised">
+        <Icon class="material-icons">delete</Icon>
+        <Label>Izbriši aplikacijo</Label>
     </Button>
 
     <p/>

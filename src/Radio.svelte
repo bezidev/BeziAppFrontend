@@ -2,7 +2,7 @@
     import Tab, { Icon, Label } from '@smui/tab';
     import TabBar from '@smui/tab-bar';
     import Button from "@smui/button";
-    import {makeRequest, timeConverter} from "./constants";
+    import {handleRejection, makeRequest, timeConverter} from "./constants";
     import {onMount} from "svelte";
     import SegmentedButton, { Segment } from '@smui/segmented-button';
     import DataTable, {Body, Cell, Head, Row} from "@smui/data-table";
@@ -80,7 +80,18 @@
     }
 
     onMount(async () => {
-        await getSuggestions();
+        try {
+            await getSuggestions();
+        } catch (e) {
+            let j = {
+                message: "Error while fetching suggestions",
+                fileName: `Radio.svelte/onMount()`,
+                lineNumber: 0,
+                columnNumber: 0,
+                stack: e.toString(),
+            };
+            await handleRejection(j);
+        }
     })
 </script>
 
