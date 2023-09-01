@@ -46,15 +46,16 @@
     let denied_description = "";
 
     async function getSuggestions() {
-        suggestions = await makeRequest(`/radio/suggestions`)
+        let s = await makeRequest(`/radio/suggestions`)
         // sortiramo od najstarejše do najnovejše, da bomo šli po predvidljivem vrstnem redu
-        suggestions.sort((a, b) => {
+        s.sort((a, b) => {
             const [aVal, bVal] = [a["submitted_on"], b["submitted_on"]]['slice']();
             if (typeof aVal === 'string' && typeof bVal === 'string') {
                 return aVal.localeCompare(bVal);
             }
             return Number(aVal) - Number(bVal);
         });
+        suggestions = s;
     }
 
     async function deleteSuggestion(id: string) {

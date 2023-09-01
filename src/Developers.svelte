@@ -5,7 +5,6 @@
     import Icon from "@smui/textfield/icon";
     import Button, {Label} from "@smui/button";
     import {onMount} from "svelte";
-    import {navigate} from "svelte-navigator";
 
     let apps = [];
 
@@ -14,7 +13,7 @@
     let redirect_url = "";
 
     async function myApps() {
-        apps = await makeRequest(`/oauth2/apps`);
+        apps = await makeRequest(`/oauth2/apps`) ?? [];
     }
 
     onMount(async () => {
