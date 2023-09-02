@@ -100,6 +100,7 @@
                 <p/>
                 Ob kliku na gumb Prijava, se vam bo avtomatično ustvaril BežiApp račun, ki olajša prijavo v BežiApp sistem in omogoči dodatne funkcije.
                 S klikom na gumb se prav tako strinjate s <a href="/tos.html">pogoji uporabe storitve BežiApp</a>.
+                BežiApp uporablja minimalno in neinvazivno analitiko ter statistiko z uporabo <a href="https://stats.severkar.eu">Plausible analitike</a>.
             {/if}
             {#if loginType === "gimsis"}
                 <p/>
