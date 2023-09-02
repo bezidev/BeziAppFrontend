@@ -7,20 +7,33 @@
 
     export let n;
 
-    // function getPreferredColorScheme() {
-    //     if (window.matchMedia) {
-    //         if(window.matchMedia('(prefers-color-scheme: dark)').matches){
-    //             return 'dark';
-    //         } else {
-    //             return 'light';
-    //         }
-    //     }
-    //     return 'light';
-    // }
-    //
-    // let preferred = getPreferredColorScheme();
+    let selected = localStorage.getItem("colorGeneration") ?? "Dolgega imena predmeta";
+    let paleta = JSON.parse(localStorage.getItem("palette") ?? "[]");
 
-    const preferred = "dark";
+    let barva = "";
+
+    $: {
+        if (selected !== "Lastne barvne plošče") {
+            barva = uniqolor(selected === "Kratkega imena predmeta" ? n.kratko_ime : n.ime, {
+                saturation: [50, 70],
+                lightness: [20, 30],
+            }).color;
+        } else {
+            console.log("uporabljam lastno barvno ploščo");
+
+            for (let i = 0; i < paleta.length; i++) {
+                let predmet = paleta[i];
+                console.log(predmet.id.toLowerCase(), n.ime.toLowerCase())
+                if (n.ime.toLowerCase().includes(predmet.id.toLowerCase())) {
+                    barva = predmet.color;
+                    break;
+                }
+            }
+            if (barva === "") {
+                barva = uniqolor(n.ime, {saturation: [50, 70], lightness: [20, 30],}).color;
+            }
+        }
+    }
 
     const mobile: boolean = isMobile();
     let open = false;
@@ -56,9 +69,9 @@
     .pos { position: relative; }
 </style>
 
-<div style="padding: 3px; min-width: 93%" class="inline" on:click={() => open = true}>
+<div style="padding: 3px; min-width: 93%" class="inline" on:click={() => open = true} on:keydown={() => {}}>
     <!--<Wrapper>-->
-    <span tabindex="0" style="background-color: {uniqolor(n.kratko_ime, {saturation: [50, 60, 70], lightness: [20, 30, 40],}).color}; padding: 5px; display: flex; width: 100%; display: inline-block; height: 40px; text-align: left;" class="pos">
+    <span style="background-color: {barva}; padding: 5px; display: flex; width: 100%; display: inline-block; height: 40px; text-align: left;" class="pos">
         <span style="font-size: 12px; font-weight: 700;">{n.kratko_ime}</span><br>
         <span style="font-size: 10px;" class="sameline">
             {#each n.profesor.split(" ") as t, i}

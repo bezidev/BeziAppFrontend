@@ -7,14 +7,12 @@
     import Button, {Label} from "@smui/button";
     import {makeRequest} from "./constants";
     import * as constants from "./constants";
-    import {navigate} from "svelte-navigator";
+    import SegmentedButton, { Segment } from '@smui/segmented-button';
     import Snackbar, {Actions} from "@smui/snackbar";
     import IconButton from "@smui/icon-button";
     import Dialog from "@smui/dialog";
     import {Content, Title, Actions as DialogActions} from "@smui/dialog";
     import Accordion, {Header, Panel, Content as AccordionContent} from "@smui-extra/accordion";
-    import Wrapper from '@smui/touch-target';
-
 
     let neprimerniKomentarji = localStorage.getItem("komentarji") === "true";
     let errorReporting = localStorage.getItem("error_reporting") === "true";
@@ -37,6 +35,33 @@
     let newBeziappPasswordVisibility = false;
     let gimsisPasswordVisibility = false;
     let lopolisPasswordVisibility = false;
+
+    let choices = ["Kratkega imena predmeta", "Dolgega imena predmeta", "Lastne barvne plošče"];
+    let selected = localStorage.getItem("colorGeneration") ?? "Dolgega imena predmeta";
+
+    const DEFAULT_PALETTE = [
+        {id: "slovenščina", color: "#2b1e76"},
+        {id: "matematika", color: "#2e1f27"},
+        {id: "angleščina", color: "#1c5e42"},
+        {id: "nemščina", color: "#00a86b"},
+        {id: "francoščina", color: "#00a86b"},
+        {id: "španščina", color: "#00a86b"},
+        {id: "kemija", color: "#432818"},
+        {id: "fizika", color: "#003d5b"},
+        {id: "biologija", color: "#ed2939"},
+        {id: "informatika", color: "#62b4a5"},
+        {id: "zgodovina", color: "#957d95"},
+        {id: "geografija", color: "#5294e2"},
+        {id: "likovna umetnost", color: "#ff9966"},
+        {id: "glasba", color: "#5d5d5d"},
+        {id: "športna vzgoja", color: "#ae5a41"},
+        {id: "razredna ura", color: "#ee6c4d"},
+        {id: "sociologija", color: "#1e5a76"},
+        {id: "psihologija", color: "#671d47"},
+        {id: "filozofija", color: "#001d4f"}
+    ];
+
+    let predmeti = JSON.parse(localStorage.getItem("palette") ?? JSON.stringify(DEFAULT_PALETTE));
 
     async function changePassword(type: string) {
         let fd = new FormData();
@@ -130,6 +155,70 @@
 
     <span slot="label">Pošiljanje napak. Ob zaznani napaki v aplikaciji pošljite to napako razvijalcem. Privzeto ne pošilja napak, saj lahko vsebujejo določene zaupne vrednosti.</span>
 </FormField>
+
+<h2>Generacija barv na urniku</h2>
+BežiApp bo generiral barve na urniku na osnovi
+
+<br>
+
+<SegmentedButton segments={choices} let:segment singleSelect bind:selected>
+    <!-- Note: the `segment` property is required! -->
+    <Segment {segment} on:click={() => localStorage.setItem("colorGeneration", segment)}>
+        <Label>{segment}</Label>
+    </Segment>
+</SegmentedButton>
+
+{#if selected === "Lastne barvne plošče"}
+    <p/>
+
+    <Button on:click={async () => {
+        predmeti = await makeRequest("/palette") ?? [];
+    }} variant="raised">
+        <Icon class="material-icons">download</Icon>
+        <Label>Potegni trenutno barvno paleto iz strežnika</Label>
+    </Button>
+
+    <Button on:click={async () => {
+        predmeti = [...DEFAULT_PALETTE];
+    }} variant="raised">
+        <Icon class="material-icons">reset_tv</Icon>
+        <Label>Resetiraj paleto</Label>
+    </Button>
+
+    <p/>
+
+    {#each predmeti as predmet, i}
+        <div class="sameline">
+            <Textfield class="inline" type="text" bind:value={predmet.id} />
+            <input class="inline" type="color" bind:value={predmet.color} />
+            <IconButton style="margin: 0 0 0 0.5em;" class="material-icons" on:click={() => {
+                predmeti.splice(i, 1);
+                predmeti = predmeti;
+            }}>delete</IconButton>
+        </div>
+    {/each}
+
+    <p/>
+
+    <Button on:click={async () => {
+        predmeti.push({id: "", color: ""});
+        predmeti = predmeti;
+    }} variant="raised">
+        <Icon class="material-icons">add</Icon>
+        <Label>Dodaj predmet</Label>
+    </Button>
+
+    <Button on:click={async () => {
+        let fd = new FormData();
+        fd.append("palette", JSON.stringify(predmeti));
+        await makeRequest("/palette", "PATCH", fd);
+        predmeti = await makeRequest("/palette") ?? [];
+        localStorage.setItem("palette", JSON.stringify(predmeti));
+    }} variant="raised">
+        <Icon class="material-icons">sync</Icon>
+        <Label>Shrani barvno paleto na strežnik</Label>
+    </Button>
+{/if}
 
 <h1>Nastavitve BežiApp računa</h1>
 

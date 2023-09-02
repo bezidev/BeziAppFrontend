@@ -80,7 +80,9 @@ export async function makeRequest(url: string, method: string = "GET", formData:
         fd.append("username", localStorage.getItem("account_username"));
         fd.append("password", localStorage.getItem("account_password"));
         let loginResponse = await fetch(`${baseurl}/account/login`, {body: fd, method: "POST"})
-        localStorage.setItem("key", (await loginResponse.json())["session"]);
+        let j = await loginResponse.json();
+        localStorage.setItem("key", j["session"]);
+        localStorage.setItem("palette", JSON.stringify(j["palette"]));
         return await makeRequest(url, method, formData, true, blob, json, status_code);
     }
     if (blob) return await response.blob();

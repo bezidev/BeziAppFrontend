@@ -35,6 +35,7 @@
             let response = await r.json();
             if (r.status === 200) {
                 localStorage.setItem("key", response["session"]);
+                localStorage.setItem("palette", JSON.stringify(response["palette"]));
                 navigate("/")
             } else {
                 snackbarWithClose.open();

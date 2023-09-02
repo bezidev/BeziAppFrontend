@@ -78,6 +78,18 @@ a:visited {
     font-size: 15px !important;
 }
 
+.hide-file-ui :global(input[type='file']::file-selector-button) {
+    display: none;
+}
+
+.hide-file-ui :global(:not(.mdc-text-field--label-floating) input[type='file']) {
+    color: transparent;
+}
+
+.displaynone {
+    display: none;
+}
+
 .demo-cell {
     display: flex;
     flex-wrap: wrap;
