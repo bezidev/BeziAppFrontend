@@ -187,6 +187,7 @@ BežiApp bo generiral barve na urniku na osnovi
 
     <Button on:click={async () => {
         predmeti = await makeRequest("/palette") ?? [];
+        localStorage.setItem("palette", JSON.stringify(predmeti));
     }} variant="raised">
         <Icon class="material-icons">download</Icon>
         <Label>Potegni trenutno barvno paleto iz strežnika</Label>
