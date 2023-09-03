@@ -62,6 +62,7 @@
     ];
 
     let predmeti = JSON.parse(localStorage.getItem("palette") ?? JSON.stringify(DEFAULT_PALETTE));
+    let nextWeek = localStorage.getItem("next_week") !== "false";
 
     async function changePassword(type: string) {
         let fd = new FormData();
@@ -154,6 +155,19 @@
     }}/>
 
     <span slot="label">Pošiljanje napak. Ob zaznani napaki v aplikaciji pošljite to napako razvijalcem. Privzeto ne pošilja napak, saj lahko vsebujejo določene zaupne vrednosti.</span>
+</FormField>
+
+<p/>
+
+<FormField>
+    <Switch bind:checked={nextWeek} on:click={() => {
+        setTimeout(() => {
+            localStorage.setItem("next_week", nextWeek.toString());
+            nextWeek = localStorage.getItem("next_week") !== "false";
+        }, 50);
+    }}/>
+
+    <span slot="label">Vklopite preklop urnika na naslednji teden že med vikendom.</span>
 </FormField>
 
 <h2>Generacija barv na urniku</h2>
