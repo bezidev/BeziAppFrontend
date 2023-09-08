@@ -152,6 +152,13 @@
                     </Item>
                     <Item
                             href="javascript:void(0)"
+                            on:click={() => window.open("https://ucenje-nem.beziapp.si")}
+                    >
+                        <Graphic class="material-icons" aria-hidden="true">language</Graphic>
+                        <Text>Učenje nemščine</Text>
+                    </Item>
+                    <Item
+                            href="javascript:void(0)"
                             on:click={() => window.open("https://umetnost.beziapp.si")}
                     >
                         <Graphic class="material-icons" aria-hidden="true">brush</Graphic>
