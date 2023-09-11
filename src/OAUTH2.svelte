@@ -1,10 +1,8 @@
 <script lang="ts">
-    import Paper from "@smui/paper";
     import Button, {Label} from "@smui/button";
-    import { navigate } from "svelte-navigator";
     import {makeRequest, timeConverter} from "./constants";
-    import {onMount} from "svelte";
     import List, {Graphic, Item, Text} from "@smui/list";
+    import CircularProgress from "@smui/circular-progress";
 
     const OAUTH2_SCOPES = {
         "gimsis.timetable": {
@@ -130,11 +128,8 @@
     const urlParams = new URLSearchParams(window.location.search);
     const scopeParams = urlParams.get('scope');
     const scope = scopeParams.split(",");
-
-    let app = null;
-
     async function getApp() {
-        app = await makeRequest(`/oauth2/apps/${id}`);
+        return await makeRequest(`/oauth2/apps/${id}`);
     }
 
     async function login() {
@@ -144,87 +139,85 @@
         let r = await makeRequest(`/oauth2/auth`, "POST", fd);
         window.location.href = r.data;
     }
-
-    onMount(async () => {
-        await getApp();
-    })
 </script>
 
 <style>
-    .center {
-        margin: 0;
-        position: absolute;
-        top: 8%;
-        left: 50%;
-        width: 40%;
-        transform: translate(-50%, 0);
-    }
-
     h1, h2 {
         text-align: center;
     }
-
-    @media only screen and (max-device-width: 800px) {
-        .center {
-            margin: 0;
-            position: absolute;
-            top: 45%;
-            left: 50%;
-            width: 80%;
-            transform: translate(-50%, -50%);
-        }
-    }
 </style>
 
-<div class="center">
+{#await getApp()}
+    <div style="display: flex; justify-content: center">
+        <CircularProgress style="height: 100px; width: 100px;" indeterminate />
+    </div>
+    <div style="display: flex; justify-content: center">
+        BežiApp nalaga OAUTH2 aplikacijo. Prosimo bodite potrpežljivi.
+    </div>
+{:then app}
+    <h1>BežiApp</h1>
     {#if app !== null}
-        <Paper>
-            <h1>BežiApp</h1>
-            <h2>Prijava v <span style="color: grey">{app.name}</span> {#if app.verified}✅{/if}</h2>
+        <h2>Prijava v <span style="color: grey">{app.name}</span> {#if app.verified}✅{/if}</h2>
 
-            BežiApp vas bo poskušal prijaviti v aplikacijo tretjega ponudnika. Ob tem se vaša gesla <b>NE BODO</b> posredovala izven BežiApp sistema.
-            <p/>
-            Pomembno je vedeti, da je uradna instanca BežiApp sistema na voljo samo na naslovu <a href="https://beziapp.si">beziapp.si</a>.
-            <b>Če ne prepoznate te aplikacije ali se domena ne ujema,
-                NE NADALJUJTE IN <a href="mailto:mitja.severkar@gimb.org">PRIJAVITE INCIDENT RAZVIJALCEM BEŽIAPP SISTEMA</a>.</b>
-            <!--Razumno preverite, če aplikacija res potrebuje toliko dovoljenj za normalno delovanje.
-            Navadno je normalno, da aplikacija zahteva elektronsko pošto, uporabniško ime in ime ter priimek.
-            Pomembno je vedeti, da vas uradna BežiApp aplikacija na tej strani ne bo nikoli spraševala za vaše uporabniško ime in geslo,
-            če ste se kdaj prej že prijavili vanjo.-->
+        BežiApp vas bo poskušal prijaviti v aplikacijo tretjega ponudnika. Ob tem se vaša gesla <b>NE BODO</b> posredovala izven BežiApp sistema.
+        <p/>
+        Pomembno je vedeti, da je uradna instanca BežiApp sistema na voljo samo na naslovu <a href="https://beziapp.si">beziapp.si</a>.
+        <b>Če ne prepoznate te aplikacije ali se domena ne ujema,
+            NE NADALJUJTE IN <a href="mailto:mitja.severkar@gimb.org">PRIJAVITE INCIDENT RAZVIJALCEM BEŽIAPP SISTEMA</a>.</b>
+        <!--Razumno preverite, če aplikacija res potrebuje toliko dovoljenj za normalno delovanje.
+        Navadno je normalno, da aplikacija zahteva elektronsko pošto, uporabniško ime in ime ter priimek.
+        Pomembno je vedeti, da vas uradna BežiApp aplikacija na tej strani ne bo nikoli spraševala za vaše uporabniško ime in geslo,
+        če ste se kdaj prej že prijavili vanjo.-->
 
-            <p/>
+        <p/>
 
-            <hr>
+        <hr>
 
-            <p/>
+        <p/>
 
-            <b>Opis aplikacije: </b> {app.description}
-            <br>
-            <b>Aplikacija je bila ustvarjena: </b> {timeConverter(app.created_on)}
-            <br>
-            <b>Aplikacija je bila zadnjič spremenjena: </b> {timeConverter(app.modified_on)}
+        <b>Opis aplikacije: </b> {app.description}
+        <br>
+        <b>Aplikacija je bila ustvarjena: </b> {timeConverter(app.created_on)}
+        <br>
+        <b>Aplikacija je bila zadnjič spremenjena: </b> {timeConverter(app.modified_on)}
 
-            <p/>
-            <hr>
-            <p/>
+        <p/>
+        <hr>
+        <p/>
 
-            <h3>Zahtevana dovoljenja:</h3>
-            <p/>
-            Aplikacija lahko v primeru, da ji odobrite dostop do računa
-            <List class="demo-list">
-                {#each scope as s}
-                    <Item>
-                        <Graphic class="material-icons">{OAUTH2_SCOPES[s].icon}</Graphic>
-                        <Text>{OAUTH2_SCOPES[s].name}</Text>
-                    </Item>
-                {/each}
-            </List>
+        <h3>Zahtevana dovoljenja:</h3>
+        <p/>
+        Aplikacija lahko v primeru, da ji odobrite dostop do računa
+        <List class="demo-list">
+            {#each scope as s}
+                <Item>
+                    <Graphic class="material-icons">{OAUTH2_SCOPES[s].icon}</Graphic>
+                    <Text>{OAUTH2_SCOPES[s].name}</Text>
+                </Item>
+            {/each}
+        </List>
 
-            <p />
-            <Button on:click={async () => await login()} variant="raised">
-                <Label>PRIJAVA</Label>
-            </Button>
-        </Paper>
+        <p />
+        <Button on:click={async () => await login()} variant="raised">
+            <Label>PRIJAVA</Label>
+        </Button>
+    {:else}
+        Težave s pridobitvijo OAUTH2 specifikacije aplikacije.
+        OAUTH2 specifikacija je ničelna.
+        Prosimo <a href="mailto:mitja.severkar@gimb.org">kontaktirajte</a> razvijalce BežiApp sistema.
     {/if}
     <p/>
-</div>
+{:catch e}
+    <h1>Prijava z BežiApp računom</h1>
+    <div style="text-align: center;">
+        OAUTH2 specifikacija se ni uspela naložiti.
+        <br>
+        To se lahko zgodi v primeru težave v BežiApp sistemu ali ko razvijalec spremeni oz. izbriše aplikacijo v BežiApp portalu za razvijalce.
+        <br>
+        Vsekakor je priporočljivo da se v takem primeru <a href="mailto:mitja.severkar@gimb.org">kontaktira razvijalce BežiApp sistema</a>.
+        <p/>
+        Težava je naslednja:
+        <br>
+        <code>{e}</code>
+    </div>
+{/await}
