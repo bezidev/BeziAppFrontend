@@ -16,7 +16,7 @@
         endOfWeek
     } from "date-fns";
     import IconButton from "@smui/icon-button";
-    import {makeRequest, timeConverter} from "../constants";
+    import {handleRejection, makeRequest, timeConverter} from "../constants";
     import isMobile from "is-mobile";
     import MeetingCard from "../MeetingCard.svelte";
     import Button, {Icon, Label} from "@smui/button";
@@ -82,6 +82,14 @@
 
         let r = await makeRequest(`/timetable?date=${fmtStart}`, "GET", null, false, false, false, true)
         if (r.status_code !== 200) {
+            let j = {
+                message: `Timetable request failed ${r.status_code} ${r}`,
+                fileName: `Timetable.svelte/getTimetable()`,
+                lineNumber: 83,
+                columnNumber: 0,
+                stack: r,
+            };
+            await handleRejection(j);
             return false;
         }
         mon = r["classes"][0];
@@ -124,11 +132,11 @@
 
     const hours: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     let dates: string[] = ["", "", "", "", "", ""]
-    let mon: Meeting[] = [];
-    let tue: Meeting[] = [];
-    let wed: Meeting[] = [];
-    let thu: Meeting[] = [];
-    let fri: Meeting[] = [];
+    let mon = [];
+    let tue = [];
+    let wed = [];
+    let thu = [];
+    let fri = [];
 
     let neprimerniKomentarji = localStorage.getItem("komentarji") === "true";
 </script>
