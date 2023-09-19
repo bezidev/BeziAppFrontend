@@ -127,11 +127,11 @@
         },
         "poker.game.write": {
             name: "ustvarja igre v poker sistemu",
-            icon: "poker games edit",
+            icon: "casino games edit",
         },
         "poker.game.delete": {
             name: "briše igre v poker sistemu",
-            icon: "poker games delete",
+            icon: "casino games delete",
         },
         "poker.contests.write": {
             name: "ustvarja nova tekmovanja in spreminja obstoječa v poker sistemu",
