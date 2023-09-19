@@ -95,23 +95,23 @@
         },
         "tarot.read": {
             name: "bere vse v tarok sistemu",
-            icon: "casino",
+            icon: "recent_actors",
         },
         "tarot.game.write": {
             name: "ustvarja igre v tarok sistemu",
-            icon: "games edit",
+            icon: "recent_actors games edit",
         },
         "tarot.game.delete": {
             name: "briše igre v tarok sistemu",
-            icon: "games delete",
+            icon: "recent_actors games delete",
         },
         "tarot.contests.write": {
             name: "ustvarja nova tekmovanja in spreminja obstoječa v tarok sistemu",
-            icon: "casino edit",
+            icon: "recent_actors edit",
         },
         "tarot.contests.delete": {
             name: "briše tekmovanja v tarok sistemu",
-            icon: "casino delete",
+            icon: "recent_actors delete",
         },
         "notifications.write": {
             name: "ustvarja nova obvestila razvijalcev (samo administratorski računi)",
@@ -120,6 +120,26 @@
         "notifications.delete": {
             name: "briše obvestila razvijalcev (samo administratorski računi)",
             icon: "notifications delete",
+        },
+        "poker.read": {
+            name: "bere vse v poker sistemu",
+            icon: "casino",
+        },
+        "poker.game.write": {
+            name: "ustvarja igre v poker sistemu",
+            icon: "poker games edit",
+        },
+        "poker.game.delete": {
+            name: "briše igre v poker sistemu",
+            icon: "poker games delete",
+        },
+        "poker.contests.write": {
+            name: "ustvarja nova tekmovanja in spreminja obstoječa v poker sistemu",
+            icon: "casino edit",
+        },
+        "poker.contests.delete": {
+            name: "briše tekmovanja v poker sistemu",
+            icon: "casino delete",
         },
     }
 
@@ -191,7 +211,7 @@
         <List class="demo-list">
             {#each scope as s}
                 <Item>
-                    <Graphic class="material-icons">{OAUTH2_SCOPES[s].icon}</Graphic>
+                    <Graphic class="material-icons" style="width: 80px;">{OAUTH2_SCOPES[s].icon}</Graphic>
                     <Text>{OAUTH2_SCOPES[s].name}</Text>
                 </Item>
             {/each}
