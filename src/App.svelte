@@ -156,6 +156,30 @@
 							<Error error={e} />
 						{/await}
 					</Route>
+					<Route path="/poker/contests">
+						{#await import("./Poker/Contests.svelte")}
+						{:then Page}
+							<Page.default />
+						{:catch e}
+							<Error error={e} />
+						{/await}
+					</Route>
+					<Route path="/poker/contest/:id" let:params>
+						{#await import("./Poker/Contest.svelte")}
+						{:then Page}
+							<Page.default id={params.id} />
+						{:catch e}
+							<Error error={e} />
+						{/await}
+					</Route>
+					<Route path="/poker/contest/:id/games" let:params>
+						{#await import("./Poker/NewGame.svelte")}
+						{:then Page}
+							<Page.default id={params.id} />
+						{:catch e}
+							<Error error={e} />
+						{/await}
+					</Route>
 					<Route path="/tarot/rules">
 						{#await import("./Tarot/Rules.svelte")}
 						{:then Page}

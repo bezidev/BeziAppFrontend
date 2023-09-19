@@ -60,6 +60,7 @@
                 "/settings": "settings",
                 "/developers": "developers",
                 "/notifications": "notifications",
+                "/poker/contests": "poker_contests",
             }
             active = allPaths[path]
             return
@@ -147,8 +148,16 @@
                             on:click={() => navigate('/tarot/contests')}
                             activated={active === 'contests'}
                     >
-                        <Graphic class="material-icons" aria-hidden="true">casino</Graphic>
+                        <Graphic class="material-icons" aria-hidden="true">recent_actors</Graphic>
                         <Text>Tarok</Text>
+                    </Item>
+                    <Item
+                            href="javascript:void(0)"
+                            on:click={() => navigate('/poker/contests')}
+                            activated={active === 'poker_contests'}
+                    >
+                        <Graphic class="material-icons" aria-hidden="true">casino</Graphic>
+                        <Text>Poker</Text>
                     </Item>
                     <Item
                             href="javascript:void(0)"
