@@ -16,6 +16,7 @@
     import {marked} from "marked";
 
     // <b style="color: rgba(0, 77, 50, 1);">Beži</b><span style="color: rgba(0, 128, 83, 1);">App</span>
+    let passwordVisibility = false;
 
     let notifications = [];
     async function getNotifications() {
@@ -88,7 +89,14 @@
                 if (key.key === "Enter") {
                     login();
                 }
-            }} type="password" bind:value={password} label="Geslo" style="width: 80%;" helperLine$style="width: 80%;">
+            }} type={passwordVisibility ? "text" : "password"} bind:value={password} label="Geslo" style="width: 80%;" helperLine$style="width: 80%;">
+                <IconButton slot="trailingIcon" on:click={() => passwordVisibility = !passwordVisibility}>
+                    {#if passwordVisibility}
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2.22 2.22a.75.75 0 0 0-.073.976l.073.084 4.034 4.035a9.986 9.986 0 0 0-3.955 5.75.75.75 0 0 0 1.455.364 8.49 8.49 0 0 1 3.58-5.034l1.81 1.81A4 4 0 0 0 14.8 15.86l5.919 5.92a.75.75 0 0 0 1.133-.977l-.073-.084-6.113-6.114.001-.002-6.95-6.946.002-.002-1.133-1.13L3.28 2.22a.75.75 0 0 0-1.06 0ZM12 5.5c-1 0-1.97.148-2.889.425l1.237 1.236a8.503 8.503 0 0 1 9.899 6.272.75.75 0 0 0 1.455-.363A10.003 10.003 0 0 0 12 5.5Zm.195 3.51 3.801 3.8a4.003 4.003 0 0 0-3.801-3.8Z" fill="#ffffff"/></svg>
+                    {:else}
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 9.005a4 4 0 1 1 0 8 4 4 0 0 1 0-8ZM12 5.5c4.613 0 8.596 3.15 9.701 7.564a.75.75 0 1 1-1.455.365 8.503 8.503 0 0 0-16.493.004.75.75 0 0 1-1.455-.363A10.003 10.003 0 0 1 12 5.5Z" fill="#ffffff"/></svg>
+                    {/if}
+                </IconButton>
                 <HelperText slot="helper" style="left: 12%; position: relative;">GimSIS geslo, razen če ste si spremenili geslo BežiApp računa</HelperText>
                 <Icon class="material-icons" slot="leadingIcon">key</Icon>
             </Textfield>
@@ -100,7 +108,7 @@
             {#if loginType === "account"}
                 <p/>
                 Ob kliku na gumb Prijava, se vam bo avtomatično ustvaril BežiApp račun, ki olajša prijavo v BežiApp sistem in omogoči dodatne funkcije.
-                S klikom na gumb se prav tako strinjate s <a href="/tos.html">pogoji uporabe storitve BežiApp</a>.
+                S klikom na gumb se prav tako strinjate s <a href="/tos.html">pogoji uporabe storitve BežiApp</a>.<br>
                 BežiApp uporablja minimalno in neinvazivno analitiko ter statistiko z uporabo <a href="https://stats.severkar.eu">Plausible analitike</a>.
             {/if}
             {#if loginType === "gimsis"}
