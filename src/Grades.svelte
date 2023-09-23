@@ -5,20 +5,24 @@
     import FormField from "@smui/form-field";
     import Switch from "@smui/switch";
     import {navigate} from "svelte-navigator";
+    import Select, {Option} from "@smui/select";
 
     let grades = [];
     let total_average = 0.0;
     let stalne = false;
+    let selectedYear = "";
+    let years = [];
 
     let izpitniRoki = localStorage.getItem("izpitniRoki") === "true";
 
     async function getGrades() {
-        let r = await makeRequest("/grades");
+        let r = await makeRequest(`/grades?year=${selectedYear}`);
         let ttotal_average = r["grades"]["average"];
         if (ttotal_average === undefined) {
             navigate(`/napaka?error=Neuspešna prijava v GimSIS. Če ste si spremenili geslo za GimSIS, ga morate spremeniti tudi v BežiAppu v zavihku Nastavitve. V nasprotnem primeru kontaktirajte strežniškega administratorja.`);
         }
         grades = r["grades"]["subjects"];
+        years = r["school_years"];
         total_average = ttotal_average;
     }
 
@@ -98,3 +102,11 @@ Učni uspeh: <span style="color: rgba(255, 255, 255, 0.5); display:inline-block;
         {/each}
     </Body>
 </DataTable>
+
+<p/>
+
+<Select key={(fruit) => `${fruit ? fruit.value : ''}`} bind:value={selectedYear} label="Šolsko leto">
+    {#each years as fruit}
+        <Option value={fruit.value} on:click={async () => {setTimeout(getGrades, 50)}}>{fruit.text}</Option>
+    {/each}
+</Select>
