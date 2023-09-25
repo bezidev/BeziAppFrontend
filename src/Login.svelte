@@ -37,6 +37,9 @@
             if (r.status === 200) {
                 localStorage.setItem("key", response["session"]);
                 localStorage.setItem("palette", JSON.stringify(response["palette"]));
+                if (response["palette"] !== undefined && response["palette"] !== null && response["palette"].length !== 0) {
+                    localStorage.setItem("colorGeneration", "Lastne barvne plošče");
+                }
                 navigate("/")
             } else {
                 snackbarWithClose.open();
