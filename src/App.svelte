@@ -45,231 +45,237 @@
 </script>
 
 <Router>
-	{#if !(pathname === "/login" || pathname === "/lopolis/login")}
-		<TopAppBar variant="static" style="background-color: rgba(0, 128, 83, 1); position: sticky; top: 0; flex: 0 1 auto;">
-			<Row>
-				<Section style="display: flex; flex-direction: row; align-items: center;">
-					<IconButton style="margin: 0 0 0 0.5em;" class="material-icons" on:click={() => open=!open}>{#if open}close{:else}menu{/if}</IconButton>
-					<Title>BežiApp</Title>
-				</Section>
-				<Section align="end" toolbar>
-					<IconButton style="margin: 0;" class="material-icons" aria-hidden="true" on:click={() => {
-						localStorage.clear();
-						navigate("/login");
-					}}>
-						<div style="margin: 0 0 0 0.1em;">logout</div>
-					</IconButton>
-				</Section>
-			</Row>
-		</TopAppBar>
-	{/if}
-	<div class="drawer-container" id="router">
-		<Drawer open={open} statusFunction={(o) => open=o} />
-		<AppContent class="app-content">
-			<main class="main-content">
-				<div>
-					<Route path="/grades">
-						{#await import("./Grades.svelte")}
-						{:then Grades}
-							<Grades.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/absences">
-						{#await import("./Absences.svelte")}
-						{:then Page}
-							<Page.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/gradings">
-						{#await import("./Gradings.svelte")}
-						{:then Page}
-							<Page.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/teachers">
-						{#await import("./Teachers.svelte")}
-						{:then Page}
-							<Page.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/login">
-						{#await import("./Login.svelte")}
-						{:then Page}
-							<Page.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/lopolis/login">
-						{#await import("./Login.svelte")}
-						{:then Page}
-							<Page.default loginType="lopolis" />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/lopolis">
-						{#await import("./LoPolis.svelte")}
-						{:then Page}
-							<Page.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/about">
-						{#await import("./About.svelte")}
-						{:then Page}
-							<Page.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/tarot/contests">
-						{#await import("./Tarot/Contests.svelte")}
-						{:then Page}
-							<Page.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/tarot/contest/:id" let:params>
-						{#await import("./Tarot/Contest.svelte")}
-						{:then Page}
-							<Page.default id={params.id} />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/tarot/contest/:id/games" let:params>
-						{#await import("./Tarot/NewGame.svelte")}
-						{:then Page}
-							<Page.default id={params.id} />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/poker/contests">
-						{#await import("./Poker/Contests.svelte")}
-						{:then Page}
-							<Page.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/poker/contest/:id" let:params>
-						{#await import("./Poker/Contest.svelte")}
-						{:then Page}
-							<Page.default id={params.id} />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/poker/contest/:id/games" let:params>
-						{#await import("./Poker/NewGame.svelte")}
-						{:then Page}
-							<Page.default id={params.id} />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/tarot/rules">
-						{#await import("./Tarot/Rules.svelte")}
-						{:then Page}
-							<Page.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/notes">
-						{#await import("./Notes.svelte")}
-						{:then Page}
-							<Page.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/radio/new">
-						{#await import("./NewSuggestion.svelte")}
-						{:then Page}
-							<Page.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/radio">
-						{#await import("./Radio.svelte")}
-						{:then Page}
-							<Page.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/settings">
-						{#await import("./Settings.svelte")}
-						{:then Page}
-							<Page.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/developers">
-						{#await import("./Developers.svelte")}
-						{:then Page}
-							<Page.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/palette">
-						{#await import("./Palette.svelte")}
-						{:then Page}
-							<Page.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/notifications">
-						{#await import("./Notifications.svelte")}
-						{:then Page}
-							<Page.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/oauth2/:id" let:params>
-						{#await import("./OAUTH2.svelte")}
-						{:then Page}
-							<Page.default id={params.id} />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/napaka">
-						{#await import("./ErrorPage.svelte")}
-						{:then Page}
-							<Page.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-					<Route path="/">
-						{#await import("./Home.svelte")}
-						{:then Page}
-							<Page.default />
-						{:catch e}
-							<Error error={e} />
-						{/await}
-					</Route>
-				</div>
-			</main>
-		</AppContent>
+	<div>
+		{#if !(pathname === "/login" || pathname === "/lopolis/login")}
+			<div class="top-app-bar-container flexor">
+				<TopAppBar variant="static" style="background-color: rgba(0, 128, 83, 1);">
+					<Row>
+						<Section style="display: flex; flex-direction: row; align-items: center;">
+							<IconButton style="margin: 0 0 0 0.5em;" class="material-icons" on:click={() => open=!open}>{#if open}close{:else}menu{/if}</IconButton>
+							<Title>BežiApp</Title>
+						</Section>
+						<Section align="end" toolbar>
+							<IconButton style="margin: 0;" class="material-icons" aria-hidden="true" on:click={() => {
+								localStorage.clear();
+								navigate("/login");
+							}}>
+								<div style="margin: 0 0 0 0.1em;">logout</div>
+							</IconButton>
+						</Section>
+					</Row>
+				</TopAppBar>
+			</div>
+		{/if}
+		<div class="drawer-container" id="router">
+			<Drawer open={open} statusFunction={(o) => open=o} />
+				<div class="flexor-content">
+				<AppContent class="app-content">
+					<main class="main-content">
+						<div>
+							<Route path="/grades">
+								{#await import("./Grades.svelte")}
+								{:then Grades}
+									<Grades.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/absences">
+								{#await import("./Absences.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/gradings">
+								{#await import("./Gradings.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/teachers">
+								{#await import("./Teachers.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/login">
+								{#await import("./Login.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/lopolis/login">
+								{#await import("./Login.svelte")}
+								{:then Page}
+									<Page.default loginType="lopolis" />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/lopolis">
+								{#await import("./LoPolis.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/about">
+								{#await import("./About.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/tarot/contests">
+								{#await import("./Tarot/Contests.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/tarot/contest/:id" let:params>
+								{#await import("./Tarot/Contest.svelte")}
+								{:then Page}
+									<Page.default id={params.id} />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/tarot/contest/:id/games" let:params>
+								{#await import("./Tarot/NewGame.svelte")}
+								{:then Page}
+									<Page.default id={params.id} />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/poker/contests">
+								{#await import("./Poker/Contests.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/poker/contest/:id" let:params>
+								{#await import("./Poker/Contest.svelte")}
+								{:then Page}
+									<Page.default id={params.id} />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/poker/contest/:id/games" let:params>
+								{#await import("./Poker/NewGame.svelte")}
+								{:then Page}
+									<Page.default id={params.id} />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/tarot/rules">
+								{#await import("./Tarot/Rules.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/notes">
+								{#await import("./Notes.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/radio/new">
+								{#await import("./NewSuggestion.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/radio">
+								{#await import("./Radio.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/settings">
+								{#await import("./Settings.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/developers">
+								{#await import("./Developers.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/palette">
+								{#await import("./Palette.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/notifications">
+								{#await import("./Notifications.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/oauth2/:id" let:params>
+								{#await import("./OAUTH2.svelte")}
+								{:then Page}
+									<Page.default id={params.id} />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/napaka">
+								{#await import("./ErrorPage.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/">
+								{#await import("./Home.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+						</div>
+					</main>
+				</AppContent>
+			</div>
+		</div>
 	</div>
 </Router>

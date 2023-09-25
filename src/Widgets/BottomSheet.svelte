@@ -3,21 +3,11 @@
 -->
 
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-    }
-
     :root {
         --background: #000;
         --foreground: #fff;
         --divider: #333;
         --overlay: #888;
-    }
-
-    html,
-    body {
-        height: 100%;
     }
 
     body {
@@ -147,7 +137,7 @@
                 </div>
                 <button class="close-sheet" type="button" title="Close the sheet">&times;</button>
             </header>
-            <slot></slot>
+            <slot style="width: 100vw;"></slot>
         </div>
     </div>
 </main>
@@ -170,7 +160,7 @@
 
         const setSheetHeight = (value) => {
             sheetHeight = Math.max(0, Math.min(100, value))
-            sheetContents.style.height = `${sheetHeight}vh`
+            sheetContents.style.height = `calc(${sheetHeight}vh - 56px)`
 
             if (sheetHeight === 100) {
                 sheetContents.classList.add("fullscreen")

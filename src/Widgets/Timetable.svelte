@@ -167,53 +167,43 @@
             <th>{mobile ? "ČET" : "ČETRTEK"} {dates[3]} {#if warn[3] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. To se po navadi zgodi pri kombiniranih urah (razred je razpolovljen) in po navadi dokaj zanesljivo pomeni, da takrat nimate nadomeščanj. Vseeno se priporoča ročno preverjanje nadomeščanj.</Tooltip></Wrapper>{/if}</th>
             <th>{mobile ? "PET" : "PETEK"} {dates[4]} {#if warn[4] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. To se po navadi zgodi pri kombiniranih urah (razred je razpolovljen) in po navadi dokaj zanesljivo pomeni, da takrat nimate nadomeščanj. Vseeno se priporoča ročno preverjanje nadomeščanj.</Tooltip></Wrapper>{/if}</th>
         </tr>
-        {#each hours as m, i}
+        {#each hours as i}
         <tr>
             <th>{i}.</th>
             <td>
-                <div class="sameline">
-                    {#each Array(mon[i]) as m}
-                        {#if m}
-                            <MeetingCard n={m} />
-                        {/if}
-                    {/each}
-                </div>
+                {#each Array(mon[i]) as m}
+                    {#if m}
+                        <MeetingCard n={m} />
+                    {/if}
+                {/each}
             </td>
             <td>
-                <div class="sameline">
-                    {#each Array(tue[i]) as m}
-                        {#if m}
-                            <MeetingCard n={m} />
-                        {/if}
-                    {/each}
-                </div>
+                {#each Array(tue[i]) as m}
+                    {#if m}
+                        <MeetingCard n={m} />
+                    {/if}
+                {/each}
             </td>
             <td>
-                <div class="sameline">
-                    {#each Array(wed[i]) as m}
-                        {#if m}
-                            <MeetingCard n={m} />
-                        {/if}
-                    {/each}
-                </div>
+                {#each Array(wed[i]) as m}
+                    {#if m}
+                        <MeetingCard n={m} />
+                    {/if}
+                {/each}
             </td>
             <td>
-                <div class="sameline">
-                    {#each Array(thu[i]) as m}
-                        {#if m}
-                            <MeetingCard n={m} />
-                        {/if}
-                    {/each}
-                </div>
+                {#each Array(thu[i]) as m}
+                    {#if m}
+                        <MeetingCard n={m} />
+                    {/if}
+                {/each}
             </td>
             <td>
-                <div class="sameline">
-                    {#each Array(fri[i]) as m}
-                        {#if m}
-                            <MeetingCard n={m} />
-                        {/if}
-                    {/each}
-                </div>
+                {#each Array(fri[i]) as m}
+                    {#if m}
+                        <MeetingCard n={m} />
+                    {/if}
+                {/each}
             </td>
         </tr>
         {/each}

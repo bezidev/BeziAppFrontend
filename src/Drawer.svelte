@@ -76,7 +76,7 @@
 
 {#if showDrawer}
     <div>
-        <Drawer variant="modal" fixed={false} style="position: absolute; top: 0;" bind:open>
+        <Drawer variant="modal" fixed={false} bind:open>
             <Content>
                 <List>
                     <Item
