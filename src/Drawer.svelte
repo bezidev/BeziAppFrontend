@@ -58,6 +58,7 @@
                 "/tarot/contests": "contests",
                 "/radio": "radio",
                 "/settings": "settings",
+                "/palette": "palette",
                 "/developers": "developers",
                 "/notifications": "notifications",
                 "/poker/contests": "poker_contests",
