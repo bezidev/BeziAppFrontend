@@ -182,6 +182,14 @@
                     </Item>
                     <Item
                             href="javascript:void(0)"
+                            on:click={() => navigate('/palette')}
+                            activated={active === 'palette'}
+                    >
+                        <Graphic class="material-icons" aria-hidden="true">palette</Graphic>
+                        <Text>Barvne palete</Text>
+                    </Item>
+                    <Item
+                            href="javascript:void(0)"
                             on:click={() => navigate('/settings')}
                             activated={active === 'settings'}
                     >

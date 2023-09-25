@@ -228,6 +228,14 @@
 							<Error error={e} />
 						{/await}
 					</Route>
+					<Route path="/palette">
+						{#await import("./Palette.svelte")}
+						{:then Page}
+							<Page.default />
+						{:catch e}
+							<Error error={e} />
+						{/await}
+					</Route>
 					<Route path="/notifications">
 						{#await import("./Notifications.svelte")}
 						{:then Page}
