@@ -28,6 +28,7 @@
     import CircularProgress from '@smui/circular-progress';
     import Error from "./Error.svelte";
     import {marked} from "marked";
+    import {Link} from "svelte-navigator";
 
     export let date: Date = new Date();
     let currentDate = new Date(date);
@@ -209,6 +210,17 @@
         {/each}
     </table>
 {:else if ok === false}
+    <div style="padding: 20px; background-color: darkorange; border-radius: 10px;">
+        <h2>Težave s prijavo v GimSIS</h2>
+        Očitno ima BežiApp težave s prijavo v GimSIS.
+        Hitra dejstva, da ne prezakompliciram stvari:
+        <li>To lahko v redkih primerih pomeni, da BežiApp ne deluje.</li>
+        <li>Bolj pogosto pa je to, da ste si spremenili GimSIS geslo in o tem niste obvestili BežiApp-a (prve šolske ure si pri informatiki zamenjate gesla).</li>
+        <li>V takem primeru je za nadaljnjo uporabo GimSIS storitev BežiApp-a potrebna sprememba GimSIS gesla v <Link to="/settings">nastavitvah (čisto na dnu strani)</Link>.</li>
+        <li>Če ste si ravnokar zamenjali geslo v nastavitvah, pa vam še vedno daje to napako, preverite vneseno geslo še enkrat.</li>
+        <li>Če ste prepričani, da ste vnesli pravilno geslo, kontaktirajte razvijalca na <a href="mailto:mitja.severkar@gimb.org">mitja.severkar@gimb.org</a></li>
+        <br>
+    </div>
     <Error error="Neuspešna prijava v GimSIS. Če ste si spremenili geslo za GimSIS, ga morate spremeniti tudi v BežiAppu v zavihku Nastavitve. V nasprotnem primeru kontaktirajte strežniškega administratorja."/>
 {:else}
     <div style="display: flex; justify-content: center">

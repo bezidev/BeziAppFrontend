@@ -104,6 +104,9 @@
                 <Icon class="material-icons" slot="leadingIcon">key</Icon>
             </Textfield>
             <p />
+            Če ste si spremenili GimSIS geslo, pred tem pa ste se že prijavili v BežiApp, se v BežiApp še vedno prijavljate s starim GimSIS geslom.
+            Če prijava ne deluje, kontaktirajte razvijalca na <a href="mailto:mitja.severkar@gimb.org">mitja.severkar@gimb.org</a>.
+            <p />
             <Button on:click={async () => await login()} variant="raised">
                 <Label>PRIJAVA</Label>
             </Button>
