@@ -76,7 +76,7 @@
 
 <main>
     <Snackbar bind:this={snackbarWithClose}>
-        <Label>Prijava neuspešna.</Label>
+        <Label>Prijava neuspešna. Še enkrat preverite vaše geslo.</Label>
         <Actions>
             <IconButton class="material-icons" title="Dismiss">close</IconButton>
         </Actions>

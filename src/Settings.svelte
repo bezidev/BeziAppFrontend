@@ -7,11 +7,10 @@
     import Button, {Label} from "@smui/button";
     import {makeRequest} from "./constants";
     import * as constants from "./constants";
-    import Snackbar, {Actions} from "@smui/snackbar";
+    import Snackbar, {Actions, Label as SnackbarLabel} from "@smui/snackbar";
     import IconButton from "@smui/icon-button";
     import Dialog from "@smui/dialog";
     import {Content, Title, Actions as DialogActions} from "@smui/dialog";
-    import Accordion, {Header, Panel, Content as AccordionContent} from "@smui-extra/accordion";
     import {navigate} from "svelte-navigator";
     import Tab from '@smui/tab';
     import TabBar from '@smui/tab-bar';
@@ -24,14 +23,15 @@
 
     let apiFail = type === "lopolis_fail";
 
-    let snackbarOK: InstanceType<typeof Snackbar>;
-    let snackbarNotOK: InstanceType<typeof Snackbar>;
+    let snackbarOK: Snackbar;
+    let snackbarNotOK: Snackbar;
 
     let currentPassword = "";
     let beziPassword = "";
     let gimsisPassword = "";
     let lopolisPassword = "";
     let lopolisUsername = "";
+    let spremeni_beziapp = true;
 
     let active = "";
 
@@ -46,6 +46,7 @@
         let fd = new FormData();
         fd.append("pass_type", type);
         fd.append("current_password", currentPassword);
+        fd.append("change_beziapp_password", spremeni_beziapp.toString());
         let s = type === "beziapp" ? beziPassword : (type === "gimsis" ? gimsisPassword : lopolisPassword);
         if (type === "lopolis") fd.append("username", lopolisUsername);
         if (s === "" || currentPassword === "") return;
@@ -56,7 +57,7 @@
             snackbarNotOK.open();
             return;
         }
-        if (type === "beziapp") {
+        if (type === "beziapp" || (type === "gimsis" && spremeni_beziapp)) {
             localStorage.setItem("account_password", s);
         }
 
@@ -96,14 +97,14 @@
 </Dialog>
 
 <Snackbar bind:this={snackbarOK}>
-    <Label>Sprememba gesla je bila uspešno izvedena.</Label>
+    <SnackbarLabel>Sprememba gesla je bila uspešno izvedena.</SnackbarLabel>
     <Actions>
         <IconButton class="material-icons" title="Dismiss">close</IconButton>
     </Actions>
 </Snackbar>
 
 <Snackbar bind:this={snackbarNotOK}>
-    <Label>Sprememba gesla ni bila uspešno izvedena. Še enkrat preverite vaše trenutno geslo, če mislite, da ste vse pravilno izpolnili, pišite sistemskemu administratorju.</Label>
+    <SnackbarLabel>Sprememba gesla ni bila uspešno izvedena. Še enkrat preverite vaše trenutno geslo, če mislite, da ste vse pravilno izpolnili, pišite sistemskemu administratorju.</SnackbarLabel>
     <Actions>
         <IconButton class="material-icons" title="Dismiss">close</IconButton>
     </Actions>
@@ -205,9 +206,6 @@ Na mobilnih napravah se verjetno ne vidi tako dobro, ampak spodaj imate več opc
 
     Če ste si spremenili GimSIS geslo morate o tem obvestiti BežiApp račun, da lahko še naprej nemoteno delujejo vse GimSIS storitve BežiApp-a.
 
-    S tem, ko spremenite GimSIS geslo, se <b>NE</b> spremeni geslo BežiApp računa, razen če tudi tega posebej spremenite (na drugem zavihku "Zamenjava BežiApp gesla").
-    <b>Torej, preprosto povedano: v BežiApp se boste še vedno prijavljali s starim GimSIS geslom.</b>
-
     <p/>
 
     Gesla za GimSIS račun <b>NE</b> spreminjate tukaj. S tem obrazcem samo sporočite BežiApp sistemu vaše novo geslo GimSIS računa.
@@ -233,6 +231,13 @@ Na mobilnih napravah se verjetno ne vidi tako dobro, ampak spodaj imate več opc
     Preden kliknete na spremeni geslo, še enkrat preverite, če ste pravilno vpisali obe gesli. Zato sta na voljo ikoni oči, ki razkrijeta vpisani gesli.
 
     <h3>BežiApp v tem primeru NE preverja novega gesla, tako da če se zatipkate, boste v istem položaju kot prej.</h3>
+
+    <p/>
+
+    <FormField>
+        <Switch bind:checked={spremeni_beziapp} />
+        <span slot="label">Spremeni tudi BežiApp geslo (novo z istim geslom kot ga uporabljate za GimSIS, se boste lahko prijavili tudi v BežiApp).</span>
+    </FormField>
 
     <p/>
 
