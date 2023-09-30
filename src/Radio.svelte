@@ -96,8 +96,6 @@
     })
 </script>
 
-<h4>Modul trenutno ni v uporabi. Za zdaj je samo demonstracija, na kakšen način bi lahko prenovili šolski radio, da bi le-ta postal malo bolj transparenten s tem katere pesmi spuščajo skozi (ker se mi zdi, da sploh ne upoštevajo predlogov 🙃).</h4>
-
 Samo administratorji Radio modula (BežiApp razvijalci in uredniki šolskega radia) imajo dostop do spremembe statusa pesmi - ne se čuditi, če ne morete spremeniti statusa. Sistem razvršča predloge od najstarejših do najnovejših.
 
 <p/>

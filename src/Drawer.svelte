@@ -59,6 +59,7 @@
                 "/radio": "radio",
                 "/settings": "settings",
                 "/palette": "palette",
+                "/citing": "citing",
                 "/developers": "developers",
                 "/notifications": "notifications",
                 "/poker/contests": "poker_contests",
@@ -81,7 +82,6 @@
             <Content>
                 <List>
                     <Item
-                            href="javascript:void(0)"
                             on:click={() => navigate('/')}
                             activated={active === 'pregled'}
                     >
@@ -89,7 +89,6 @@
                         <Text>Pregled</Text>
                     </Item>
                     <Item
-                            href="javascript:void(0)"
                             on:click={() => navigate('/gradings')}
                             activated={active === 'ocenjevanja'}
                     >
@@ -97,7 +96,6 @@
                         <Text>Ocenjevanja</Text>
                     </Item>
                     <Item
-                            href="javascript:void(0)"
                             on:click={() => navigate('/grades')}
                             activated={active === 'ocene'}
                     >
@@ -105,7 +103,6 @@
                         <Text>Ocene</Text>
                     </Item>
                     <Item
-                            href="javascript:void(0)"
                             on:click={() => navigate('/absences')}
                             activated={active === 'izostanki'}
                     >
@@ -113,7 +110,6 @@
                         <Text>Izostanki</Text>
                     </Item>
                     <Item
-                            href="javascript:void(0)"
                             on:click={() => navigate('/teachers')}
                             activated={active === 'ucitelji'}
                     >
@@ -121,7 +117,6 @@
                         <Text>Učitelji</Text>
                     </Item>
                     <Item
-                            href="javascript:void(0)"
                             on:click={() => navigate('/lopolis')}
                             activated={active === 'lopolis'}
                     >
@@ -129,7 +124,6 @@
                         <Text>Lo.Polis</Text>
                     </Item>
                     <Item
-                            href="javascript:void(0)"
                             on:click={() => navigate('/notes')}
                             activated={active === 'notes'}
                     >
@@ -137,7 +131,6 @@
                         <Text>Testi in zapiski</Text>
                     </Item>
                     <Item
-                            href="javascript:void(0)"
                             on:click={() => navigate('/radio')}
                             activated={active === 'radio'}
                     >
@@ -145,7 +138,13 @@
                         <Text>Šolski radio</Text>
                     </Item>
                     <Item
-                            href="javascript:void(0)"
+                            on:click={() => navigate('/citing')}
+                            activated={active === 'citing'}
+                    >
+                        <Graphic class="material-icons" aria-hidden="true">format_quote</Graphic>
+                        <Text>Navajanje virov</Text>
+                    </Item>
+                    <Item
                             on:click={() => navigate('/tarot/contests')}
                             activated={active === 'contests'}
                     >
@@ -153,7 +152,6 @@
                         <Text>Tarok</Text>
                     </Item>
                     <Item
-                            href="javascript:void(0)"
                             on:click={() => navigate('/poker/contests')}
                             activated={active === 'poker_contests'}
                     >
@@ -161,28 +159,24 @@
                         <Text>Poker</Text>
                     </Item>
                     <Item
-                            href="javascript:void(0)"
                             on:click={() => window.open("https://ucenje-nem.beziapp.si")}
                     >
                         <Graphic class="material-icons" aria-hidden="true">language</Graphic>
                         <Text>Učenje nemščine</Text>
                     </Item>
                     <Item
-                            href="javascript:void(0)"
                             on:click={() => window.open("https://umetnost.beziapp.si")}
                     >
                         <Graphic class="material-icons" aria-hidden="true">brush</Graphic>
                         <Text>Umetnostna zgodovina</Text>
                     </Item>
                     <Item
-                            href="javascript:void(0)"
                             on:click={() => window.open("https://smp.beziapp.si")}
                     >
                         <Graphic aria-hidden="true" style="height: 24px;"><img src="/mc.svg" alt="Minecraft server" style="height: 24px; color: rgba(255, 255, 255, 0.6);"></Graphic>
                         <Text>BežiSMP</Text>
                     </Item>
                     <Item
-                            href="javascript:void(0)"
                             on:click={() => navigate('/palette')}
                             activated={active === 'palette'}
                     >
@@ -190,7 +184,6 @@
                         <Text>Barvne palete</Text>
                     </Item>
                     <Item
-                            href="javascript:void(0)"
                             on:click={() => navigate('/settings')}
                             activated={active === 'settings'}
                     >
@@ -198,7 +191,6 @@
                         <Text>Nastavitve</Text>
                     </Item>
                     <Item
-                            href="javascript:void(0)"
                             on:click={() => navigate('/developers')}
                             activated={active === 'developers'}
                     >
@@ -207,7 +199,6 @@
                     </Item>
                     {#if localStorage.getItem("account_username") === "mitja.severkar"}
                         <Item
-                                href="javascript:void(0)"
                                 on:click={() => navigate('/notifications')}
                                 activated={active === 'notifications'}
                         >
@@ -216,7 +207,6 @@
                         </Item>
                     {/if}
                     <Item
-                            href="javascript:void(0)"
                             on:click={() => navigate('/about')}
                             activated={active === 'about'}
                     >

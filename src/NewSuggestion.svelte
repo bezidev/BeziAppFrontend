@@ -32,7 +32,7 @@ Bodite pozorni pri izpolnjevanju tega obrazca. Ko enkrat oddate, ne morete popra
 
 <p/>
 
-<TextField bind:value={video_id} label="YouTube video identifikator (npr. dQw4w9WgXcQ)" style="width: 100%;" helperLine$style="width: 100%;" />
+<TextField bind:value={video_id} label="YouTube video identifikator ali povezava do videa (npr. dQw4w9WgXcQ)" style="width: 100%;" helperLine$style="width: 100%;" />
 
 <p/>
 
@@ -43,7 +43,7 @@ S klikom na spodnji gumb se strinjate s <a href="/tos.html">pogoji uporabe</a>.
 <Button on:click={async () => {
     let fd = new FormData();
     fd.append('name', title);
-    fd.append("description", description === "" ? " " : description);
+    fd.append("description", description);
     fd.append("youtube_id", video_id);
     await makeRequest(`/radio/suggestions`, "POST", fd)
     navigate("/radio")

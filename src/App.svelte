@@ -136,6 +136,14 @@
 									<Error error={e} />
 								{/await}
 							</Route>
+							<Route path="/citing">
+								{#await import("./Citing.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
 							<Route path="/tarot/contests">
 								{#await import("./Tarot/Contests.svelte")}
 								{:then Page}
