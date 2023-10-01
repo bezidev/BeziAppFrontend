@@ -236,7 +236,7 @@ Na mobilnih napravah se verjetno ne vidi tako dobro, ampak spodaj imate več opc
 
     <FormField>
         <Switch bind:checked={spremeni_beziapp} />
-        <span slot="label">Spremeni tudi BežiApp geslo (novo z istim geslom kot ga uporabljate za GimSIS, se boste lahko prijavili tudi v BežiApp).</span>
+        <span slot="label">Spremeni tudi BežiApp geslo (z istim geslom kot ga uporabljate za GimSIS, se boste lahko prijavili tudi v BežiApp).</span>
     </FormField>
 
     <p/>
