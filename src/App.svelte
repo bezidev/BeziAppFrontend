@@ -47,7 +47,7 @@
 <Router>
 	<div>
 		{#if !(pathname === "/login" || pathname === "/lopolis/login")}
-			<div class="top-app-bar-container flexor">
+			<div class="top-app-bar-container flexor" style="z-index: 10; position: relative;">
 				<TopAppBar variant="static" style="background-color: rgba(0, 128, 83, 1);">
 					<Row>
 						<Section style="display: flex; flex-direction: row; align-items: center;">
@@ -66,7 +66,7 @@
 				</TopAppBar>
 			</div>
 		{/if}
-		<div class="drawer-container" id="router">
+		<div class="drawer-container" id="router" style="z-index: 100; position: relative;">
 			<Drawer open={open} statusFunction={(o) => open=o} />
 				<div class="flexor-content">
 				<AppContent class="app-content">
