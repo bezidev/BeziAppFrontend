@@ -47,6 +47,11 @@
         localStorage.setItem("palette", JSON.stringify(predmeti));
     }
 
+    function setPalette() {
+        localStorage.setItem("colorGeneration", "Lastne barvne plošče");
+        selected = localStorage.getItem("colorGeneration") ?? "Dolgega imena predmeta";
+    }
+
     getPalettes();
 </script>
 
@@ -68,6 +73,7 @@ BežiApp bo generiral barve na urniku na osnovi
 
 <Button on:click={async () => {
     await getCurrentPalette();
+    setPalette();
 }} variant="raised">
     <Icon class="material-icons">download</Icon>
     <Label>Potegni trenutno barvno paleto iz strežnika</Label>
@@ -75,6 +81,7 @@ BežiApp bo generiral barve na urniku na osnovi
 
 <Button on:click={async () => {
     predmeti = [...DEFAULT_PALETTE];
+    setPalette();
 }} variant="raised">
     <Icon class="material-icons">reset_tv</Icon>
     <Label>Resetiraj paleto</Label>
@@ -128,6 +135,7 @@ BežiApp bo generiral barve na urniku na osnovi
     await makeRequest("/palette", "PATCH", fd);
     predmeti = await makeRequest("/palette") ?? [];
     localStorage.setItem("palette", JSON.stringify(predmeti));
+    setPalette();
 }} variant="raised">
     <Icon class="material-icons">sync</Icon>
     <Label>Shrani barvno paleto</Label>
@@ -153,6 +161,7 @@ BežiApp bo generiral barve na urniku na osnovi
     fd.append("is_owner_private", zasebno_avtorstvo.toString());
     await makeRequest("/palettes", "POST", fd);
     await getPalettes();
+    setPalette();
 }} variant="raised">
     <Icon class="material-icons">add</Icon>
     <Label>Shrani barvno paleto in jo objavi</Label>

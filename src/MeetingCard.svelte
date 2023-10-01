@@ -23,14 +23,26 @@
 
             for (let i = 0; i < paleta.length; i++) {
                 let predmet = paleta[i];
-                console.log(predmet.id.toLowerCase(), n.ime.toLowerCase())
-                if (n.ime.toLowerCase().includes(predmet.id.toLowerCase())) {
+                console.log(predmet.id.toLowerCase(), n.kratko_ime.toLowerCase())
+                if (n.kratko_ime.toLowerCase().includes(predmet.id.toLowerCase())) {
                     barva = predmet.color;
                     break;
                 }
             }
+
             if (barva === "") {
-                barva = uniqolor(n.ime, {saturation: [50, 70], lightness: [20, 30],}).color;
+                for (let i = 0; i < paleta.length; i++) {
+                    let predmet = paleta[i];
+                    console.log(predmet.id.toLowerCase(), n.ime.toLowerCase())
+                    if (n.ime.toLowerCase().includes(predmet.id.toLowerCase())) {
+                        barva = predmet.color;
+                        break;
+                    }
+                }
+
+                if (barva === "") {
+                    barva = uniqolor(n.ime, {saturation: [50, 70], lightness: [20, 30],}).color;
+                }
             }
         }
     }
