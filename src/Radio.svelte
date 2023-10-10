@@ -14,6 +14,8 @@
     import Autocomplete from "@smui-extra/autocomplete";
     import CharacterCounter from "@smui/textfield/character-counter";
     import Textfield from "@smui/textfield";
+    import FormField from "@smui/form-field";
+    import Switch from "@smui/switch";
 
     const choices = ['WAITING FOR REVIEW', 'APPROVED', 'DENIED', 'PLAYED'];
     const tabs = [
@@ -44,24 +46,45 @@
     let denied_id = "";
     let open = false;
     let denied_description = "";
+    let is_admin = false;
+    let block_new_radio_suggestions = false;
+    let allow_voting = false;
 
     async function getSuggestions() {
-        let s = await makeRequest(`/radio/suggestions`)
+        let s = await makeRequest(`/radio/suggestions`);
+        block_new_radio_suggestions = s["block_new_radio_suggestions"];
+        allow_voting = s["allow_voting"];
+        is_admin = s["is_admin"];
         // sortiramo od najstarejše do najnovejše, da bomo šli po predvidljivem vrstnem redu
-        s.sort((a, b) => {
+        s["suggestions"].sort((a, b) => {
             const [aVal, bVal] = [a["submitted_on"], b["submitted_on"]]['slice']();
             if (typeof aVal === 'string' && typeof bVal === 'string') {
                 return aVal.localeCompare(bVal);
             }
             return Number(aVal) - Number(bVal);
         });
-        suggestions = s;
+        suggestions = s["suggestions"];
     }
 
     async function deleteSuggestion(id: string) {
         let fd = new FormData();
         fd.append('id', id);
         await makeRequest(`/radio/suggestions`, "DELETE", fd);
+        await getSuggestions();
+    }
+
+    async function changeRadioConfig(id: string) {
+        let fd = new FormData();
+        fd.append('id', id);
+        await makeRequest(`/radio/admin/config`, "PATCH", fd);
+        await getSuggestions();
+    }
+
+    async function vote(id: string, ud: string) {
+        let fd = new FormData();
+        fd.append("id", id);
+        fd.append("t", ud);
+        await makeRequest(`/radio/suggestions/upvote_downvote`, "PATCH", fd);
         await getSuggestions();
     }
 
@@ -96,14 +119,40 @@
     })
 </script>
 
-Samo administratorji Radio modula (BežiApp razvijalci in uredniki šolskega radia) imajo dostop do spremembe statusa pesmi - ne se čuditi, če ne morete spremeniti statusa. Sistem razvršča predloge od najstarejših do najnovejših.
+{#if is_admin}
+    <h3>Administratorska plošča šolskega radia</h3>
+    To ploščo lahko vidite samo, če ste administratorji sistema. V tem primeru imate vse pravice znotraj sistema šolskega radia.
 
-<p/>
+    <p/>
 
-<Button on:click={() => navigate("/radio/new")} variant="raised">
+    <FormField>
+        <Switch bind:checked={block_new_radio_suggestions} on:click={async () => await changeRadioConfig("block_new_radio_suggestions")} />
+        <span slot="label">Blokiraj nove predloge.</span>
+    </FormField>
+
+    <br>
+
+    <FormField>
+        <Switch bind:checked={allow_voting} on:click={async () => await changeRadioConfig("allow_voting")} />
+        <span slot="label">Dovolite glasovanje za pesmi. Stranski efekt tega je, da se bodo vsem prikazale vse pesmi (seveda anonimno).</span>
+    </FormField>
+
+    <h3>Pregled</h3>
+{/if}
+
+<Button on:click={getSuggestions} variant="raised">
+    <Icon class="material-icons">refresh</Icon>
+    <Label>Osveži predloge</Label>
+</Button>
+
+<Button on:click={() => navigate("/radio/new")} variant="raised" disabled={block_new_radio_suggestions}>
     <Icon class="material-icons">add</Icon>
     <Label>Nov predlog</Label>
 </Button>
+
+{#if block_new_radio_suggestions}
+    Administratorji šolskega radia so začasno ustavili nove predloge.
+{/if}
 
 <p/>
 
@@ -120,8 +169,9 @@ Samo administratorji Radio modula (BežiApp razvijalci in uredniki šolskega rad
         <Row>
             <Cell>Naslov</Cell>
             <Cell>YouTube povezava</Cell>
+            {#if allow_voting && active.label === "Predlogi na čakanju"}<Cell>Glasovanje</Cell>{/if}
             <Cell>Opis</Cell>
-            <Cell>Status</Cell>
+            {#if is_admin}<Cell>Status</Cell>{/if}
             {#if active.label === "Zavrnjeni predlogi" || active.label === "Vsi predlogi"}<Cell>Razlog za zavrnitev</Cell>{/if}
             {#if active.label !== "Predlogi na čakanju"}<Cell>Pregledal(a)</Cell>{/if}
             {#if active.label === "Predlogi na čakanju" || active.label === "Odobreni predlogi" || active.label === "Vsi predlogi"}<Cell>Položaj v vrsti</Cell>{/if}
@@ -140,23 +190,40 @@ Samo administratorji Radio modula (BežiApp razvijalci in uredniki šolskega rad
                 <Row>
                     <Cell>{suggestion.name}</Cell>
                     <Cell><a href="https://youtu.be/{suggestion.youtube_id}">https://youtu.be/{suggestion.youtube_id}</a></Cell>
+                    {#if allow_voting && active.label === "Predlogi na čakanju"}
+                        <Cell>
+                            <div style="display: flex;">
+                                <IconButton class="material-icons inline" style="color: {suggestion.upvote_status === -1 ? 'rgb(0, 128, 83)' : ''};" on:click={async () => await vote(suggestion.id, "downvote")}>
+                                    <div style="margin: 0 0 0 0.1em;">thumb_down</div>
+                                </IconButton>
+                                <div style="width: 10px;"/>
+                                <span style="display: flex; align-items: center; justify-content: center; flex-direction: column; font-size: 20px;">{suggestion.upvote_count}</span>
+                                <div style="width: 10px;"/>
+                                <IconButton class="material-icons inline" style="color: {suggestion.upvote_status === 1 ? 'rgb(0, 128, 83)' : ''};" on:click={async () => await vote(suggestion.id, "upvote")}>
+                                    <div style="margin: 0 0 0 0.1em;">thumb_up</div>
+                                </IconButton>
+                            </div>
+                        </Cell>
+                    {/if}
                     <Cell>{@html insane(marked(suggestion.description))}</Cell>
-                    <Cell>
-                        <SegmentedButton segments={choices} let:segment singleSelect bind:selected={suggestion.status}>
-                            <!-- Note: the `segment` property is required! -->
-                            <Segment {segment} on:click={async (e) => {
-                                denied_id = suggestion.id;
-                                if (segment === "DENIED") {
-                                    open = true;
-                                    e.preventDefault();
-                                } else {
-                                    await updateStatus(denied_id, segment);
-                                }
-                            }}>
-                                <Label>{segment}</Label>
-                            </Segment>
-                        </SegmentedButton>
-                    </Cell>
+                    {#if is_admin}
+                        <Cell>
+                            <SegmentedButton segments={choices} let:segment singleSelect bind:selected={suggestion.status}>
+                                <!-- Note: the `segment` property is required! -->
+                                <Segment {segment} on:click={async (e) => {
+                                    denied_id = suggestion.id;
+                                    if (segment === "DENIED") {
+                                        open = true;
+                                        e.preventDefault();
+                                    } else {
+                                        await updateStatus(denied_id, segment);
+                                    }
+                                }}>
+                                    <Label>{segment}</Label>
+                                </Segment>
+                            </SegmentedButton>
+                        </Cell>
+                    {/if}
                     {#if active.label === "Zavrnjeni predlogi" || active.label === "Vsi predlogi"}<Cell>{suggestion.declined_reason}</Cell>{/if}
                     {#if active.label !== "Predlogi na čakanju"}<Cell>{suggestion.reviewed_by}</Cell>{/if}
                     {#if active.label === "Predlogi na čakanju" || active.label === "Odobreni predlogi" || active.label === "Vsi predlogi"}<Cell>{suggestion.vrsta}</Cell>{/if}
