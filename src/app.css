@@ -15,6 +15,11 @@ body {
     transform: translate(-70%, -10%) translate(0px, 0px) !important;
 }
 
+.with-parameter__menu {
+    max-width: 512px !important;
+    left: auto !important;
+}
+
 a {
     color: rgb(0,100,200);
     text-decoration: none;

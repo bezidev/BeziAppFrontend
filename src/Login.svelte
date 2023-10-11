@@ -50,8 +50,6 @@
         }
     }
 
-    let url = localStorage.getItem("baseurl")
-
     let email = "";
     let password = "";
 

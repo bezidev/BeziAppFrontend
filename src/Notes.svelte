@@ -48,6 +48,14 @@
         "4.mm",
     ];
 
+    const extended_classes = [
+        "1. letnik",
+        "2. letnik",
+        "3. letnik",
+        "4. letnik",
+        ...classes,
+    ]
+
     const teachers = [
         "Gregor Anželj",
         "Milan Bahar",
@@ -254,9 +262,18 @@
         if (!(class_name_filter === undefined || class_name_filter === "")) {
             let removed = 0;
             let l = ns.length;
-            for (let i = 0; i < l; i++) if (ns[i-removed].class_name.toLowerCase() !== class_name_filter.toLowerCase()) {
-                ns.splice(i - removed, 1);
-                removed++;
+            for (let i = 0; i < l; i++) {
+                if (class_name_filter.includes("letnik")) {
+                    if (!ns[i - removed].class_name.toLowerCase().includes(class_name_filter[0])) {
+                        ns.splice(i - removed, 1);
+                        removed++;
+                    }
+                } else {
+                    if (ns[i - removed].class_name.toLowerCase() !== class_name_filter.toLowerCase()) {
+                        ns.splice(i - removed, 1);
+                        removed++;
+                    }
+                }
             }
         }
         if (!(class_year_filter === undefined || class_year_filter === "")) {
@@ -383,7 +400,7 @@
 </Button>
 
 <h3>Filtri</h3>
-<Autocomplete options={classes} textfield$style="width: 100%;" style="width: 100%;" bind:value={class_name_filter} label="Izberite razred" />
+<Autocomplete options={extended_classes} textfield$style="width: 100%;" style="width: 100%;" bind:value={class_name_filter} label="Izberite razred ali letnik" />
 <Autocomplete combobox options={subjects} textfield$style="width: 100%;" style="width: 100%;" bind:value={subject_filter} label="Izberite ali vpišite ime predmeta" />
 <Autocomplete combobox options={teachers} textfield$style="width: 100%;" style="width: 100%;" bind:value={teacher_filter} label="Izberite ali vpišite učitelja, ki vas je učil ta predmet" />
 <Autocomplete options={years} textfield$style="width: 100%;" style="width: 100%;" bind:value={class_year_filter} label="Izberite šolsko leto" />
@@ -395,6 +412,8 @@
 </Button>
 
 <h3>Datoteke</h3>
+{#if notes.length === 0 || notes.length > 4}Najdenih{:else if notes.length === 1}Najden{:else if notes.length === 2}Najdena{:else}Najdeni{/if} <b>{notes.length}</b> {#if notes.length === 0 || notes.length > 4}zadetkov{:else if notes.length === 1}zadetek{:else if notes.length === 2}zadetka{:else}zadetki{/if} za določene filtre.
+
 <LayoutGrid>
     {#each notes as note}
         <Cell>
