@@ -9,6 +9,9 @@
     import insane from "insane";
     import FormField from "@smui/form-field";
     import Switch from "@smui/switch";
+    import Snackbar, {Actions} from "@smui/snackbar";
+
+    let opozoriloShrani: Snackbar;
 
     let selectedMonth = (new Date()).getMonth() + 1;
     let selectedYear = (new Date()).getFullYear();
@@ -104,10 +107,27 @@
         await getCheckouts();
     }
 
+    fetchData();
+
     onMount(async () => {
-        await fetchData();
+        //opozoriloShrani.open()
     })
 </script>
+
+<Snackbar bind:this={opozoriloShrani} timeoutMs={-1} style="width: 100vw; max-width: 100vw;">
+    <Label>Ne pozabite shraniti sprememb!</Label>
+    <Actions>
+        <Button on:click={async () => {
+            opozoriloShrani.close();
+            assemble_meals();
+            await setMeals();
+            await setCheckouts();
+        }}>
+            <Icon class="material-icons">save_alt</Icon>
+            <Label>Shrani spremembe</Label>
+        </Button>
+    </Actions>
+</Snackbar>
 
 <IconButton class="material-icons" on:click={async () => {
     if (selectedMonth === 1) {
@@ -172,7 +192,11 @@ Izbran mesec: <b>{selectedMonth}/{selectedYear}</b><p/>
                                             <h5>Odjave so že potekle.</h5>
                                         {:else}
                                             <FormField>
-                                                <Switch bind:checked={checkouts[k2][i].cancelled} />
+                                                <Switch on:click={() => {
+                                                    if (!opozoriloShrani.isOpen()) {
+                                                        opozoriloShrani.open()
+                                                    }
+                                                }} bind:checked={checkouts[k2][i].cancelled} />
                                                 <span slot="label">Je odjavljeno</span>
                                             </FormField>
                                         {/if}
@@ -183,7 +207,11 @@ Izbran mesec: <b>{selectedMonth}/{selectedYear}</b><p/>
                             <Select bind:value={selectedMeals[meal.local_id]} label="Izberite meni" style="width: 100%;">
                                 <Option value=""></Option>
                                 {#each meal.menu_options as m}
-                                    <Option value={m.value} style="height: 125%;">{insane(m.text)}</Option>
+                                    <Option value={m.value} on:click={() => {
+                                        if (!opozoriloShrani.isOpen()) {
+                                            opozoriloShrani.open()
+                                        }
+                                    }} style="height: 125%;">{insane(m.text)}</Option>
                                 {/each}
                             </Select>
                         </Content>
@@ -191,5 +219,6 @@ Izbran mesec: <b>{selectedMonth}/{selectedYear}</b><p/>
                 {/each}
             {/if}
         {/each}
+        <div style="height: 100px" />
     </Accordion>
 {/if}

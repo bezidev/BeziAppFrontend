@@ -70,6 +70,5 @@
     "uniqolor": "^1.1.0",
     "vite": "4.3.9",
     "vite-plugin-compression": "^0.5.1"
-  },
-  "dependencies": {}
+  }
 }
