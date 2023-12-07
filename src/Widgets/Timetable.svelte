@@ -1,10 +1,4 @@
 <style>
-    .coolTable {
-        border-spacing: 5px;
-        text-align: center;
-        width: 100%;
-    }
-
     a:link {
         text-decoration: none;
     }
@@ -13,7 +7,7 @@
 <script lang="ts">
     import {
         startOfWeek,
-        endOfWeek
+        endOfWeek, addDays
     } from "date-fns";
     import IconButton from "@smui/icon-button";
     import {handleRejection, makeRequest, timeConverter} from "../constants";
@@ -22,22 +16,35 @@
     import Button, {Icon, Label} from "@smui/button";
     import Tooltip, {Wrapper} from "@smui/tooltip";
     import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
-    import {onMount} from "svelte";
     import insane from "insane";
     import LayoutGrid, { Cell } from '@smui/layout-grid';
     import CircularProgress from '@smui/circular-progress';
     import Error from "./Error.svelte";
     import {marked} from "marked";
     import {Link} from "svelte-navigator";
+    import {enableNewTimetable, timetableDay} from "../stores";
+    import Warning from "../Warning.svelte";
+    import DayTimetable from "../DayTimetable.svelte";
+    import Switch from "@smui/switch";
+    import FormField from "@smui/form-field";
 
     export let date: Date = new Date();
     let currentDate = new Date(date);
     let nextWeek = localStorage.getItem("next_week") !== "false";
     if ((currentDate.getDay() === 6 || currentDate.getDay() === 0) && nextWeek) {
-        currentDate.setDate(currentDate.getDate() + 7);
+        currentDate.setDate(currentDate.getDate() + currentDate.getDay() === 0 ? 1 : 2);
     }
+    let d = ["", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek"];
+    timetableDay.set(d[currentDate.getDay()]);
 
+
+    let noviUrnik = localStorage.getItem("noviUrnik") === "true";
     let start: Date = startOfWeek(currentDate, {weekStartsOn: 1})
+
+    timetableDay.subscribe((value) => {
+        let m = {"Ponedeljek": 0, "Torek": 1, "Sreda": 2, "Četrtek": 3, "Petek": 4};
+        currentDate = addDays(start, m[value]);
+    })
 
     let notifications = [];
 
@@ -114,6 +121,7 @@
                 }
             }
         }
+        console.log(thu)
         return true;
     }
 
@@ -159,56 +167,74 @@
 }}>arrow_forward</IconButton>
 
 {#if ok === true}
-    <table class="coolTable">
-        <tr>
-            <th>URA</th>
-            <th>{mobile ? "PON" : "PONEDELJEK"} {dates[0]} {#if warn[0] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. To se po navadi zgodi pri kombiniranih urah (razred je razpolovljen) in po navadi dokaj zanesljivo pomeni, da takrat nimate nadomeščanj. Vseeno se priporoča ročno preverjanje nadomeščanj.</Tooltip></Wrapper>{/if}</th>
-            <th>{mobile ? "TOR" : "TOREK"} {dates[1]} {#if warn[1] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. To se po navadi zgodi pri kombiniranih urah (razred je razpolovljen) in po navadi dokaj zanesljivo pomeni, da takrat nimate nadomeščanj. Vseeno se priporoča ročno preverjanje nadomeščanj.</Tooltip></Wrapper>{/if}</th>
-            <th>{mobile ? "SRE" : "SREDA"} {dates[2]} {#if warn[2] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. To se po navadi zgodi pri kombiniranih urah (razred je razpolovljen) in po navadi dokaj zanesljivo pomeni, da takrat nimate nadomeščanj. Vseeno se priporoča ročno preverjanje nadomeščanj.</Tooltip></Wrapper>{/if}</th>
-            <th>{mobile ? "ČET" : "ČETRTEK"} {dates[3]} {#if warn[3] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. To se po navadi zgodi pri kombiniranih urah (razred je razpolovljen) in po navadi dokaj zanesljivo pomeni, da takrat nimate nadomeščanj. Vseeno se priporoča ročno preverjanje nadomeščanj.</Tooltip></Wrapper>{/if}</th>
-            <th>{mobile ? "PET" : "PETEK"} {dates[4]} {#if warn[4] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. To se po navadi zgodi pri kombiniranih urah (razred je razpolovljen) in po navadi dokaj zanesljivo pomeni, da takrat nimate nadomeščanj. Vseeno se priporoča ročno preverjanje nadomeščanj.</Tooltip></Wrapper>{/if}</th>
-        </tr>
-        {#each hours as i}
-        <tr>
-            <th>{i}.</th>
-            <td>
-                {#each Array(mon[i]) as m}
-                    {#if m}
-                        <MeetingCard n={m} />
-                    {/if}
-                {/each}
-            </td>
-            <td>
-                {#each Array(tue[i]) as m}
-                    {#if m}
-                        <MeetingCard n={m} />
-                    {/if}
-                {/each}
-            </td>
-            <td>
-                {#each Array(wed[i]) as m}
-                    {#if m}
-                        <MeetingCard n={m} />
-                    {/if}
-                {/each}
-            </td>
-            <td>
-                {#each Array(thu[i]) as m}
-                    {#if m}
-                        <MeetingCard n={m} />
-                    {/if}
-                {/each}
-            </td>
-            <td>
-                {#each Array(fri[i]) as m}
-                    {#if m}
-                        <MeetingCard n={m} />
-                    {/if}
-                {/each}
-            </td>
-        </tr>
-        {/each}
-    </table>
+    {#if mobile && noviUrnik}
+        {#if currentDate.getDay() === 1}
+            <DayTimetable date={[dates[0], dates[1]]} warn={[warn[0], warn[1]]} today={mon} tomorrow={tue} day="PON" />
+        {/if}
+        {#if currentDate.getDay() === 2}
+            <DayTimetable date={[dates[1], dates[2]]} warn={[warn[1], warn[2]]} today={tue} tomorrow={wed} day="TOR" />
+        {/if}
+        {#if currentDate.getDay() === 3}
+            <DayTimetable date={[dates[2], dates[3]]} warn={[warn[2], warn[3]]} today={wed} tomorrow={thu} day="SRE" />
+        {/if}
+        {#if currentDate.getDay() === 4}
+            <DayTimetable date={[dates[3], dates[4]]} warn={[warn[3], warn[4]]} today={thu} tomorrow={fri} day="CET" />
+        {/if}
+        {#if currentDate.getDay() === 5}
+            <DayTimetable date={[dates[4], ""]} warn={[warn[4], ""]} today={fri} tomorrow={{}} day="PET" />
+        {/if}
+    {:else}
+        <table class="coolTable">
+            <tr>
+                <th>URA</th>
+                <th>{mobile ? "PON" : "PONEDELJEK"} {dates[0]} {#if warn[0] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. To se po navadi zgodi pri kombiniranih urah (razred je razpolovljen) in po navadi dokaj zanesljivo pomeni, da takrat nimate nadomeščanj. Vseeno se priporoča ročno preverjanje nadomeščanj.</Tooltip></Wrapper>{/if}</th>
+                <th>{mobile ? "TOR" : "TOREK"} {dates[1]} {#if warn[1] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. To se po navadi zgodi pri kombiniranih urah (razred je razpolovljen) in po navadi dokaj zanesljivo pomeni, da takrat nimate nadomeščanj. Vseeno se priporoča ročno preverjanje nadomeščanj.</Tooltip></Wrapper>{/if}</th>
+                <th>{mobile ? "SRE" : "SREDA"} {dates[2]} {#if warn[2] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. To se po navadi zgodi pri kombiniranih urah (razred je razpolovljen) in po navadi dokaj zanesljivo pomeni, da takrat nimate nadomeščanj. Vseeno se priporoča ročno preverjanje nadomeščanj.</Tooltip></Wrapper>{/if}</th>
+                <th>{mobile ? "ČET" : "ČETRTEK"} {dates[3]} {#if warn[3] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. To se po navadi zgodi pri kombiniranih urah (razred je razpolovljen) in po navadi dokaj zanesljivo pomeni, da takrat nimate nadomeščanj. Vseeno se priporoča ročno preverjanje nadomeščanj.</Tooltip></Wrapper>{/if}</th>
+                <th>{mobile ? "PET" : "PETEK"} {dates[4]} {#if warn[4] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. To se po navadi zgodi pri kombiniranih urah (razred je razpolovljen) in po navadi dokaj zanesljivo pomeni, da takrat nimate nadomeščanj. Vseeno se priporoča ročno preverjanje nadomeščanj.</Tooltip></Wrapper>{/if}</th>
+            </tr>
+            {#each hours as i}
+                <tr>
+                    <th>{i}.</th>
+                    <td>
+                        {#each Array(mon[i]) as m}
+                            {#if m}
+                                <MeetingCard n={m} />
+                            {/if}
+                        {/each}
+                    </td>
+                    <td>
+                        {#each Array(tue[i]) as m}
+                            {#if m}
+                                <MeetingCard n={m} />
+                            {/if}
+                        {/each}
+                    </td>
+                    <td>
+                        {#each Array(wed[i]) as m}
+                            {#if m}
+                                <MeetingCard n={m} />
+                            {/if}
+                        {/each}
+                    </td>
+                    <td>
+                        {#each Array(thu[i]) as m}
+                            {#if m}
+                                <MeetingCard n={m} />
+                            {/if}
+                        {/each}
+                    </td>
+                    <td>
+                        {#each Array(fri[i]) as m}
+                            {#if m}
+                                <MeetingCard n={m} />
+                            {/if}
+                        {/each}
+                    </td>
+                </tr>
+            {/each}
+        </table>
+    {/if}
 {:else if ok === false}
     <div style="padding: 20px; background-color: darkorange; border-radius: 10px;">
         <h2>Težave s prijavo v GimSIS</h2>
@@ -233,6 +259,23 @@
     </div>
 {/if}
 
+<p/>
+
+{#if mobile}
+    <FormField>
+        <Switch bind:checked={noviUrnik} on:click={() => {
+            setTimeout(() => {
+                localStorage.setItem("noviUrnik", noviUrnik.toString());
+                noviUrnik = localStorage.getItem("noviUrnik") === "true";
+                enableNewTimetable.set(noviUrnik);
+                //window.location.reload();
+            }, 50);
+        }}/>
+
+        <span slot="label">Vključite novo poenostavljeno verzijo urnika</span>
+    </FormField>
+{/if}
+
 <div style="height: 70px;"/>
 
 <h2>Obvestila</h2>
@@ -245,10 +288,12 @@
 
 <div class="accordion-container">
     <Accordion>
-        {#each notifications as notification}
+        {#each notifications.reverse() as notification}
             <Panel>
                 <Header>{notification.name}</Header>
                 <Content>
+                    <h3>{notification.name}</h3>
+
                     {@html insane(notification.description)}
 
                     <hr>

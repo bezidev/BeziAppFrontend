@@ -6,11 +6,62 @@
 	import {onDestroy, onMount} from "svelte";
 	import TopAppBar, { Row, Section, Title } from '@smui/top-app-bar';
 	import IconButton from '@smui/icon-button';
+	import isMobile from "is-mobile";
+	import Tab, { Label } from '@smui/tab';
+	import TabBar from '@smui/tab-bar';
+	import {enableNewTimetable, timetableDay} from "./stores";
+	import * as emotion from "@emotion/css";
+	const { css } = emotion;
+
 
 	let open = false;
 
 	let pathname = window.location.pathname;
 	let unsub;
+	let activeDay = "Ponedeljek";
+	timetableDay.subscribe((value) => {
+		activeDay = value;
+	})
+
+	let noviUrnik = localStorage.getItem("noviUrnik") === "true";
+
+	let ttcss = css`
+	/* ja, material je retarded */
+	flex-basis: 0 !important;
+	flex-grow: 1 !important;
+	overflow: auto !important;
+	height: calc(100vh - 64px - ${noviUrnik ? 48 : 0}px) !important;
+
+	@media (max-width: 959px) and (orientation: landscape) {
+	  height: calc(100vh - 48px - ${noviUrnik ? 48 : 0}px);
+	}
+
+	@media (max-width: 599px) {
+	  height: calc(100vh - 56px - ${noviUrnik ? 48 : 0}px);
+	}
+	`;
+
+
+	enableNewTimetable.subscribe((value) => {
+		noviUrnik = value;
+		ttcss = css`
+		/* ja, material je retarded */
+		flex-basis: 0 !important;
+		flex-grow: 1 !important;
+		overflow: auto !important;
+		height: calc(100vh - 64px - ${noviUrnik ? 48 : 0}px) !important;
+
+		@media (max-width: 959px) and (orientation: landscape) {
+		  height: calc(100vh - 48px - ${noviUrnik ? 48 : 0}px);
+		}
+
+		@media (max-width: 599px) {
+		  height: calc(100vh - 56px - ${noviUrnik ? 48 : 0}px);
+		}
+		`;
+	});
+
+	const mobile: boolean = isMobile();
 
 	onMount(() => {
 		let touchstartX = 0;
@@ -45,7 +96,7 @@
 </script>
 
 <Router>
-	<div>
+	<div class="flexy">
 		{#if !(pathname === "/login" || pathname === "/lopolis/login")}
 			<div class="top-app-bar-container flexor">
 				<TopAppBar variant="static" style="background-color: rgba(0, 128, 83, 1);">
@@ -63,31 +114,41 @@
 							</IconButton>
 						</Section>
 					</Row>
+					{#if mobile && noviUrnik && (pathname === "/" || pathname === "")}
+						<TabBar tabs={['Ponedeljek', 'Torek', 'Sreda', "Četrtek", "Petek"]} let:tab bind:active={activeDay}>
+							<!-- Note: the `tab` property is required! -->
+							<Tab {tab} on:click={() => {
+								timetableDay.set(tab);
+							}}>
+								<Label>{tab}</Label>
+							</Tab>
+						</TabBar>
+					{/if}
 				</TopAppBar>
 			</div>
 		{/if}
 		<div class="drawer-container" id="router">
 			<Drawer open={open} statusFunction={(o) => open=o} />
-				<div class="flexor-content">
-				<AppContent class="app-content">
-					<main class="main-content">
-						<div>
-							<Route path="/grades">
-								{#await import("./Grades.svelte")}
-								{:then Grades}
-									<Grades.default />
-								{:catch e}
-									<Error error={e} />
-								{/await}
-							</Route>
-							<Route path="/absences">
-								{#await import("./Absences.svelte")}
-								{:then Page}
-									<Page.default />
-								{:catch e}
-									<Error error={e} />
-								{/await}
-							</Route>
+				<div class={ttcss}>
+					<AppContent class="app-content">
+						<main class="main-content">
+							<div>
+								<Route path="/grades">
+									{#await import("./Grades.svelte")}
+									{:then Grades}
+										<Grades.default />
+									{:catch e}
+										<Error error={e} />
+									{/await}
+								</Route>
+								<Route path="/absences">
+									{#await import("./Absences.svelte")}
+									{:then Page}
+										<Page.default />
+									{:catch e}
+										<Error error={e} />
+									{/await}
+								</Route>
 							<Route path="/gradings">
 								{#await import("./Gradings.svelte")}
 								{:then Page}

@@ -38,6 +38,12 @@ a:visited {
     color: rgb(0,80,160);
 }
 
+.coolTable {
+    border-spacing: 5px;
+    text-align: center;
+    width: 100%;
+}
+
 .drawer-container {
     position: relative;
     overflow: hidden;
@@ -61,27 +67,6 @@ a:visited {
     display: inline-flex;
     flex-direction: column;
     width: 100%;
-}
-
-/* ja, material je retarded */
-.flexor-content {
-    flex-basis: 0;
-    flex-grow: 1;
-    overflow: auto;
-    height: calc(100vh - 64px);
-}
-
-@media (max-width: 959px)
-and (orientation: landscape) {
-    .flexor-content {
-        height: calc(100vh - 48px);
-    }
-}
-
-@media (max-width: 599px) {
-    .flexor-content {
-        height: calc(100vh - 56px);
-    }
 }
 
 .main-content {
@@ -178,4 +163,15 @@ and (orientation: landscape) {
 
 .overflow {
     overflow: visible !important;
+}
+
+.mdc-tab .mdc-tab__ripple::before, .mdc-tab .mdc-tab__ripple::after {
+    background-color: rgba(0, 64, 42, 1) !important;
+}
+.mdc-tab--active .mdc-tab__text-label {
+    color: white !important;
+}
+
+.mdc-tab-indicator .mdc-tab-indicator__content--underline {
+    border-color: #F9A825 !important;
 }

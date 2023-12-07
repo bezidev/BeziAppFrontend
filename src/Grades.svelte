@@ -8,6 +8,7 @@
     import Select, {Option} from "@smui/select";
 
     let grades = [];
+    let total_average_perm = 0.0;
     let total_average = 0.0;
     let stalne = false;
     let selectedYear = "";
@@ -17,12 +18,14 @@
 
     async function getGrades() {
         let r = await makeRequest(`/grades?year=${selectedYear}`);
-        let ttotal_average = r["grades"]["average"];
-        if (ttotal_average === undefined) {
+        let ttotal_average_perm = r["grades"]["average_perm"];
+        if (ttotal_average_perm === undefined) {
             navigate(`/napaka?error=Neuspešna prijava v GimSIS. Če ste si spremenili geslo za GimSIS, ga morate spremeniti tudi v BežiAppu v zavihku Nastavitve. V nasprotnem primeru kontaktirajte strežniškega administratorja.`);
         }
+        let ttotal_average = r["grades"]["average"];
         grades = r["grades"]["subjects"];
         years = r["school_years"];
+        total_average_perm = ttotal_average_perm;
         total_average = ttotal_average;
     }
 
@@ -42,7 +45,7 @@
     <span slot="label">Izpitni roki</span>
 </FormField>
 <p/>
-Učni uspeh: <span style="color: rgba(255, 255, 255, 0.5); display:inline-block;">{total_average.toFixed(2)}</span>
+Učni uspeh: <span style="color: rgba(255, 255, 255, 0.5); display:inline-block;">{stalne ? total_average_perm.toFixed(2) : total_average.toFixed(2)}</span>
 <p/>
 <DataTable table$aria-label="People list" style="width: 100%;">
     <Head>
