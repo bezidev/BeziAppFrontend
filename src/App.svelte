@@ -127,7 +127,7 @@
 				</TopAppBar>
 			</div>
 		{/if}
-		<div class="drawer-container" id="router">
+		<div class="drawer-container" id="router" style="width: 100vw;">
 			<Drawer open={open} statusFunction={(o) => open=o} />
 				<div class={ttcss}>
 					<AppContent class="app-content">
