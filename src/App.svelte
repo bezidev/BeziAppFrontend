@@ -25,40 +25,31 @@
 
 	let noviUrnik = localStorage.getItem("noviUrnik") === "true";
 
-	let ttcss = css`
-	/* ja, material je retarded */
-	flex-basis: 0 !important;
-	flex-grow: 1 !important;
-	overflow: auto !important;
-	height: calc(100vh - 64px - ${noviUrnik ? 48 : 0}px) !important;
+	let ttcss = css``;
+	rerenderTTCSS();
 
-	@media (max-width: 959px) and (orientation: landscape) {
-	  height: calc(100vh - 48px - ${noviUrnik ? 48 : 0}px);
-	}
-
-	@media (max-width: 599px) {
-	  height: calc(100vh - 56px - ${noviUrnik ? 48 : 0}px);
-	}
-	`;
-
-
-	enableNewTimetable.subscribe((value) => {
-		noviUrnik = value;
+	function rerenderTTCSS() {
 		ttcss = css`
 		/* ja, material je retarded */
 		flex-basis: 0 !important;
 		flex-grow: 1 !important;
 		overflow: auto !important;
-		height: calc(100vh - 64px - ${noviUrnik ? 48 : 0}px) !important;
+		height: calc(100vh - 64px - ${noviUrnik && (pathname === "/" || pathname === "") ? 48 : 0}px);
 
 		@media (max-width: 959px) and (orientation: landscape) {
-		  height: calc(100vh - 48px - ${noviUrnik ? 48 : 0}px);
+		  height: calc(100vh - 48px - ${noviUrnik && (pathname === "/" || pathname === "") ? 48 : 0}px);
 		}
 
 		@media (max-width: 599px) {
-		  height: calc(100vh - 56px - ${noviUrnik ? 48 : 0}px);
+		  height: calc(100vh - 56px - ${noviUrnik && (pathname === "/" || pathname === "") ? 48 : 0}px);
 		}
-		`;
+		`
+	}
+
+
+	enableNewTimetable.subscribe((value) => {
+		noviUrnik = value;
+		rerenderTTCSS();
 	});
 
 	const mobile: boolean = isMobile();
@@ -87,6 +78,7 @@
 		unsub = globalHistory.listen(({ location, action }) => {
 			console.log(location, action);
 			pathname = location.pathname;
+			rerenderTTCSS();
 		});
 	});
 

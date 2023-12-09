@@ -32,10 +32,12 @@
     let currentDate = new Date(date);
     let nextWeek = localStorage.getItem("next_week") !== "false";
     if ((currentDate.getDay() === 6 || currentDate.getDay() === 0) && nextWeek) {
-        currentDate.setDate(currentDate.getDate() + currentDate.getDay() === 0 ? 1 : 2);
+        console.log("eee", currentDate.getDate(), currentDate.getDay())
+        currentDate.setDate(currentDate.getDate() + (currentDate.getDay() === 0 ? 1 : 2));
     }
     let d = ["", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek"];
     timetableDay.set(d[currentDate.getDay()]);
+    console.log(currentDate);
 
 
     let noviUrnik = localStorage.getItem("noviUrnik") === "true";
