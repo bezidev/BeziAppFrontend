@@ -134,8 +134,4 @@
             </LayoutGrid>
         <p/>
     </div>
-    {#if loginType === "gimsis"}
-        <!--<div style="bottom: 15px; position: fixed; left: 15px; right: 15px;">-->
-        <!--</div>-->
-    {/if}
 </main>

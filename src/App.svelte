@@ -325,7 +325,7 @@
 									<Error error={e} />
 								{/await}
 							</Route>
-							<Route path="/">
+							<Route primary={false} path="/">
 								{#await import("./Home.svelte")}
 								{:then Page}
 									<Page.default />
