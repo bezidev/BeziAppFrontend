@@ -62,6 +62,21 @@
 
 <div class="center">
     <h1>Prijava v Lo.Polis</h1>
+    Prišlo je do napake pri dostopu do vašega Lo.Polis računa. Možno je, da šele prvič dostopate, ste prej vpisali napačne podatke
+    in vas zato ni sprejelo ali pa je vaš Lo.Polis račun blokiran. V slednjem primeru morate resetirati geslo.
+
+    <p/>
+
+    Vaše uporabniške podatke resetirate tako, da pišete <a href="mailto:Polona.Serko@gimb.org">Poloni Šerko (polona.serko@gimb.org), referentki za dijake</a>,
+    preko šolskega elektronskega naslova in zahtevate ponastavitev podatkov.
+
+    <p/>
+
+    Če ste poskusili že vse prej navedeno je možno, da Lo.Polis modul ne deluje tako, kot bi moral.
+    V tem primeru kontaktirajte razvijalca BežiApp sistema preko kateregakoli podprtega sredstva komunikacije, navedenega v pogojih storitve.
+
+    <p/>
+
     <Textfield type="text" bind:value={username} label="Uporabniško ime" style="width: 80%;" helperLine$style="width: 80%;">
         <HelperText slot="helper" style="left: 12%; position: relative;">Lo.Polis uporabniško ime</HelperText>
         <Icon class="material-icons" slot="leadingIcon">person</Icon>
