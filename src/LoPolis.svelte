@@ -10,6 +10,8 @@
     import FormField from "@smui/form-field";
     import Switch from "@smui/switch";
     import Snackbar, {Actions} from "@smui/snackbar";
+    import CircularProgress from "@smui/circular-progress";
+    import {format} from "date-fns";
 
     let opozoriloShrani: Snackbar;
 
@@ -82,6 +84,7 @@
 
     async function getCheckouts() {
         checkouts = await makeRequest(`/lopolis/checkouts?year=${selectedYear}&month=${selectedMonth}`)
+        console.log(checkouts);
     }
 
     async function setMeals() {
@@ -101,7 +104,7 @@
     async function fetchData() {
         let preflight = await getMeals();
         if (!preflight) {
-            navigate("/settings?type=lopolis_fail");
+            navigate("/lopolis/login");
             return;
         }
         await getCheckouts();
@@ -168,15 +171,26 @@ Izbran mesec: <b>{selectedMonth}/{selectedYear}</b><p/>
     <Accordion>
         {#each Object.entries(meals) as [k, day]}
             {#if day.length !== 0}
-                <h1>{k.split("T")[0]}</h1>
+                <h1>{format(new Date(Date.parse(k)), "eee, dd. MM. yyyy")}</h1>
                 {#each day as meal}
                     <Panel bind:open={open[meal.local_id]}>
                         <Header>
                             <div style="display: flex; flex-direction: row; align-items: center;">
                                 {meal.meal}
                                 {#if selectedMeals[meal.local_id] !== undefined && selectedMeals[meal.local_id] !== ""}
-                                    <Icon class="material-icons" style="margin: 0 0 0 0.5em;" on>done</Icon>
+                                    <Icon class="material-icons" style="margin: 0 0 0 0.5em;">check_box</Icon>
+                                {:else if (selectedMeals[meal.local_id] === undefined || selectedMeals[meal.local_id] === "") && meal.menu_options.length !== 0}
+                                    <Icon class="material-icons" style="margin: 0 0 0 0.5em;">check_box_outline_blank</Icon>
                                 {/if}
+                                {#each Object.entries(checkouts) as [k2, checkout]}
+                                    {#each checkout as c, i}
+                                        {#if c.full_date === k && c.checkout_local_id.toString() === meal.local_id.toString()}
+                                            {#if checkouts[k2][i].cancelled}
+                                                <Icon class="material-icons" style="margin: 0 0 0 0.5em;">cancel</Icon>
+                                            {/if}
+                                        {/if}
+                                    {/each}
+                                {/each}
                             </div>
                             <IconButton style="margin: auto 0;" slot="icon" toggle pressed={open[meal.local_id]}>
                                 <Icon class="material-icons" on>expand_less</Icon>
@@ -221,4 +235,11 @@ Izbran mesec: <b>{selectedMonth}/{selectedYear}</b><p/>
         {/each}
         <div style="height: 100px" />
     </Accordion>
+{:else}
+    <div style="display: flex; justify-content: center">
+        <CircularProgress style="height: 100px; width: 100px;" indeterminate />
+    </div>
+    <div style="display: flex; justify-content: center">
+        BežiApp nalaga vaše Lo.Polis menije. Prosimo, bodite potrpežljivi.
+    </div>
 {/if}

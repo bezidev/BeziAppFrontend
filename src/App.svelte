@@ -89,7 +89,7 @@
 
 <Router>
 	<div class="flexy">
-		{#if !(pathname === "/login" || pathname === "/lopolis/login")}
+		{#if pathname !== "/login"}
 			<div class="top-app-bar-container flexor">
 				<TopAppBar variant="static" style="background-color: rgba(0, 128, 83, 1);">
 					<Row>
@@ -166,9 +166,9 @@
 								{/await}
 							</Route>
 							<Route path="/lopolis/login">
-								{#await import("./Login.svelte")}
+								{#await import("./SimpleLoPolis.svelte")}
 								{:then Page}
-									<Page.default loginType="lopolis" />
+									<Page.default />
 								{:catch e}
 									<Error error={e} />
 								{/await}

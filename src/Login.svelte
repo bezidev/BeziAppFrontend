@@ -66,12 +66,6 @@
     getNotifications();
 </script>
 
-<style>
-    .center {
-        text-align: center;
-    }
-</style>
-
 <main>
     <Snackbar bind:this={snackbarWithClose}>
         <Label>Prijava neuspešna. Še enkrat preverite vaše geslo.</Label>

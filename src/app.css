@@ -58,6 +58,10 @@ a:visited {
     height: 100%;
 }
 
+.center {
+    text-align: center;
+}
+
 .flexy {
     display: flex;
     flex-wrap: wrap;
