@@ -91,11 +91,13 @@
 	<div class="flexy">
 		{#if pathname !== "/login"}
 			<div class="top-app-bar-container flexor">
-				<TopAppBar variant="static" style="background-color: rgba(0, 128, 83, 1);">
+				<!--<TopAppBar variant="static" style="background-color: rgba(0, 128, 83, 1);">-->
+				<!--<TopAppBar variant="static" style="background-color: #56887D;">-->
+				<TopAppBar variant="static" style="background-color: #439A97;">
 					<Row>
 						<Section style="display: flex; flex-direction: row; align-items: center;">
 							<IconButton style="margin: 0 0 0 0.5em;" class="material-icons" on:click={() => open=!open}>{#if open}close{:else}menu{/if}</IconButton>
-							<Title>BežiApp</Title>
+							<Title>BežiApp <span style="font-size: 12px;">Srečno novo leto</span></Title>
 						</Section>
 						<Section align="end" toolbar>
 							<IconButton style="margin: 0;" class="material-icons" aria-hidden="true" on:click={() => {
