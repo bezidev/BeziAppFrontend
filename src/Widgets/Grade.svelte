@@ -23,7 +23,7 @@
 
 {#if (stalne && grade.je_zakljucena) || !stalne}
     <Wrapper>
-        <div style="color: {gradeColors[parseInt(grade.ocena) - 1]}; display:inline-block; font-size: 1.25rem; font-weight: 600;" on:click={(e) => {
+        <div style="color: {gradeColors[grade.ocena]}; display:inline-block; font-size: 1.25rem; font-weight: 600;" on:click={(e) => {
             if (mobile) {
                 open = true;
             }

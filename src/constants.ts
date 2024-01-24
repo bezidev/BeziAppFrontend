@@ -3,13 +3,16 @@ import {navigate} from "svelte-navigator";
 export const production: boolean = isProduction;
 export let baseurl: string = (!production ? "http://127.0.0.1:8000" : "/api");
 
-export const gradeColors = [
-    "#F44336",
-    "#FF9800",
-    "#FFC107",
-    "#8BC34A",
-    "#64DD17"
-];
+export const gradeColors = {
+    1: "#F44336",
+    2: "#FF9800",
+    3: "#FFC107",
+    4: "#8BC34A",
+    5: "#64DD17",
+    "NOC": "#808080",
+};
+
+export const NOC = "";
 
 export function timeConverter(UNIX_timestamp){
     var a = new Date(UNIX_timestamp * 1000);
