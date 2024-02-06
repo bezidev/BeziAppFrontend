@@ -4,6 +4,7 @@
     import randomColor from "randomcolor";
     import BottomSheet from "./Widgets/BottomSheet.svelte";
     import uniqolor from "uniqolor";
+    import { Icon } from '@smui/common';
 
     export let n;
 
@@ -67,7 +68,7 @@
         position: absolute;
         bottom: 6px;
         right: 5px;
-        font-size: 10px;
+        font-size: 0.7em;
     }
 
     a:link { text-decoration: none; }
@@ -79,37 +80,57 @@
     a:active { text-decoration: none; }
 
     .pos { position: relative; }
+
+    .strike {
+        text-decoration: line-through;
+        text-decoration-thickness: 0.2em;
+    }
+
+    /*:global(i) {
+        padding: 0 !important;
+    }*/
 </style>
 
 <div style="padding: 3px; min-width: 93%" class="inline" on:click={() => open = true} on:keydown={() => {}}>
     <!--<Wrapper>-->
-    <span style="background-color: {barva}; padding: 5px; display: flex; width: 100%; display: inline-block; height: 40px; text-align: left;" class="pos">
-        <span style="font-size: 12px; font-weight: 700;">{n.kratko_ime}</span><br>
-        <span style="font-size: 10px;" class="sameline">
-            {#each n.profesor.split(" ") as t, i}
-                {#if n.profesor.split(" ").length === i+1 && !mobile}
-                    {t[0].toUpperCase()}{t.substring(1)}
-                {:else}
-                    {#if mobile}
-                        {t[0].toUpperCase()}
-                    {:else}
-                        <span class="inline">{t[0].toUpperCase()}.</span><div class="inline" style="width: 2px;"/>
-                    {/if}
-                {/if}
-            {/each}
-        </span>
-        <div
-                class="triangle"
-                style="border-top: 20px solid {n.odpade ? 'lightblue': (n.ocenjevanje ? 'magenta' : (n.fixed_by_sharepoint ? 'yellow' : (n.vpisano_nadomescanje ? 'red' : (n.rocno ? 'LightSlateGray' : 'transparent'))))};"
-        ></div>
-        <span class="classroom">
-            {#if mobile}
-                {n.ucilnica.replace("Učilnica ", "").replace("Telovadnica", "T").replace("Predavalnica", "P")}
-            {:else}
-                {n.ucilnica}
+    <div style="background-color: {barva}; padding: 5px; display: flex; width: 100%; display: inline-block; height: 40px; text-align: left; " class="pos">
+        <!--<div style="z-index: 500; position: absolute;">
+            {#if n.odpade}
+                <div style="width: 400px; height: 400px;">
+                    <Icon class="material-icons" style="color: black;">
+                        <span style="font-size: 2em;">close</span>
+                    </Icon>
+                </div>
             {/if}
-        </span>
-    </span>
+        </div>-->
+        <div style="z-index: 700;">
+            <span style="font-size: 0.8em; font-weight: 700;" class="sameline">
+                {#if n.odpade}
+                    <span class="strike inline">{n.kratko_ime}</span>
+                    <!--<span class="inline" style="height: 10px;"><Icon class="material-icons">close</Icon></span>-->
+                {:else}
+                    {n.kratko_ime}
+                {/if}
+            </span>
+            <br>
+            <span style="font-size: 0.7em;">
+                <span class="{n.odpade ? 'strike' : ''}">
+                    {n.alt_profesor}
+                </span>
+            </span>
+            <div
+                    class="triangle"
+                    style="border-top: 20px solid {n.implicitno_odpade ? 'darkblue' : (n.odpade ? 'lightblue': (n.ocenjevanje ? 'magenta' : (n.fixed_by_sharepoint ? 'yellow' : (n.vpisano_nadomescanje ? 'red' : (n.rocno ? 'LightSlateGray' : 'transparent')))))};"
+            ></div>
+            <span class="classroom {n.odpade ? 'strike' : ''}">
+                {#if mobile}
+                    {n.ucilnica.replace("Učilnica ", "").replace("Telovadnica", "T").replace("Predavalnica", "P")}
+                {:else}
+                    {n.ucilnica}
+                {/if}
+            </span>
+        </div>
+    </div>
     {#if !mobile}
         <Wrapper>
             <Tooltip unbounded hideDelay={0}>
@@ -133,10 +154,13 @@
                 {/if}
                 {#if n.fixed_by_sharepoint}
                     <b>BežiApp je združil nadomeščanja na tej uri preko intraneta in GimSIS-a.</b><br>
-                    Tip izostanka profesorja: <b>{n.tip_izostanka}</b><br>
+                    <!--Tip izostanka profesorja: <b>{n.tip_izostanka}</b><br>-->
                     Tip nadomeščanja: <b>{n.opis}</b><br>
                     GimSIS kratko ime predmeta: <b>{n.gimsis_kratko_ime}</b><br>
                     GimSIS ime predmeta: <b>{n.gimsis_ime}</b><br>
+                {/if}
+                {#if n.implicitno_odpade}
+                    <b>BežiApp na podlagi druge ure v tem dnevu sklepa, da ura odpade. Prosimo, preverite.</b><br>
                 {/if}
                 {#if n.odpade}
                     <b>Ura ODPADE.</b><br>
@@ -172,10 +196,13 @@
             {/if}
             {#if n.fixed_by_sharepoint}
                 <b>BežiApp je združil nadomeščanja na tej uri preko intraneta in GimSIS-a.</b><br>
-                Tip izostanka profesorja: <b>{n.tip_izostanka}</b><br>
+                <!--Tip izostanka profesorja: <b>{n.tip_izostanka}</b><br>-->
                 Tip nadomeščanja: <b>{n.opis}</b><br>
                 GimSIS kratko ime predmeta: <b>{n.gimsis_kratko_ime}</b><br>
                 GimSIS ime predmeta: <b>{n.gimsis_ime}</b><br>
+            {/if}
+            {#if n.implicitno_odpade}
+                <b>BežiApp na podlagi druge ure v tem dnevu sklepa, da ura odpade. Prosimo, preverite.</b><br>
             {/if}
             {#if n.odpade}
                 <b>Ura ODPADE.</b><br>

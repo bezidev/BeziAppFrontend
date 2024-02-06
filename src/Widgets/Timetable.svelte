@@ -2,6 +2,11 @@
     a:link {
         text-decoration: none;
     }
+
+    .time {
+        font-weight: normal;
+        font-size: 0.93em;
+    }
 </style>
 
 <script lang="ts">
@@ -115,14 +120,40 @@
             3: false,
             4: false
         }
+
+        let maxN = 0;
+
         for (let i in r["classes"]) {
             for (let n in r["classes"][i]) {
+                r["classes"][i][n].alt_profesor = r["classes"][i][n].profesor;
+                if (mobile) {
+                    let p = r["classes"][i][n].profesor.split(" ");
+                    let np = [];
+                    for (let k = 0; k < p.length; k++) {
+                        np.push(p[k][0].toUpperCase());
+                    }
+                    r["classes"][i][n].alt_profesor = np.join("");
+                }
                 if (r["classes"][i][n].opozori === true) {
                     warn[i] = true
                     break;
                 }
             }
+            let l = Object.keys(r["classes"][i]).length;
+            if (r["classes"][i][0] !== undefined) {
+                l--;
+            }
+            if (l <= maxN) {
+                continue;
+            }
+            maxN = Object.keys(r["classes"][i]).length;
         }
+
+        hours = [];
+        for (let i = 0; i <= maxN + 1; i++) {
+            hours.push(i);
+        }
+
         console.log(thu)
         return true;
     }
@@ -141,13 +172,43 @@
     getDeveloperNotifications();
     getTimetable().then((o) => ok = o);
 
-    const hours: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    let hours: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     let dates: string[] = ["", "", "", "", "", ""]
     let mon = [];
     let tue = [];
     let wed = [];
     let thu = [];
     let fri = [];
+
+    const ure = [
+        "7.10–7.55",
+        "8.00–8.45",
+        "8.50–9.35",
+        "9.40–10.25",
+        // glavni odmor
+        "10.55–11.40",
+        "11.45–12.30",
+        "12.35–13.20",
+        "13.25–14.10",
+        "14.15–15.00",
+        "15.05–15.50",
+        "15.55–16.40",
+    ]
+
+    const mobile_ure = [
+        "7.10",
+        "8.00",
+        "8.50",
+        "9.40",
+        // glavni odmor
+        "10.55",
+        "11.45",
+        "12.35",
+        "13.25",
+        "14.15",
+        "15.05",
+        "15.55",
+    ]
 
     let neprimerniKomentarji = localStorage.getItem("komentarji") === "true";
 </script>
@@ -197,7 +258,11 @@
             </tr>
             {#each hours as i}
                 <tr>
-                    <th>{i}.</th>
+                    <th>
+                        {i}.
+                        <br>
+                        {#if mobile}<span class="time">{mobile_ure[i]}</span>{:else}<span class="time">{ure[i]}</span>{/if}
+                    </th>
                     <td>
                         {#each Array(mon[i]) as m}
                             {#if m}
