@@ -113,7 +113,7 @@
                 {/if}
             </span>
             <br>
-            <span style="font-size: 0.7em;">
+            <span style="font-size: 0.7em; position: absolute; bottom: 6px; left: 5px;">
                 <span class="{n.odpade ? 'strike' : ''}">
                     {n.alt_profesor}
                 </span>
