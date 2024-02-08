@@ -196,10 +196,12 @@
             {#if n.vpisano_nadomescanje}
                 <b>Nadomeščanje je vpisano v GimSIS-u.</b><br>
             {/if}
+            {#if n.opis}
+                Opis: <b>{n.opis}</b><br>
+            {/if}
             {#if n.fixed_by_sharepoint}
                 <b>BežiApp je združil nadomeščanja na tej uri preko intraneta in GimSIS-a.</b><br>
                 <!--Tip izostanka profesorja: <b>{n.tip_izostanka}</b><br>-->
-                Tip nadomeščanja: <b>{n.opis}</b><br>
                 GimSIS kratko ime predmeta: <b>{n.gimsis_kratko_ime}</b><br>
                 GimSIS ime predmeta: <b>{n.gimsis_ime}</b><br>
             {/if}
