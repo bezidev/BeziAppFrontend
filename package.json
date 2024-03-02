@@ -56,7 +56,6 @@
     "marked": "^5.0.2",
     "marked-mangle": "^1.1.6",
     "randomcolor": "^0.6.2",
-    "sirv-cli": "^2.0.2",
     "sl": "link:@fullcalendar/core/locales/sl",
     "smui-theme": "^7.0.0-beta.8",
     "svelte": "^3.59.1",
@@ -73,10 +72,11 @@
     "uniqolor": "^1.1.0",
     "vite": "4.5.2",
     "vite-plugin-compression": "^0.5.1",
-    "vite-plugin-pwa": "^0.17.4"
-  },
-  "dependencies": {
+    "vite-plugin-pwa": "^0.17.4",
     "@fullcalendar/core": "^6.1.11",
     "@fullcalendar/daygrid": "^6.1.11"
+  },
+  "dependencies": {
+    "sirv-cli": "^2.0.2"
   }
 }
