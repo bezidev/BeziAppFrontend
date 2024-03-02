@@ -9,7 +9,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "dev": "vite --port 8080",
     "start": "sirv dist --no-clear -s -G",
-    "prepare": "npm run smui-theme-light && npm run smui-theme-dark",
+    "prepare-css": "npm run smui-theme-light && npm run smui-theme-dark",
     "smui-theme-light": "smui-theme compile src/smui.css -i src/theme",
     "smui-theme-dark": "smui-theme compile src/smui-dark.css -i src/theme/dark"
   },
