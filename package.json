@@ -15,6 +15,8 @@
   },
   "devDependencies": {
     "@emotion/css": "^11.11.2",
+    "@fullcalendar/core": "^6.1.11",
+    "@fullcalendar/daygrid": "^6.1.11",
     "@material/elevation": "^14.0.0",
     "@material/theme": "^14.0.0",
     "@material/typography": "^14.0.0",
@@ -38,6 +40,8 @@
     "@smui/slider": "^7.0.0-beta.8",
     "@smui/snackbar": "^7.0.0-beta.8",
     "@smui/switch": "^7.0.0-beta.8",
+    "@smui/tab": "7.0.0-beta.16",
+    "@smui/tab-bar": "7.0.0-beta.16",
     "@smui/textfield": "^7.0.0-beta.8",
     "@smui/tooltip": "^7.0.0-beta.8",
     "@smui/top-app-bar": "^7.0.0-beta.8",
@@ -72,9 +76,7 @@
     "uniqolor": "^1.1.0",
     "vite": "4.5.2",
     "vite-plugin-compression": "^0.5.1",
-    "vite-plugin-pwa": "^0.17.4",
-    "@fullcalendar/core": "^6.1.11",
-    "@fullcalendar/daygrid": "^6.1.11"
+    "vite-plugin-pwa": "^0.17.4"
   },
   "dependencies": {
     "sirv-cli": "^2.0.2"

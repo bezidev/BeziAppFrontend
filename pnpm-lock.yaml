@@ -88,6 +88,12 @@ devDependencies:
   '@smui/switch':
     specifier: ^7.0.0-beta.8
     version: 7.0.0-beta.16(svelte@3.59.2)(typescript@5.3.3)
+  '@smui/tab':
+    specifier: 7.0.0-beta.16
+    version: 7.0.0-beta.16(svelte@3.59.2)(typescript@5.3.3)
+  '@smui/tab-bar':
+    specifier: 7.0.0-beta.16
+    version: 7.0.0-beta.16(svelte@3.59.2)(typescript@5.3.3)
   '@smui/textfield':
     specifier: ^7.0.0-beta.8
     version: 7.0.0-beta.16(svelte@3.59.2)(typescript@5.3.3)
