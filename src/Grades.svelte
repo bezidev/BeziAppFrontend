@@ -1,6 +1,6 @@
 <script lang="ts">
     import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
-    import {gradeColors, makeRequest, NOC} from "./constants";
+    import {gradeColors, makeRequest} from "./constants";
     import Grade from "./Widgets/Grade.svelte";
     import FormField from "@smui/form-field";
     import Switch from "@smui/switch";

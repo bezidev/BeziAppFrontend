@@ -3,7 +3,6 @@
     import {Label} from "@smui/common";
     import Textfield from "@smui/textfield";
     import HelperText from "@smui/textfield/helper-text";
-    import IconButton from "@smui/icon-button";
     import FormField from "@smui/form-field";
     import Switch from "@smui/switch";
 

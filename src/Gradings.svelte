@@ -8,8 +8,6 @@
     import {Calendar} from "@fullcalendar/core";
     import dayGridPlugin from "@fullcalendar/daygrid";
     import slLocale from '@fullcalendar/core/locales/sl';
-    import {sl} from "date-fns/locale";
-    import TooltipMobile from "./Widgets/TooltipMobile.svelte";
     import BottomSheet from "./Widgets/BottomSheet.svelte";
 
     let gradings;
