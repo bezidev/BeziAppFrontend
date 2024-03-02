@@ -32,6 +32,7 @@
     import DayTimetable from "../DayTimetable.svelte";
     import Switch from "@smui/switch";
     import FormField from "@smui/form-field";
+    import {onMount} from "svelte";
 
     export let date: Date = new Date();
     let currentDate = new Date(date);
@@ -168,9 +169,11 @@
         console.log(width);
     });
 
-    getNotifications();
-    getDeveloperNotifications();
-    getTimetable().then((o) => ok = o);
+    onMount(async () => {
+        ok = await getTimetable();
+        getNotifications();
+        getDeveloperNotifications();
+    })
 
     let hours: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     let dates: string[] = ["", "", "", "", "", ""]
