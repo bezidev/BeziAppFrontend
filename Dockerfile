@@ -1,11 +1,16 @@
-FROM node:16-alpine3.12 as build
+FROM node:20-slim AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+COPY . /app
 WORKDIR /app
-ENV PATH /app/node_modules/.bin:$PATH
-COPY package.json ./
-COPY package-lock.json ./
-COPY . ./
-RUN npm i
-RUN npm run build
 
+FROM base AS build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm run build
+
+FROM base
+COPY --from=prod-deps /app/node_modules /app/node_modules
+COPY --from=build /app/dist /app/dist
 EXPOSE 3000
-CMD ["sirv", "dist", "--no-clear", "-s", "--host", "0.0.0.0", "--port", "3000"]
+CMD [ "pnpm", "start" ]
