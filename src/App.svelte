@@ -168,6 +168,14 @@
 									<Error error={e} />
 								{/await}
 							</Route>
+							<Route path="/bikes">
+								{#await import("./Bikes.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
 							<Route path="/lopolis/login">
 								{#await import("./SimpleLoPolis.svelte")}
 								{:then Page}

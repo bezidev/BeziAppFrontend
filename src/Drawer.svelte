@@ -52,6 +52,7 @@
                 "/absences": "izostanki",
                 "/grades": "ocene",
                 "/teachers": "ucitelji",
+                "/bikes": "kolesarnica",
                 "/lopolis": "lopolis",
                 "/notes": "notes",
                 "/about": "about",
@@ -115,6 +116,13 @@
                     >
                         <Graphic class="material-icons" aria-hidden="true">school</Graphic>
                         <Text>Učitelji</Text>
+                    </Item>
+                    <Item
+                            on:click={() => navigate('/bikes')}
+                            activated={active === 'kolesarnica'}
+                    >
+                        <Graphic class="material-icons" aria-hidden="true">directions_bike</Graphic>
+                        <Text>Kolesarnica</Text>
                     </Item>
                     <Item
                             on:click={() => navigate('/lopolis')}

@@ -1,4 +1,5 @@
 import {navigate} from "svelte-navigator";
+import uniqolor from "uniqolor";
 
 export const production: boolean = isProduction;
 export let baseurl: string = (!production ? "http://127.0.0.1:8000" : "/api");
@@ -96,4 +97,33 @@ export async function makeRequest(url: string, method: string = "GET", formData:
 export const saveBlob = async blob => {
     let _url = window.URL.createObjectURL(blob);
     window.open(_url, "_blank").focus();
+}
+
+export function barvaPredmeta(selected, paleta, n) {
+    if (selected !== "Lastne barvne plošče") {
+        return uniqolor(selected === "Kratkega imena predmeta" ? n.kratko_ime : n.ime, {
+            saturation: [50, 70],
+            lightness: [20, 30],
+        }).color;
+    } else {
+        //console.log("uporabljam lastno barvno ploščo");
+
+        for (let i = 0; i < paleta.length; i++) {
+            let predmet = paleta[i];
+            //console.log(predmet.id.toLowerCase(), n.kratko_ime.toLowerCase())
+            if (n.kratko_ime.toLowerCase().includes(predmet.id.toLowerCase())) {
+                return predmet.color;
+            }
+        }
+
+        for (let i = 0; i < paleta.length; i++) {
+            let predmet = paleta[i];
+            //console.log(predmet.id.toLowerCase(), n.ime.toLowerCase())
+            if (n.ime.toLowerCase().includes(predmet.id.toLowerCase())) {
+                return predmet.color;
+            }
+        }
+
+        return uniqolor(n.ime, {saturation: [50, 70], lightness: [20, 30],}).color;
+    }
 }
