@@ -10,10 +10,7 @@
 </style>
 
 <script lang="ts">
-    import {
-        startOfWeek,
-        endOfWeek, addDays
-    } from "date-fns";
+    import {startOfWeek, addDays} from "date-fns";
     import IconButton from "@smui/icon-button";
     import {handleRejection, makeRequest, timeConverter} from "../constants";
     import isMobile from "is-mobile";
@@ -28,7 +25,6 @@
     import {marked} from "marked";
     import {Link} from "svelte-navigator";
     import {enableNewTimetable, timetableDay} from "../stores";
-    import Warning from "../Warning.svelte";
     import DayTimetable from "../DayTimetable.svelte";
     import Switch from "@smui/switch";
     import FormField from "@smui/form-field";

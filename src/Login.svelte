@@ -1,5 +1,4 @@
 <script lang="ts">
-    import Paper from "@smui/paper";
     import Textfield from "@smui/textfield";
     import Icon from '@smui/textfield/icon';
     import Button, {Label} from "@smui/button";
@@ -8,7 +7,6 @@
     import Snackbar, {Actions} from "@smui/snackbar";
     import * as constants from "./constants";
     import Notification from "./Widgets/Notification.svelte";
-    import Tooltip, {Wrapper} from "@smui/tooltip";
     import LayoutGrid, { Cell } from '@smui/layout-grid';
     import HelperText from "@smui/textfield/helper-text";
     import {makeRequest} from "./constants";

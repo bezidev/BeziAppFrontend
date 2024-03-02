@@ -4,7 +4,6 @@
     import Button, {Label} from "@smui/button";
     import TextField from "@smui/textfield";
     import Snackbar from "@smui/snackbar";
-    import {marked} from "marked";
 
     let snackbarWithoutClose: Snackbar;
     let snackbarContent = "";
