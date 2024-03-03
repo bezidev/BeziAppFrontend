@@ -106,6 +106,10 @@
     {#if (token === "DEFAULT_TOKEN" || token === "NO_TOKEN")}
         Uporabljate skupni ključ. Skupni ključ bo ostal skrit, saj BežiApp razvijalci ne želimo, da pride do zlorabe.
         BežiApp privzeto uporablja skupni ključ.
+        <br>
+        Vsi odklepi s skupnim ključem se beležijo, da preprečimo zlorabe. Dnevnika odklepov ne bom bral, ga bom pa posredoval
+        vodstvu v primeru, da pride do tatvine z uporabo skupnega ključa. V primeru, da NE uporabljate skupnega ključa, se
+        vaši odklepi NE beležijo v BežiApp sistemu, se pa še vedno beležijo v Ringo podatkovni bazi, na katero nimam vpliva.
         <p/>
     {/if}
     {#if (token !== "DEFAULT_TOKEN" && token !== "NO_TOKEN" && token !== "")}
