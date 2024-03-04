@@ -12,6 +12,9 @@
     let newToken = "";
     let currentPassword = "";
 
+    let locked = [true, true];
+    let lockedTimer = [5, 5];
+
     async function getToken() {
         let t = await makeRequest(`/bikes/token`);
         if (t === undefined) return;
@@ -48,16 +51,43 @@
         await getToken();
     }
 
+    async function unlockDoor(door_id: number) {
+        if (!locked[door_id]) return;
+
+        let fd = new FormData();
+        fd.append("door_id", door_id);
+        let r = await makeRequest(`/bikes/open/${door_id}`, "POST", fd);
+        if (r.type === "invalid_door_id") {
+            snackbarContent = "Poslali ste neveljaven zahtevek. To je krivda BežiApp razvijalca.";
+            snackbarWithoutClose.open();
+            return;
+        }
+        if (r.type === "door_open_failure") {
+            snackbarContent = "Vrata se niso odprla zaradi težav z Ringo strežniki.";
+            snackbarWithoutClose.open();
+            return;
+        }
+        if (r.type === "ringo_api_failure") {
+            snackbarContent = "Vrata se niso odprla zaradi težav z Ringo API zahtevkom. To je lahko krivda BežiApp razvijalca.";
+            snackbarWithoutClose.open();
+            return;
+        }
+
+        snackbarContent = "";
+        lockedTimer[door_id] = 5;
+        locked[door_id] = false;
+        let interval = setInterval(() => {
+            lockedTimer[door_id]--;
+            if (lockedTimer[door_id] <= 0) {
+                locked[door_id] = true;
+                clearInterval(interval);
+                return;
+            }
+        }, 1000)
+    }
+
     getToken();
 </script>
-
-<div style="padding: 10px; background-color: darkorange; border-radius: 10px;">
-    <h2>Modul še ni aktiven</h2>
-    Modul trenutno še ni aktiven, še čakam na namestitev in testiranje. Vmes si lahko nastavite Ringo URL na svoj BežiApp profil.
-    <p/>
-</div>
-
-<p/>
 
 <div class="center">
     <Icon class="material-icons" slot="leadingIcon" style="font-size: 7em;">directions_bike</Icon>
@@ -85,23 +115,33 @@
         <span class="inline">Pokrita kolesarnica:</span>
         <div style="width: 10px;" class="inline" />
         <Button on:click={async () => {
-            await makeRequest(`/bikes/open/0`, "POST");
-        }} variant="raised" class="inline">
+            await unlockDoor(0);
+        }} disabled={!locked[0]} variant="raised" class="inline">
             <Icon class="material-icons">lock_open</Icon>
             <Label>Odpri vrata</Label>
         </Button>
     </div>
+    {#if !locked[0]}
+        <br>
+        Vrata se zaklenejo čez <b>{lockedTimer[0]}</b> sekund{#if lockedTimer[0] === 1}o{/if}{#if lockedTimer[0] === 2}i{/if}{#if lockedTimer[0] === 3 || lockedTimer[0] === 4}e{/if}.
+    {/if}
     <p/>
     <div class="sameline">
         <span class="inline">Odprta kolesarnica:</span>
         <div style="width: 10px;" class="inline" />
         <Button on:click={async () => {
-            await makeRequest(`/bikes/open/1`, "POST");
-        }} variant="outlined" class="inline">
+            await unlockDoor(1);
+        }} disabled={!locked[1]} variant="outlined" class="inline">
             <Icon class="material-icons">lock_open</Icon>
             <Label>Odpri vrata</Label>
         </Button>
     </div>
+    {#if !locked[1]}
+        <br>
+        Vrata se zaklenejo čez <b>{lockedTimer[1]}</b> sekund{#if lockedTimer[1] === 1}o{/if}{#if lockedTimer[1] === 2}i{/if}{#if lockedTimer[1] === 3 || lockedTimer[1] === 4}e{/if}.
+    {/if}
+    <p/>
+    ───────────────
     <p/>
     {#if (token === "DEFAULT_TOKEN" || token === "NO_TOKEN")}
         Uporabljate skupni ključ. Skupni ključ bo ostal skrit, saj BežiApp razvijalci ne želimo, da pride do zlorabe.
