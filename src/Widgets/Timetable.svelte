@@ -319,11 +319,6 @@
         <CircularProgress style="height: 100px; width: 100px;" indeterminate />
     </div>
     <div style="display: flex; justify-content: center">
-        {#if Date.now() < 1709917200000}
-            BežiApp sedaj vsebuje tudi modul za kolesarnico. :)
-        {/if}
-    </div>
-    <div style="display: flex; justify-content: center">
         {#if neprimerniKomentarji}
             jAvAsCrIpT je toooooook počasen.
         {/if}
