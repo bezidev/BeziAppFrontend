@@ -100,6 +100,12 @@
             <Button on:click={async () => await login()} variant="raised">
                 <Label>PRIJAVA</Label>
             </Button>
+            <p/>
+            Prijava ne deluje? Ponastavite uporabniški profil.
+            <p/>
+            <Button on:click={() => navigate("/reset")} variant="outlined">
+                <Label>PONASTAVITEV</Label>
+            </Button>
 
             {#if loginType === "account"}
                 <p/>

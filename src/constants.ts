@@ -13,8 +13,6 @@ export const gradeColors = {
     "NOC": "#808080",
 };
 
-export const NOC = "";
-
 export function timeConverter(UNIX_timestamp){
     var a = new Date(UNIX_timestamp * 1000);
     var months = ['januar','februar','marec','april','maj','junij','julij','avgust','september','oktober','november','december'];

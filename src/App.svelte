@@ -34,14 +34,14 @@
 		flex-basis: 0 !important;
 		flex-grow: 1 !important;
 		overflow: auto !important;
-		height: calc(100vh - 64px - ${noviUrnik && (pathname === "/" || pathname === "") ? 48 : 0}px);
+		height: calc(100vh - ${pathname !== "/login" && pathname !== "/reset" ? 64 : 0}px - ${noviUrnik && (pathname === "/" || pathname === "") ? 48 : 0}px);
 
 		@media (max-width: 959px) and (orientation: landscape) {
-		  height: calc(100vh - 48px - ${noviUrnik && (pathname === "/" || pathname === "") ? 48 : 0}px);
+		  height: calc(100vh - ${pathname !== "/login" && pathname !== "/reset" ? 48 : 0}px - ${noviUrnik && (pathname === "/" || pathname === "") ? 48 : 0}px);
 		}
 
 		@media (max-width: 599px) {
-		  height: calc(100vh - 56px - ${noviUrnik && (pathname === "/" || pathname === "") ? 48 : 0}px);
+		  height: calc(100vh - ${pathname !== "/login" && pathname !== "/reset" ? 56 : 0}px - ${noviUrnik && (pathname === "/" || pathname === "") ? 48 : 0}px);
 		}
 		`
 	}
@@ -89,7 +89,7 @@
 
 <Router>
 	<div class="flexy">
-		{#if pathname !== "/login"}
+		{#if pathname !== "/login" && pathname !== "/reset"}
 			<div class="top-app-bar-container flexor">
 				<TopAppBar variant="static" style="background-color: rgba(0, 128, 83, 1);">
 				<!--<TopAppBar variant="static" style="background-color: #56887D;">-->
@@ -155,6 +155,14 @@
 							</Route>
 							<Route path="/teachers">
 								{#await import("./Teachers.svelte")}
+								{:then Page}
+									<Page.default />
+								{:catch e}
+									<Error error={e} />
+								{/await}
+							</Route>
+							<Route path="/reset">
+								{#await import("./ResetEmailSend.svelte")}
 								{:then Page}
 									<Page.default />
 								{:catch e}

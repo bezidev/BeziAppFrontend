@@ -24,7 +24,7 @@
 
     $: (async () => {
         statusFunction(open);
-        if (!($location.pathname === "/login" || $location.pathname === "/register")) {
+        if (!($location.pathname === "/login" || $location.pathname === "/reset")) {
             showDrawer = true;
 
             const token = localStorage.getItem("key");
