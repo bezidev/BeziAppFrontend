@@ -179,3 +179,7 @@ a:visited {
 .mdc-tab-indicator .mdc-tab-indicator__content--underline {
     border-color: #F9A825 !important;
 }
+
+.bold {
+    font-weight: bold;
+}

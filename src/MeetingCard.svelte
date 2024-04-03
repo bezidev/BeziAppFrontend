@@ -78,9 +78,9 @@
                 </span>
                 <div
                         class="triangle"
-                        style="border-top: 20px solid {n.implicitno_odpade ? 'darkblue' : (n.odpade ? 'lightblue': (n.ocenjevanje ? 'magenta' : (n.fixed_by_sharepoint ? 'yellow' : (n.vpisano_nadomescanje ? 'red' : (n.rocno ? 'LightSlateGray' : 'transparent')))))};"
+                        style="border-top: 20px solid {n.implicitno_odpade ? 'darkblue' : (n.odpade ? 'lightblue': (n.ocenjevanje ? 'magenta' : (n.fixed_by_paralelepiped ? 'white' : (n.fixed_by_sharepoint ? 'yellow' : (n.vpisano_nadomescanje ? 'red' : (n.rocno ? 'LightSlateGray' : 'transparent'))))))};"
                 ></div>
-                <span class="classroom {n.odpade ? 'strike' : ''}">
+                <span class="classroom {n.odpade ? 'strike' : ''} {n.fixed_by_paralelepiped ? 'bold' : ''}">
                     {#if mobile}
                         {n.ucilnica.replace("Učilnica ", "").replace("Telovadnica", "T").replace("Predavalnica", "P")}
                     {:else}
@@ -111,6 +111,11 @@
         {/if}
         {#if n.opis}
             Opis: <b>{n.opis}</b><br>
+        {/if}
+        {#if n.fixed_by_paralelepiped}
+            <b>BežiApp je uporabil modul Paralelepiped in dodal selitve na ta brezmadežen urnik.</b><br>
+            <!--Tip izostanka profesorja: <b>{n.tip_izostanka}</b><br>-->
+            GimSIS učilnica: <b>{n.stara_ucilnica}</b><br>
         {/if}
         {#if n.fixed_by_sharepoint}
             <b>BežiApp je združil nadomeščanja na tej uri preko intraneta in GimSIS-a.</b><br>
