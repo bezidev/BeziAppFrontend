@@ -125,11 +125,14 @@
                 r["classes"][i][n].alt_profesor = r["classes"][i][n].profesor;
                 if (mobile) {
                     let p = r["classes"][i][n].profesor.split(" ");
-                    let np = [];
+                    let np = "";
+                    //console.log(p, r["classes"][i][n].alt_profesor);
                     for (let k = 0; k < p.length; k++) {
-                        np.push(p[k][0].toUpperCase());
+                        if (p[k] === undefined || p[k] === "undefined") continue;
+                        np += p[k].charAt(0).toUpperCase();
                     }
-                    r["classes"][i][n].alt_profesor = np.join("");
+                    if (np === undefined) np = r["classes"][i][n].profesor;
+                    r["classes"][i][n].alt_profesor = np;
                 }
                 if (r["classes"][i][n].opozori === true) {
                     warn[i] = true
@@ -151,7 +154,6 @@
             hours.push(i);
         }
 
-        console.log(thu)
         return true;
     }
 
