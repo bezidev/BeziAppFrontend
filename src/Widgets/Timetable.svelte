@@ -104,11 +104,7 @@
             await handleRejection(j);
             return false;
         }
-        mon = r["classes"][0];
-        tue = r["classes"][1];
-        wed = r["classes"][2];
-        thu = r["classes"][3];
-        fri = r["classes"][4];
+
         dates = r["days"];
         warn = {
             0: false,
@@ -147,6 +143,12 @@
                 }
             }
         }
+
+        mon = r["classes"][0];
+        tue = r["classes"][1];
+        wed = r["classes"][2];
+        thu = r["classes"][3];
+        fri = r["classes"][4];
 
         hours = [];
         for (let i = minN; i <= maxN; i++) {

@@ -73,7 +73,7 @@
                 <br>
                 <span style="font-size: 0.7em; position: absolute; bottom: 6px; left: 5px;">
                     <span class="{n.odpade ? 'strike' : ''}">
-                        {n.alt_profesor}
+                        {#if n.alt_profesor === undefined || n.alt_profesor === "undefined"}[???]{:else}{n.alt_profesor}{/if}
                     </span>
                 </span>
                 <div
@@ -131,6 +131,12 @@
         {/if}
         {#if n.ocenjevanje}
             Opis ocenjevanja: <b>{n.ocenjevanje_details.opis}</b><br>
+        {/if}
+        {#if n.alt_profesor === undefined || n.alt_profesor === "undefined"}
+            BežiApp ni uspel pridobiti profesorja. Pošljite naslednje podatke razvijalcu:<br>
+            Prof: <b>{n.alt_profesor}</b> <b>{typeof n.alt_profesor}</b><br>
+            GimSIS prof: <b>{n.profesor}</b> <b>{typeof n.profesor}</b><br>
+            <b>{JSON.stringify(n)}</b><br>
         {/if}
     </DetailsTimetable>
 </TooltipMobile>
