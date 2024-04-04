@@ -127,7 +127,6 @@
                 if (mobile) {
                     let p = r["classes"][i][n].profesor.split(" ");
                     let np = "";
-                    //console.log(p, r["classes"][i][n].alt_profesor);
                     for (let k = 0; k < p.length; k++) {
                         if (p[k] === undefined || p[k] === "undefined") continue;
                         np += p[k].charAt(0).toUpperCase();
@@ -139,7 +138,6 @@
                 minN = Math.min(minN, +n); // da se shit pretvori v int
                 if (r["classes"][i][n].opozori === true) {
                     warn[i] = true
-                    break;
                 }
             }
         }
