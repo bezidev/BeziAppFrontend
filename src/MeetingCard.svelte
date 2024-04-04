@@ -78,7 +78,7 @@
                 </span>
                 <div
                         class="triangle"
-                        style="border-top: 20px solid {n.implicitno_odpade ? 'darkblue' : (n.odpade ? 'lightblue': (n.ocenjevanje ? 'magenta' : (n.fixed_by_paralelepiped ? 'white' : (n.fixed_by_sharepoint ? 'yellow' : (n.vpisano_nadomescanje ? 'red' : (n.rocno ? 'LightSlateGray' : 'transparent'))))))};"
+                        style="border-top: 20px solid {n.implicitno_odpade ? 'darkblue' : (n.odpade ? 'lightblue': (n.ocenjevanje ? 'magenta' : (n.fixed_by_sharepoint ? 'yellow' : (n.fixed_by_paralelepiped ? 'white' : (n.vpisano_nadomescanje ? 'red' : (n.rocno ? 'LightSlateGray' : 'transparent'))))))};"
                 ></div>
                 <span class="classroom {n.odpade ? 'strike' : ''} {n.fixed_by_paralelepiped ? 'bold' : ''}">
                     {#if mobile}

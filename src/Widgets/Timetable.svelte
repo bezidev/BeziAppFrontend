@@ -118,10 +118,15 @@
             4: false
         }
 
-        let maxN = 0;
+        let minN = 1;
+        let maxN = 5;
 
-        for (let i in r["classes"]) {
-            for (let n in r["classes"][i]) {
+        let p = Object.keys(r["classes"]);
+        for (let g = 0; g < p.length; g++) {
+            let i = p[g];
+            let l = Object.keys(r["classes"][i]);
+            for (let f = 0; f < l.length; f++) {
+                let n = l[f];
                 r["classes"][i][n].alt_profesor = r["classes"][i][n].profesor;
                 if (mobile) {
                     let p = r["classes"][i][n].profesor.split(" ");
@@ -134,23 +139,17 @@
                     if (np === undefined) np = r["classes"][i][n].profesor;
                     r["classes"][i][n].alt_profesor = np;
                 }
+                maxN = Math.max(maxN, +n);
+                minN = Math.min(minN, +n); // da se shit pretvori v int
                 if (r["classes"][i][n].opozori === true) {
                     warn[i] = true
                     break;
                 }
             }
-            let l = Object.keys(r["classes"][i]).length;
-            if (r["classes"][i][0] !== undefined) {
-                l--;
-            }
-            if (l <= maxN) {
-                continue;
-            }
-            maxN = Object.keys(r["classes"][i]).length;
         }
 
         hours = [];
-        for (let i = 0; i <= maxN + 1; i++) {
+        for (let i = minN; i <= maxN; i++) {
             hours.push(i);
         }
 
