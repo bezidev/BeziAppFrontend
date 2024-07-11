@@ -183,3 +183,11 @@ a:visited {
 .bold {
     font-weight: bold;
 }
+
+.hover-td {
+
+}
+
+.hover-td:hover {
+    background-color: rgba(255,255,255,.05);
+}

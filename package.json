@@ -26,6 +26,7 @@
     "@smui-extra/badge": "7.0.0",
     "@smui/banner": "7.0.0",
     "@smui/button": "7.0.0",
+    "@smui/card": "^7.0.0",
     "@smui/circular-progress": "7.0.0",
     "@smui/common": "7.0.0",
     "@smui/data-table": "7.0.0",
@@ -71,13 +72,13 @@
     "svelte-check": "^3.8.4",
     "svelte-dnd-action": "^0.9.49",
     "svelte-preprocess": "^6.0.2",
+    "svelte-routing": "^2.13.0",
     "tslib": "^2.6.3",
     "typescript": "^5.5.3",
     "uniqolor": "^1.1.1",
     "vite": "5.3.3",
     "vite-plugin-compression": "^0.5.1",
-    "vite-plugin-pwa": "^0.20.0",
-    "svelte-routing": "^2.13.0"
+    "vite-plugin-pwa": "^0.20.0"
   },
   "dependencies": {
     "sirv-cli": "^2.0.2"

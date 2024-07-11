@@ -48,6 +48,9 @@ importers:
       '@smui/button':
         specifier: 7.0.0
         version: 7.0.0(svelte@4.2.18)(typescript@5.5.3)
+      '@smui/card':
+        specifier: ^7.0.0
+        version: 7.0.0(svelte@4.2.18)(typescript@5.5.3)
       '@smui/circular-progress':
         specifier: 7.0.0
         version: 7.0.0(svelte@4.2.18)(typescript@5.5.3)
@@ -996,6 +999,9 @@ packages:
   '@material/button@14.0.0':
     resolution: {integrity: sha512-dqqHaJq0peyXBZupFzCjmvScrfljyVU66ZCS3oldsaaj5iz8sn33I/45Z4zPzdR5F5z8ExToHkRcXhakj1UEAA==}
 
+  '@material/card@14.0.0':
+    resolution: {integrity: sha512-SnpYWUrCb92meGYLXV7qa/k40gnHR6rPki6A1wz0OAyG2twY48f0HLscAqxBLvbbm1LuRaqjz0RLKGH3VzxZHw==}
+
   '@material/checkbox@14.0.0':
     resolution: {integrity: sha512-OoqwysCqvj1d0cRmEwVWPvg5OqYAiCFpE6Wng6me/Cahfe4xgRxSPa37WWqsClw20W7PG/5RrYRCBtc6bUUUZA==}
 
@@ -1271,6 +1277,9 @@ packages:
 
   '@smui/button@7.0.0':
     resolution: {integrity: sha512-T1WK03HlOecrufoO4Z/W1dXC/R+VLqrwmBcIVQwqN0TiwUdHDfeCa1TjrqroLn9eJUe73T/O3Abh9b2Nttz77g==}
+
+  '@smui/card@7.0.0':
+    resolution: {integrity: sha512-Nxw8Zg2Zt6RwD6S61rg7TgIQFYV4tRswicMj30XwczshVRsau/Jv82hsx98aH9Xx1vV5DFnEdPt0a5HqxBUsLA==}
 
   '@smui/checkbox@7.0.0':
     resolution: {integrity: sha512-cHaO9aWi2Pk9GTBcVmvnF4Cwie+ySqODjCMU3OMmhtUZX3LamneyNMRtNqiKXmpr8sXVE6EK+WUisZrJp5e97g==}
@@ -3740,6 +3749,17 @@ snapshots:
       '@material/typography': 14.0.0
       tslib: 2.6.3
 
+  '@material/card@14.0.0':
+    dependencies:
+      '@material/dom': 14.0.0
+      '@material/elevation': 14.0.0
+      '@material/feature-targeting': 14.0.0
+      '@material/ripple': 14.0.0
+      '@material/rtl': 14.0.0
+      '@material/shape': 14.0.0
+      '@material/theme': 14.0.0
+      tslib: 2.6.3
+
   '@material/checkbox@14.0.0':
     dependencies:
       '@material/animation': 14.0.0
@@ -4329,6 +4349,18 @@ snapshots:
       '@material/shape': 14.0.0
       '@material/theme': 14.0.0
       '@smui/common': 7.0.0(svelte@4.2.18)(typescript@5.5.3)
+      '@smui/ripple': 7.0.0(svelte@4.2.18)(typescript@5.5.3)
+      svelte2tsx: 0.7.13(svelte@4.2.18)(typescript@5.5.3)
+    transitivePeerDependencies:
+      - svelte
+      - typescript
+
+  '@smui/card@7.0.0(svelte@4.2.18)(typescript@5.5.3)':
+    dependencies:
+      '@material/card': 14.0.0
+      '@smui/button': 7.0.0(svelte@4.2.18)(typescript@5.5.3)
+      '@smui/common': 7.0.0(svelte@4.2.18)(typescript@5.5.3)
+      '@smui/icon-button': 7.0.0(svelte@4.2.18)(typescript@5.5.3)
       '@smui/ripple': 7.0.0(svelte@4.2.18)(typescript@5.5.3)
       svelte2tsx: 0.7.13(svelte@4.2.18)(typescript@5.5.3)
     transitivePeerDependencies:

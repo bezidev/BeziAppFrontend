@@ -56,14 +56,12 @@
                 "/lopolis": "lopolis",
                 "/notes": "notes",
                 "/about": "about",
-                "/tarot/contests": "contests",
                 "/radio": "radio",
                 "/settings": "settings",
                 "/palette": "palette",
                 "/citing": "citing",
                 "/developers": "developers",
                 "/notifications": "notifications",
-                "/poker/contests": "poker_contests",
             }
             active = allPaths[path]
             return
@@ -103,20 +101,20 @@
                         <Graphic class="material-icons" aria-hidden="true">grade</Graphic>
                         <Text>Ocene</Text>
                     </Item>
-                    <Item
+                    <!--<Item
                             on:click={() => navigate('/absences')}
                             activated={active === 'izostanki'}
                     >
                         <Graphic class="material-icons" aria-hidden="true">rule</Graphic>
                         <Text>Izostanki</Text>
-                    </Item>
-                    <Item
+                    </Item>-->
+                    <!--<Item
                             on:click={() => navigate('/teachers')}
                             activated={active === 'ucitelji'}
                     >
                         <Graphic class="material-icons" aria-hidden="true">school</Graphic>
                         <Text>Učitelji</Text>
-                    </Item>
+                    </Item>-->
                     <Item
                             on:click={() => navigate('/bikes')}
                             activated={active === 'kolesarnica'}
@@ -145,27 +143,13 @@
                         <Graphic class="material-icons" aria-hidden="true">speaker</Graphic>
                         <Text>Šolski radio</Text>
                     </Item>
-                    <Item
+                    <!--<Item
                             on:click={() => navigate('/citing')}
                             activated={active === 'citing'}
                     >
                         <Graphic class="material-icons" aria-hidden="true">format_quote</Graphic>
                         <Text>Navajanje virov</Text>
-                    </Item>
-                    <Item
-                            on:click={() => navigate('/tarot/contests')}
-                            activated={active === 'contests'}
-                    >
-                        <Graphic class="material-icons" aria-hidden="true">recent_actors</Graphic>
-                        <Text>Tarok</Text>
-                    </Item>
-                    <Item
-                            on:click={() => navigate('/poker/contests')}
-                            activated={active === 'poker_contests'}
-                    >
-                        <Graphic class="material-icons" aria-hidden="true">casino</Graphic>
-                        <Text>Poker</Text>
-                    </Item>
+                    </Item>-->
                     <Item
                             on:click={() => window.open("https://ucenje-nem.beziapp.si")}
                     >

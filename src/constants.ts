@@ -1,5 +1,6 @@
 import {navigate} from "svelte-routing";
 import uniqolor from "uniqolor";
+import type {Subject, TimetableHour} from "./ts/timetable";
 
 export const production: boolean = isProduction;
 export let baseurl: string = (!production ? "http://127.0.0.1:8000" : "/api");
@@ -10,7 +11,7 @@ export const gradeColors = {
     3: "#FFC107",
     4: "#8BC34A",
     5: "#64DD17",
-    "NOC": "#808080",
+    //"NOC": "#808080",
 };
 
 export function timeConverter(UNIX_timestamp){
@@ -97,7 +98,7 @@ export const saveBlob = async blob => {
     window.open(_url, "_blank").focus();
 }
 
-export function barvaPredmeta(selected, paleta, n) {
+export function barvaPredmeta(selected, paleta, n: TimetableHour) {
     if (selected !== "Lastne barvne plošče") {
         return uniqolor(n.subject.name, {
             saturation: [50, 70],

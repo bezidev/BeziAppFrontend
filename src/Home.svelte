@@ -20,7 +20,7 @@
 
 <div style="padding: 10px; background-color: darkorange; border-radius: 10px;">
     <h2>BežiApp Evolved</h2>
-    Ste na straneh BežiApp Evolved projekta. Ta je trenutno še v zelo zgodnji alfa fazi.
+    Ste na straneh BežiApp Evolved projekta. Ta je trenutno še v zelo zgodnji alfa fazi. Pričakujte hrošče.
     <p/>
 </div>
 

@@ -1,16 +1,20 @@
 <script lang="ts">
-    import {barvaPredmeta, handleRejection, makeRequest} from "./constants";
+    import {barvaPredmeta, gradeColors, handleRejection, makeRequest} from "./constants";
     import IconButton from "@smui/icon-button";
     import {onMount} from "svelte";
     import {navigate} from "svelte-routing";
-    import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
+    import Accordion, { Panel, Header } from '@smui-extra/accordion';
     import {Icon} from "@smui/button";
     import {Calendar} from "@fullcalendar/core";
     import dayGridPlugin from "@fullcalendar/daygrid";
     import slLocale from '@fullcalendar/core/locales/sl';
     import BottomSheet from "./Widgets/BottomSheet.svelte";
+    import type {GradingsResponse} from "./ts/gradings";
+    import Card, { Content } from '@smui/card';
+    import LayoutGrid, { Cell } from "@smui/layout-grid";
+    import {formatDate} from "date-fns";
 
-    let gradings;
+    let gradings: GradingsResponse;
     let open = [];
     let events = [];
 
@@ -24,20 +28,20 @@
 
         console.log(gradings);
 
-        if (gradings.gradings === undefined) return;
+        let allGradings = [...gradings.past, ...gradings.future];
 
         let selected = localStorage.getItem("colorGeneration") ?? "Dolgega imena predmeta";
         let paleta = JSON.parse(localStorage.getItem("palette") ?? "[]");
 
         events = [];
-        for (let i = 0; i < gradings.gradings.length; i++) {
-            let grading = gradings.gradings[i];
-            let [day, month, year] = grading.datum.split('.');
+        for (let i = 0; i < allGradings.length; i++) {
+            let grading = allGradings[i];
+            //let [year, month, day] = grading.Date.split('-');
             events.push({
-                title: grading.predmet,
-                start: `${year}-${month}-${day}`,
-                backgroundColor: barvaPredmeta(selected, paleta, {ime: grading.predmet, kratko_ime: grading.predmet}),
-                desc: grading.opis,
+                title: grading.Course,
+                start: grading.Date,
+                backgroundColor: barvaPredmeta(selected, paleta, {subject: {name: grading.Course}}),
+                desc: grading.GradingName,
             })
         }
 
@@ -99,21 +103,38 @@
 <p/>
 
 {#if gradings}
-    <h2>Seznam vseh ocenjevanj</h2>
-    <Accordion>
-        {#each gradings.gradings as grading, i}
-            <Panel bind:open={open[i]}>
-                <Header>
-                    {grading.predmet} - {grading.datum}
-                    <IconButton slot="icon" toggle pressed={open[i]}>
-                        <Icon class="material-icons" on>expand_less</Icon>
-                        <Icon class="material-icons">expand_more</Icon>
-                    </IconButton>
-                </Header>
-                <Content>
-                    {grading.opis}
-                </Content>
-            </Panel>
-        {/each}
-    </Accordion>
+    <h2>Seznam prihodnjih ocenjevanj</h2>
+    <div style="width: 100%;">
+        <LayoutGrid>
+            {#each gradings.future as grading, i}
+                <Cell span={4}>
+                    <Card variant="outlined" padded>
+                        <span class="sameline">
+                            <span class="inline"><b>{grading.Course}</b> – {grading.Date}</span>
+                        </span>
+                        <br>
+                        {grading.GradingName}
+                    </Card>
+                </Cell>
+            {/each}
+        </LayoutGrid>
+    </div>
+
+    <h2>Seznam preteklih ocenjevanj</h2>
+    <div style="width: 100%;">
+        <LayoutGrid>
+            {#each gradings.past as grading, i}
+                <Cell span={4}>
+                    <Card variant="outlined" padded>
+                        <span class="sameline">
+                            <span class="inline"><b>{grading.Course}</b> – {formatDate(Date.parse(grading.Date), "d. M. yyyy")}</span>
+                            {#if grading.Grade !== -1}<span class="inline" style="float: right; color: {gradeColors[grading.Grade]}; font-size: 25px; font-weight: bold;">{grading.Grade}</span>{/if}
+                        </span>
+                        <br>
+                        {grading.GradingName}
+                    </Card>
+                </Cell>
+            {/each}
+        </LayoutGrid>
+    </div>
 {/if}
