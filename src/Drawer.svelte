@@ -4,10 +4,10 @@
         Scrim,
     } from '@smui/drawer';
     import List, {Item, Text, Graphic} from '@smui/list';
-    import { navigate as nvgt } from "svelte-navigator";
+    import { navigate as nvgt } from "svelte-routing";
     import isMobile from "is-mobile";
 
-    import {useLocation} from "svelte-navigator";
+    import {useLocation} from "svelte-routing";
     import {handleRejection} from "./constants";
 
     const location = useLocation();
@@ -125,11 +125,11 @@
                         <Text>Kolesarnica</Text>
                     </Item>
                     <Item
-                            on:click={() => navigate('/lopolis')}
-                            activated={active === 'lopolis'}
+                            on:click={() => navigate('/food')}
+                            activated={active === 'prehrana'}
                     >
                         <Graphic class="material-icons" aria-hidden="true">lunch_dining</Graphic>
-                        <Text>Lo.Polis</Text>
+                        <Text>Šolska prehrana</Text>
                     </Item>
                     <Item
                             on:click={() => navigate('/notes')}

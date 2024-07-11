@@ -3,8 +3,9 @@
     import {barvaPredmeta} from "./constants";
     import DetailsTimetable from "./Widgets/DetailsTimetable.svelte";
     import TooltipMobile from "./Widgets/TooltipMobile.svelte";
+    import type {TimetableHour} from "./ts/timetable";
 
-    export let n;
+    export let n: TimetableHour;
 
     let selected = localStorage.getItem("colorGeneration") ?? "Dolgega imena predmeta";
     let paleta = JSON.parse(localStorage.getItem("palette") ?? "[]");
@@ -59,84 +60,59 @@
 </style>
 
 <TooltipMobile>
-    <div style="padding: 3px; min-width: 93%" class="inline" on:click={() => open = true} on:keydown={() => {}} slot="torender">
+    <div style="padding: 3px; min-width: 93%" class="inline" on:click={() => open = true} on:keydown={() => {}} slot="torender" role="toolbar" tabindex="0">
         <div style="background-color: {barva}; padding: 5px; display: flex; width: 100%; display: inline-block; height: 40px; text-align: left; " class="pos">
             <div>
                 <span style="font-size: 0.8em; font-weight: 700;" class="sameline">
-                    {#if n.odpade}
-                        <span class="strike inline">{n.kratko_ime}</span>
-                        <!--<span class="inline" style="height: 10px;"><Icon class="material-icons">close</Icon></span>-->
+                    {#if n.hour_special_type === "cancelled"}
+                        <span class="strike inline">{n.subject.name}</span>
                     {:else}
-                        {n.kratko_ime}
+                        {n.subject.name}
                     {/if}
                 </span>
                 <br>
                 <span style="font-size: 0.7em; position: absolute; bottom: 6px; left: 5px;">
-                    <span class="{n.odpade ? 'strike' : ''}">
-                        {#if n.alt_profesor === undefined || n.alt_profesor === "undefined"}[???]{:else}{n.alt_profesor}{/if}
+                    <span class="{n.hour_special_type === 'cancelled' ? 'strike' : ''}">
+                        {n.teacher_name_short}
                     </span>
                 </span>
                 <div
                         class="triangle"
-                        style="border-top: 20px solid {n.implicitno_odpade ? 'darkblue' : (n.odpade ? 'lightblue': (n.ocenjevanje ? 'magenta' : (n.fixed_by_sharepoint ? 'yellow' : (n.fixed_by_paralelepiped ? 'white' : (n.vpisano_nadomescanje ? 'red' : (n.rocno ? 'LightSlateGray' : 'transparent'))))))};"
+                        style="border-top: 20px solid {n.hour_special_type === 'cancelled' ? 'lightblue': (n.hour_special_type === 'exam' ? 'magenta' : (n.hour_special_type === 'pre-exam' ? 'white' : (n.hour_special_type === 'substitution' ? 'red' : `${barva}`)))};"
                 ></div>
-                <span class="classroom {n.odpade ? 'strike' : ''} {n.fixed_by_paralelepiped ? 'bold' : ''}">
+                <span class="classroom {n.hour_special_type === 'cancelled' ? 'strike' : ''}">
                     {#if mobile}
-                        {n.ucilnica.replace("Učilnica ", "").replace("Telovadnica", "T").replace("Predavalnica", "P")}
+                        {n.classroom.name.replace("Učilnica ", "").replace("Telovadnica", "T").replace("Predavalnica", "P")}
                     {:else}
-                        {n.ucilnica}
+                        {n.classroom.name}
                     {/if}
                 </span>
             </div>
         </div>
     </div>
     <DetailsTimetable open={open} changeOpen={(v) => open=v} slot="tooltip">
-        <h1>{n.kratko_ime}</h1>
-        Predmet: <b>{n.ime}</b><br>
-        Profesor: <b>{n.profesor}</b><br>
-        Razred: <b>{n.razred}</b><br>
-        Dan: <b>{n.dan}</b><br>
-        Ura: <b>{n.ura}</b><br>
+        <h1>{n.subject.name}</h1>
+        {#if n.teachers.length !== 0}Profesor: <b>{n.teachers[0].name}</b><br>{/if}
+        Razredi: <b>{n.departments.map(function(elem){
+            return elem.name;
+        }).join(", ")}</b><br>
+        Dan: <b>{n.time.date}</b><br>
+        Ura: <b>{n.hour}</b><br>
 
-        {#if n.dnevniski_zapis}
-            <b>Dnevniški zapis obstaja.</b><br>
-        {:else}
-            <b>Dnevniški zapis NE obstaja.</b><br>
+        {#if n.completed}
+            <b>Ura je bila končana.</b><br>
         {/if}
-        {#if n.rocno}
-            <b>Ura je ročno vpisana s strani razvijalcev BežiApp sistema.</b><br>
+        {#if n.hour_special_type === 'substitution'}
+            <b>Nadomeščanje je vpisano v eAsistent.</b><br>
         {/if}
-        {#if n.vpisano_nadomescanje}
-            <b>Nadomeščanje je vpisano v GimSIS-u.</b><br>
-        {/if}
-        {#if n.opis}
-            Opis: <b>{n.opis}</b><br>
-        {/if}
-        {#if n.fixed_by_paralelepiped}
-            <b>BežiApp je uporabil modul Paralelepiped in dodal selitve na ta brezmadežen urnik.</b><br>
-            <!--Tip izostanka profesorja: <b>{n.tip_izostanka}</b><br>-->
-            GimSIS učilnica: <b>{n.stara_ucilnica}</b><br>
-        {/if}
-        {#if n.fixed_by_sharepoint}
-            <b>BežiApp je združil nadomeščanja na tej uri preko intraneta in GimSIS-a.</b><br>
-            <!--Tip izostanka profesorja: <b>{n.tip_izostanka}</b><br>-->
-            GimSIS kratko ime predmeta: <b>{n.gimsis_kratko_ime}</b><br>
-            GimSIS ime predmeta: <b>{n.gimsis_ime}</b><br>
-        {/if}
-        {#if n.implicitno_odpade}
-            <b>BežiApp na podlagi druge ure v tem dnevu sklepa, da ura odpade. Prosimo, preverite.</b><br>
-        {/if}
-        {#if n.odpade}
+        {#if n.hour_special_type === 'cancelled'}
             <b>Ura ODPADE.</b><br>
         {/if}
-        {#if n.ocenjevanje}
-            Opis ocenjevanja: <b>{n.ocenjevanje_details.opis}</b><br>
+        {#if n.hour_special_type === 'exam'}
+            <b>Ura je ocenjevanje.</b><br>
         {/if}
-        {#if n.alt_profesor === undefined || n.alt_profesor === "undefined"}
-            BežiApp ni uspel pridobiti profesorja. Pošljite naslednje podatke razvijalcu:<br>
-            Prof: <b>{n.alt_profesor}</b> <b>{typeof n.alt_profesor}</b><br>
-            GimSIS prof: <b>{n.profesor}</b> <b>{typeof n.profesor}</b><br>
-            <b>{JSON.stringify(n)}</b><br>
+        {#if n.hour_special_type === 'pre-exam'}
+            <b>Ura je preverjanje pred ocenjevanjem znanja.</b><br>
         {/if}
     </DetailsTimetable>
 </TooltipMobile>

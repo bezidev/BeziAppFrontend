@@ -3,7 +3,7 @@
     import Icon from '@smui/textfield/icon';
     import HelperText from '@smui/textfield/helper-text';
     import CharacterCounter from "@smui/textfield/character-counter";
-    import {navigate} from "svelte-navigator";
+    import {navigate} from "svelte-routing";
     import Button, {Label} from "@smui/button";
     import {makeRequest} from "./constants";
 

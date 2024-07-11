@@ -3,7 +3,7 @@
     import {makeRequest} from "../constants";
     import DataTable, {Body, Cell, Head, Row, Pagination} from "@smui/data-table";
     import Button, {Icon, Label} from "@smui/button";
-    import {navigate} from "svelte-navigator";
+    import {navigate} from "svelte-routing";
     import IconButton from "@smui/icon-button";
     import Tab from '@smui/tab';
     import TabBar from '@smui/tab-bar';

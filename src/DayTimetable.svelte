@@ -3,7 +3,6 @@
     import Warning from "./Warning.svelte";
 
     export let date;
-    export let warn;
     export let today;
     export let tomorrow;
     export let day;
@@ -40,8 +39,8 @@
 <table class="coolTable">
     <tr>
         <th style="text-align: left;">URA</th>
-        <th><b>{dnevi[day].toUpperCase()}</b>, {date[0]} {#if warn[0] === true}<Warning/>{/if}</th>
-        {#if Object.keys(tomorrow).length !== 0}<th><b>{dnevi[tom].toUpperCase()}</b>, {date[1]} {#if warn[1] === true}<Warning/>{/if}</th>{/if}
+        <th><b>{dnevi[day].toUpperCase()}</b>, {date[0]}</th>
+        {#if Object.keys(tomorrow).length !== 0}<th><b>{dnevi[tom].toUpperCase()}</b></th>{/if}
     </tr>
     {#each {length: m} as _, i}
         <tr>

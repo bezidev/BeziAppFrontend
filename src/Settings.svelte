@@ -11,7 +11,7 @@
     import IconButton from "@smui/icon-button";
     import Dialog from "@smui/dialog";
     import {Content, Title, Actions as DialogActions} from "@smui/dialog";
-    import {navigate} from "svelte-navigator";
+    import {navigate} from "svelte-routing";
     import Tab from '@smui/tab';
     import TabBar from '@smui/tab-bar';
 

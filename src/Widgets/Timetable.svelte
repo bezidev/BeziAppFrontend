@@ -23,7 +23,7 @@
     import CircularProgress from '@smui/circular-progress';
     import Error from "./Error.svelte";
     import {marked} from "marked";
-    import {Link} from "svelte-navigator";
+    import {Link} from "svelte-routing";
     import {enableNewTimetable, timetableDay} from "../stores";
     import DayTimetable from "../DayTimetable.svelte";
     import Switch from "@smui/switch";
@@ -58,7 +58,7 @@
 
     let developerNotifications = [];
     async function getDeveloperNotifications() {
-        developerNotifications = await makeRequest("/developers/notifications");
+        //developerNotifications = await makeRequest("/developers/notifications");
     }
 
     function remakeCalendar() {
@@ -77,7 +77,7 @@
         } else if ((date.getMonth() + 1).toString().length != 1) {
             mm = (date.getMonth() + 1).toString();
         }
-        return `${dd} ${mm} ${date.getFullYear()}`
+        return `${dd}.${mm}.${date.getFullYear()}`
     }
 
     let fmtStart: string = fmtDate(start);
@@ -85,8 +85,6 @@
     export let classId: number;
     export let subjectId: number;
     export let teacherId: number;
-
-    let warn;
 
     async function getTimetable() {
         console.log(fmtStart)
@@ -105,49 +103,11 @@
             return false;
         }
 
-        dates = r["days"];
-        warn = {
-            0: false,
-            1: false,
-            2: false,
-            3: false,
-            4: false
-        }
+        dates = r.dates;
+        timetable = r.days;
 
-        let minN = 1;
-        let maxN = 5;
-
-        let p = Object.keys(r["classes"]);
-        for (let g = 0; g < p.length; g++) {
-            let i = p[g];
-            let l = Object.keys(r["classes"][i]);
-            for (let f = 0; f < l.length; f++) {
-                let n = l[f];
-                r["classes"][i][n].alt_profesor = r["classes"][i][n].profesor;
-                if (mobile) {
-                    let p = r["classes"][i][n].profesor.split(" ");
-                    let np = "";
-                    for (let k = 0; k < p.length; k++) {
-                        if (p[k] === undefined || p[k] === "undefined") continue;
-                        np += p[k].charAt(0).toUpperCase();
-                    }
-                    if (np === undefined) np = r["classes"][i][n].profesor;
-                    r["classes"][i][n].alt_profesor = np;
-                }
-                maxN = Math.max(maxN, +n);
-                minN = Math.min(minN, +n); // da se shit pretvori v int
-                if (r["classes"][i][n].opozori === true) {
-                    warn[i] = true
-                }
-            }
-        }
-
-        mon = r["classes"][0];
-        tue = r["classes"][1];
-        wed = r["classes"][2];
-        thu = r["classes"][3];
-        fri = r["classes"][4];
-
+        let minN = r.min_hours;
+        let maxN = r.max_hours;
         hours = [];
         for (let i = minN; i <= maxN; i++) {
             hours.push(i);
@@ -157,7 +117,7 @@
     }
 
     async function getNotifications() {
-        notifications = await makeRequest(`/notifications?only_new=true`)
+        //notifications = await makeRequest(`/notifications?only_new=true`)
     }
 
     let width = window.innerWidth;
@@ -174,11 +134,7 @@
 
     let hours: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     let dates: string[] = ["", "", "", "", "", ""]
-    let mon = [];
-    let tue = [];
-    let wed = [];
-    let thu = [];
-    let fri = [];
+    let timetable = [[], [], [], [], []];
 
     const ure = [
         "7.10–7.55",
@@ -232,29 +188,29 @@
 {#if ok === true}
     {#if mobile && noviUrnik}
         {#if currentDate.getDay() === 1}
-            <DayTimetable date={[dates[0], dates[1]]} warn={[warn[0], warn[1]]} today={mon} tomorrow={tue} day="PON" />
+            <DayTimetable date={[dates[0], dates[1]]} today={timetable[0]} tomorrow={timetable[1]} day="PON" />
         {/if}
         {#if currentDate.getDay() === 2}
-            <DayTimetable date={[dates[1], dates[2]]} warn={[warn[1], warn[2]]} today={tue} tomorrow={wed} day="TOR" />
+            <DayTimetable date={[dates[1], dates[2]]} today={timetable[1]} tomorrow={timetable[2]} day="TOR" />
         {/if}
         {#if currentDate.getDay() === 3}
-            <DayTimetable date={[dates[2], dates[3]]} warn={[warn[2], warn[3]]} today={wed} tomorrow={thu} day="SRE" />
+            <DayTimetable date={[dates[2], dates[3]]} today={timetable[2]} tomorrow={timetable[3]} day="SRE" />
         {/if}
         {#if currentDate.getDay() === 4}
-            <DayTimetable date={[dates[3], dates[4]]} warn={[warn[3], warn[4]]} today={thu} tomorrow={fri} day="CET" />
+            <DayTimetable date={[dates[3], dates[4]]} today={timetable[3]} tomorrow={timetable[4]} day="CET" />
         {/if}
         {#if currentDate.getDay() === 5}
-            <DayTimetable date={[dates[4], ""]} warn={[warn[4], ""]} today={fri} tomorrow={{}} day="PET" />
+            <DayTimetable date={[dates[4], ""]} today={timetable[4]} tomorrow={[]} day="PET" />
         {/if}
     {:else}
         <table class="coolTable">
             <tr>
                 <th>URA</th>
-                <th>{mobile ? "PON" : "PONEDELJEK"} {dates[0]} {#if warn[0] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. To se po navadi zgodi pri kombiniranih urah (razred je razpolovljen) in po navadi dokaj zanesljivo pomeni, da takrat nimate nadomeščanj. Vseeno se priporoča ročno preverjanje nadomeščanj.</Tooltip></Wrapper>{/if}</th>
-                <th>{mobile ? "TOR" : "TOREK"} {dates[1]} {#if warn[1] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. To se po navadi zgodi pri kombiniranih urah (razred je razpolovljen) in po navadi dokaj zanesljivo pomeni, da takrat nimate nadomeščanj. Vseeno se priporoča ročno preverjanje nadomeščanj.</Tooltip></Wrapper>{/if}</th>
-                <th>{mobile ? "SRE" : "SREDA"} {dates[2]} {#if warn[2] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. To se po navadi zgodi pri kombiniranih urah (razred je razpolovljen) in po navadi dokaj zanesljivo pomeni, da takrat nimate nadomeščanj. Vseeno se priporoča ročno preverjanje nadomeščanj.</Tooltip></Wrapper>{/if}</th>
-                <th>{mobile ? "ČET" : "ČETRTEK"} {dates[3]} {#if warn[3] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. To se po navadi zgodi pri kombiniranih urah (razred je razpolovljen) in po navadi dokaj zanesljivo pomeni, da takrat nimate nadomeščanj. Vseeno se priporoča ročno preverjanje nadomeščanj.</Tooltip></Wrapper>{/if}</th>
-                <th>{mobile ? "PET" : "PETEK"} {dates[4]} {#if warn[4] === true}<br><Wrapper><Icon class="material-icons">warning</Icon><Tooltip>BežiApp ni uspel preveriti vseh nadomeščanj z visoko stopnjo zanesljivosti. To se po navadi zgodi pri kombiniranih urah (razred je razpolovljen) in po navadi dokaj zanesljivo pomeni, da takrat nimate nadomeščanj. Vseeno se priporoča ročno preverjanje nadomeščanj.</Tooltip></Wrapper>{/if}</th>
+                <th>{mobile ? "PON" : "PONEDELJEK"} {dates[0]}</th>
+                <th>{mobile ? "TOR" : "TOREK"} {dates[1]}</th>
+                <th>{mobile ? "SRE" : "SREDA"} {dates[2]}</th>
+                <th>{mobile ? "ČET" : "ČETRTEK"} {dates[3]}</th>
+                <th>{mobile ? "PET" : "PETEK"} {dates[4]}</th>
             </tr>
             {#each hours as i}
                 <tr>
@@ -264,39 +220,29 @@
                         {#if mobile}<span class="time">{mobile_ure[i]}</span>{:else}<span class="time">{ure[i]}</span>{/if}
                     </th>
                     <td>
-                        {#each Array(mon[i]) as m}
-                            {#if m}
-                                <MeetingCard n={m} />
-                            {/if}
-                        {/each}
+                        {#if timetable[0].Hours[i]}
+                            <MeetingCard n={timetable[0].Hours[i]} />
+                        {/if}
                     </td>
                     <td>
-                        {#each Array(tue[i]) as m}
-                            {#if m}
-                                <MeetingCard n={m} />
-                            {/if}
-                        {/each}
+                        {#if timetable[1].Hours[i]}
+                            <MeetingCard n={timetable[1].Hours[i]} />
+                        {/if}
                     </td>
                     <td>
-                        {#each Array(wed[i]) as m}
-                            {#if m}
-                                <MeetingCard n={m} />
-                            {/if}
-                        {/each}
+                        {#if timetable[2].Hours[i]}
+                            <MeetingCard n={timetable[2].Hours[i]} />
+                        {/if}
                     </td>
                     <td>
-                        {#each Array(thu[i]) as m}
-                            {#if m}
-                                <MeetingCard n={m} />
-                            {/if}
-                        {/each}
+                        {#if timetable[3].Hours[i]}
+                            <MeetingCard n={timetable[3].Hours[i]} />
+                        {/if}
                     </td>
                     <td>
-                        {#each Array(fri[i]) as m}
-                            {#if m}
-                                <MeetingCard n={m} />
-                            {/if}
-                        {/each}
+                        {#if timetable[4].Hours[i]}
+                            <MeetingCard n={timetable[4].Hours[i]} />
+                        {/if}
                     </td>
                 </tr>
             {/each}
@@ -339,7 +285,7 @@
             }, 50);
         }}/>
 
-        <span slot="label">Vključite novo poenostavljeno verzijo urnika</span>
+        <span slot="label">Vključite poenostavljeno verzijo urnika</span>
     </FormField>
 {/if}
 

@@ -2,7 +2,7 @@
     import {handleRejection, makeRequest} from "./constants";
     import IconButton from "@smui/icon-button";
     import {onMount} from "svelte";
-    import {navigate} from "svelte-navigator";
+    import {navigate} from "svelte-routing";
     import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
     import Button, {Icon, Label} from "@smui/button";
     import FormField from "@smui/form-field";

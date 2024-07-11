@@ -3,7 +3,7 @@
     import Icon from '@smui/textfield/icon';
     import Button, {Label} from "@smui/button";
     import IconButton from "@smui/icon-button";
-    import { navigate } from "svelte-navigator";
+    import { navigate } from "svelte-routing";
     import Snackbar, {Actions} from "@smui/snackbar";
     import * as constants from "./constants";
     import HelperText from "@smui/textfield/helper-text";

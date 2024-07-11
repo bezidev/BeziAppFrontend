@@ -4,7 +4,7 @@
     import Grade from "./Widgets/Grade.svelte";
     import FormField from "@smui/form-field";
     import Switch from "@smui/switch";
-    import {navigate} from "svelte-navigator";
+    import {navigate} from "svelte-routing";
     import Select, {Option} from "@smui/select";
 
     let grades = [];

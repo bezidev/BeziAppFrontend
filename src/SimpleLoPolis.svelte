@@ -7,7 +7,7 @@
     import {makeRequest} from "./constants";
     import * as constants from "./constants";
     import Snackbar, {Actions} from "@smui/snackbar";
-    import {Link, navigate} from "svelte-navigator";
+    import {Link, navigate} from "svelte-routing";
 
     async function changePassword() {
         let currentPassword = localStorage.getItem("account_password");

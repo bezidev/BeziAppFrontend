@@ -3,7 +3,7 @@ name: Build frontend
 on:
   push:
     branches:
-      - master
+      - evolved
 
 jobs:
   docker:
@@ -26,5 +26,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           file: "./Dockerfile"
-          tags: ghcr.io/${{env.REPO}}/beziapp/frontend:latest
+          tags: ghcr.io/${{env.REPO}}/beziapp/evolved/frontend:latest
           push: true

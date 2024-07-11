@@ -8,7 +8,7 @@ const production = 'import.meta.env.PROD';
 
 // https://vitejs.dev/config/
 export default {
-    optimizeDeps: { exclude: ["svelte-navigator"] },
+    optimizeDeps: { exclude: ["svelte-routing"] },
     plugins: [
         replace({
             isProduction: production,

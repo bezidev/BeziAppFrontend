@@ -10,7 +10,7 @@
     import CharacterCounter from "@smui/textfield/character-counter";
     import FormField from "@smui/form-field";
     import Switch from "@smui/switch";
-    import {navigate} from "svelte-navigator";
+    import {navigate} from "svelte-routing";
 
     let contests = {my_contests: [], public_contests: []};
     let open = false;

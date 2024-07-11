@@ -8,7 +8,7 @@
     import DataTable, {Body, Cell, Head, Row} from "@smui/data-table";
     import insane from "insane";
     import {marked} from "marked";
-    import {navigate} from "svelte-navigator";
+    import {navigate} from "svelte-routing";
     import IconButton from "@smui/icon-button";
     import Dialog, {Actions, Content, Title} from "@smui/dialog";
     import Autocomplete from "@smui-extra/autocomplete";

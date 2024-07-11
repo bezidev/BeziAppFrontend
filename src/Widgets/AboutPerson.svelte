@@ -1,6 +1,6 @@
 <script>
     import {PrimaryText, SecondaryText, Item, Text} from "@smui/list";
-    import {navigate} from "svelte-navigator";
+    import {navigate} from "svelte-routing";
 
     export let developer;
 </script>

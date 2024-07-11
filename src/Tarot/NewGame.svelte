@@ -6,7 +6,7 @@
     import Textfield from "@smui/textfield";
     import FormField from "@smui/form-field";
     import Switch from "@smui/switch";
-    import {navigate} from "svelte-navigator";
+    import {navigate} from "svelte-routing";
     import Select, {Option} from "@smui/select";
     import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
 

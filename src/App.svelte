@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {Router, Route, globalHistory, navigate} from "svelte-navigator";
+	import {Router, Route, useLocation, navigate} from "svelte-routing";
 	import Drawer from "./Drawer.svelte";
 	import {AppContent} from "@smui/drawer";
 	import Error from "./Widgets/Error.svelte";
@@ -17,7 +17,6 @@
 	let open = false;
 
 	let pathname = window.location.pathname;
-	let unsub;
 	let activeDay = "Ponedeljek";
 	timetableDay.subscribe((value) => {
 		activeDay = value;
@@ -52,6 +51,16 @@
 		rerenderTTCSS();
 	});
 
+	const loc = useLocation();
+	$: () => {
+		if (loc == undefined) {
+			return;
+		}
+		console.log($loc)
+		pathname = ($loc).pathname;
+		rerenderTTCSS();
+	}
+
 	const mobile: boolean = isMobile();
 
 	onMount(() => {
@@ -73,17 +82,6 @@
 			touchendX = e.changedTouches[0].screenX
 			checkDirection()
 		})
-
-
-		unsub = globalHistory.listen(({ location, action }) => {
-			console.log(location, action);
-			pathname = location.pathname;
-			rerenderTTCSS();
-		});
-	});
-
-	onDestroy(() => {
-		unsub();
 	});
 </script>
 
@@ -185,16 +183,8 @@
 									<Error error={e} />
 								{/await}
 							</Route>
-							<Route path="/lopolis/login">
-								{#await import("./SimpleLoPolis.svelte")}
-								{:then Page}
-									<Page.default />
-								{:catch e}
-									<Error error={e} />
-								{/await}
-							</Route>
-							<Route path="/lopolis">
-								{#await import("./LoPolis.svelte")}
+							<Route path="/food">
+								{#await import("./Food.svelte")}
 								{:then Page}
 									<Page.default />
 								{:catch e}

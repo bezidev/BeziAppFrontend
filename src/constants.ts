@@ -1,4 +1,4 @@
-import {navigate} from "svelte-navigator";
+import {navigate} from "svelte-routing";
 import uniqolor from "uniqolor";
 
 export const production: boolean = isProduction;
@@ -61,10 +61,10 @@ export async function handleRejection(r) {
     await fetch(`${baseurl}/report/error`, {body: fd, method: "POST"})
 }
 
-export async function makeRequest(url: string, method: string = "GET", formData: FormData | string = new FormData(), forcefullyReturn: boolean = false, blob: boolean = false, json: boolean = false, status_code: boolean = false) {
-    let headers = {"Authorization": localStorage.getItem("key")}
+export async function makeRequest(url: string, method: string = "GET", formData: FormData | string | null = new FormData(), forcefullyReturn: boolean = false, blob: boolean = false, json: boolean = false, status_code: boolean = false) {
+    let headers = {};
     if (json) headers["Content-Type"] = "application/json";
-    let response = await fetch(`${baseurl}${url}`, {method: method, body: (method === "POST" || method === "DELETE" || method === "PATCH" || method === "PUT") ? formData : null, headers: headers})
+    let response = await fetch(`${baseurl}${url}`, {method: method, body: (method === "POST" || method === "DELETE" || method === "PATCH" || method === "PUT") ? formData : null, headers: headers, credentials: production ? undefined : "include"})
     if ((response.status < 200 || response.status >= 300) && !forcefullyReturn) {
         if (localStorage.getItem("account_password") === null || localStorage.getItem("account_username") === null) {
             let j = {
@@ -81,7 +81,7 @@ export async function makeRequest(url: string, method: string = "GET", formData:
         let fd = new FormData();
         fd.append("username", localStorage.getItem("account_username"));
         fd.append("password", localStorage.getItem("account_password"));
-        let loginResponse = await fetch(`${baseurl}/account/login`, {body: fd, method: "POST"})
+        let loginResponse = await fetch(`${baseurl}/account/login`, {body: fd, method: "POST", credentials: production ? undefined : "include"})
         let j = await loginResponse.json();
         localStorage.setItem("key", j["session"]);
         localStorage.setItem("palette", JSON.stringify(j["palette"]));
@@ -99,7 +99,7 @@ export const saveBlob = async blob => {
 
 export function barvaPredmeta(selected, paleta, n) {
     if (selected !== "Lastne barvne plošče") {
-        return uniqolor(selected === "Kratkega imena predmeta" ? n.kratko_ime : n.ime, {
+        return uniqolor(n.subject.name, {
             saturation: [50, 70],
             lightness: [20, 30],
         }).color;
