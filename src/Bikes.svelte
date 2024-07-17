@@ -86,10 +86,12 @@
         }, 1000)
     }
 
-    getToken();
+    //getToken();
 </script>
 
-<div class="center">
+Modul se vrne kmalu!
+
+<!--<div class="center">
     <Icon class="material-icons" slot="leadingIcon" style="font-size: 7em;">directions_bike</Icon>
     <h2>Odklepanje kolesarnice</h2>
     <p/>
@@ -184,3 +186,4 @@
 <Snackbar bind:this={snackbarWithoutClose}>
     <Label>{snackbarContent}</Label>
 </Snackbar>
+-->

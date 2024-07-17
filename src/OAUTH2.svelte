@@ -167,6 +167,9 @@
     }
 </style>
 
+Modul se vrne kmalu!
+
+<!--
 {#await getApp()}
     <div style="display: flex; justify-content: center">
         <CircularProgress style="height: 100px; width: 100px;" indeterminate />
@@ -184,10 +187,6 @@
         Pomembno je vedeti, da je uradna instanca BežiApp sistema na voljo samo na naslovu <a href="https://beziapp.si">beziapp.si</a>.
         <b>Če ne prepoznate te aplikacije ali se domena ne ujema,
             NE NADALJUJTE IN <a href="mailto:mitja.severkar@gimb.org">PRIJAVITE INCIDENT RAZVIJALCEM BEŽIAPP SISTEMA</a>.</b>
-        <!--Razumno preverite, če aplikacija res potrebuje toliko dovoljenj za normalno delovanje.
-        Navadno je normalno, da aplikacija zahteva elektronsko pošto, uporabniško ime in ime ter priimek.
-        Pomembno je vedeti, da vas uradna BežiApp aplikacija na tej strani ne bo nikoli spraševala za vaše uporabniško ime in geslo,
-        če ste se kdaj prej že prijavili vanjo.-->
 
         <p/>
 
@@ -241,3 +240,4 @@
         <code>{e}</code>
     </div>
 {/await}
+-->

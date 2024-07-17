@@ -149,7 +149,10 @@
     <span slot="label">Vklopite preklop urnika na naslednji teden že med vikendom.</span>
 </FormField>
 
-<h1>Nastavitve BežiApp računa (zamenjava gesel in vpis Lo.Polis podatkov)</h1>
+<h1>Nastavitve BežiApp računa (zamenjava gesel)</h1>
+Modul se vrne kmalu!
+
+<!--
 Pojdimo počasi skozi vse to.
 Prepričajte se, da natančno preberete vsa navodila, drugače se lahko zgodi, da si uničite BežiApp račun, nakar lahko kontaktirate le razvijalca sistema, ki vam ga bo resetiral.
 Spodaj izberite tisto temo, za katero ste prišli sem.
@@ -158,7 +161,6 @@ Na mobilnih napravah se verjetno ne vidi tako dobro, ampak spodaj imate več opc
 <p/>
 
 <TabBar tabs={['Posodobitev eAsistent gesla', 'Zamenjava BežiApp gesla']} let:tab bind:active>
-    <!-- Note: the `tab` property is required! -->
     <Tab {tab}>
         <Label>{tab}</Label>
     </Tab>
@@ -226,7 +228,7 @@ Na mobilnih napravah se verjetno ne vidi tako dobro, ampak spodaj imate več opc
 
     <FormField>
         <Switch bind:checked={spremeni_beziapp} />
-        <span slot="label">Spremeni tudi BežiApp geslo (z istim geslom kot ga uporabljate za GimSIS, se boste lahko prijavili tudi v BežiApp).</span>
+        <span slot="label">Spremeni tudi BežiApp geslo (z istim geslom kot ga uporabljate za eAsistent se boste lahko prijavili tudi v BežiApp).</span>
     </FormField>
 
     <p/>
@@ -242,8 +244,8 @@ Na mobilnih napravah se verjetno ne vidi tako dobro, ampak spodaj imate več opc
 
     <h3>TEGA NE DELAJTE, RAZEN ČE STE SI NATANČNO PREBRALI, KAJ DELATE.</h3>
 
-    S tem geslom se prijavljate v BežiApp račun, ki deluje popolnoma neodvisno od GimSIS-a in Lo.Polisa.
-    Če katera izmed teh storitev ne deluje, lahko še vedno dostopate do BežiApp-a in uporabljate vse ostale ponujene storitve.
+    S tem geslom se prijavljate v BežiApp račun, ki deluje popolnoma neodvisno od eAsistenta.
+    Če katera izmed teh storitev ne deluje, lahko še vedno dostopate do BežiAppa in uporabljate vse ostale ponujene storitve.
 
     <p/>
 
@@ -270,4 +272,4 @@ Na mobilnih napravah se verjetno ne vidi tako dobro, ampak spodaj imate več opc
         <Label>Spremeni geslo</Label>
     </Button>
 {/if}
-
+-->

@@ -18,7 +18,7 @@
 
     onMount(async () => {
         try {
-            await myApps();
+            //await myApps();
         } catch (e) {
             let j = {
                 message: "Error while fetching my apps",
@@ -32,6 +32,9 @@
     })
 </script>
 
+Modul se vrne kmalu!
+
+<!--
 <h1>BežiApp za razvijalce</h1>
 
 BežiApp po novem podpira OAUTH2 protokol za prijavo. Če ste kdaj želeli narediti kako aplikacijo,
@@ -43,15 +46,6 @@ je BežiApp avtentikacija prava za vas.
 Poleg tega BežiApp ponuja dostop do našega lepo urejenega API-ja, s katerim se lahko aplikacije res dobro integrirajo.
 
 <h2>Prijava z BežiApp računom - "branding"</h2>
-
-<!--
-<div style="height: 400px; background-color: #028155; width: 1500px;">
-    <div style="display:flex; justify-content:center; align-items:center; width:1500px; height:400px;">
-        <img src="/icons/icon_512.png" alt="Prijava z BežiApp računom" style="height: 400px; width: 400px;">
-        <div style="width: 50px" />
-        <span style="color: white; font-size: 125px; width: 1050px;">Prijava z BežiApp računom</span>
-    </div>
-</div>-->
 
 <img src="/signin.png" alt="Prijava z BežiApp računom" style="height: 80px; width: 300px;">
 
@@ -129,3 +123,4 @@ Poleg tega BežiApp ponuja dostop do našega lepo urejenega API-ja, s katerim se
     <hr>
     <p/>
 {/each}
+-->

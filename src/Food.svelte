@@ -110,14 +110,16 @@
         await getCheckouts();
     }
 
-    fetchData();
+    //fetchData();
 
     onMount(async () => {
         //opozoriloShrani.open()
     })
 </script>
 
-<Snackbar bind:this={opozoriloShrani} timeoutMs={-1} style="width: 100vw; max-width: 100vw;">
+Modul se vrne v prvih dneh šole!
+
+<!--<Snackbar bind:this={opozoriloShrani} timeoutMs={-1} style="width: 100vw; max-width: 100vw;">
     <Label>Ne pozabite shraniti sprememb!</Label>
     <Actions>
         <Button on:click={async () => {
@@ -243,3 +245,4 @@ Izbran mesec: <b>{selectedMonth}/{selectedYear}</b><p/>
         BežiApp nalaga vaše Lo.Polis menije. Prosimo, bodite potrpežljivi.
     </div>
 {/if}
+-->

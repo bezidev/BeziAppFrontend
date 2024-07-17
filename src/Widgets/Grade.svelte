@@ -40,13 +40,13 @@
                 Profesor: <b>{grade.TeacherName}</b><br>
                 Tip ocenjevanja: <b>{grade.GradeType === 0 ? "Pisna ocena" : grade.GradeType === 1 ? "Ustna ocena" : "Druga ocena"}</b><br>
                 Opis ocenjevanja: <b>{grade.description_decrypted}</b><br>
-                Oceno je vpisal: <b>{grade.InsertedBy === "user" ? "Uporabnik" : "BežiApp (avtomatizirani sistem)"}</b>
+                Oceno je vpisal: <b>{grade.InsertedBy === "user" ? "Uporabnik" : grade.InsertedBy}</b>
                 <hr>
                 {#if grade.GradeImproved}
                     <b>Ocena je bila izboljšana.</b>
                 {/if}
                 {#if grade.ManuallyUpdated}
-                    <b>Ocena je bila ročno vpisana v BežiApp sistem.</b>
+                    <b>Ocena je bila ročno vpisana v BežiApp sistem. Ocena se ne posodablja več avtomatsko.</b>
                 {/if}
             </Tooltip>
         {/if}
@@ -59,13 +59,13 @@
                 Profesor: <b>{grade.TeacherName}</b><br>
                 Tip ocenjevanja: <b>{grade.GradeType === 0 ? "Pisna ocena" : grade.GradeType === 1 ? "Ustna ocena" : "Druga ocena"}</b><br>
                 Opis ocenjevanja: <b>{grade.description_decrypted}</b><br>
-                Oceno je vpisal: <b>{grade.InsertedBy === "user" ? "Uporabnik" : "BežiApp (avtomatizirani sistem)"}</b>
+                Oceno je vpisal: <b>{grade.InsertedBy === "user" ? "Uporabnik" : grade.InsertedBy}</b>
                 <hr>
                 {#if grade.GradeImproved}
                     <b>Ocena je bila izboljšana.</b>
                 {/if}
                 {#if grade.ManuallyUpdated}
-                    <b>Ocena je bila ročno vpisana v BežiApp sistem.</b>
+                    <b>Ocena je bila ročno vpisana v BežiApp sistem. Ocena se ne posodablja več avtomatsko.</b>
                 {/if}
             </main>
         </BottomSheet>

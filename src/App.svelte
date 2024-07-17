@@ -97,7 +97,7 @@
 					<Row>
 						<Section style="display: flex; flex-direction: row; align-items: center;">
 							<IconButton style="margin: 0 0 0 0.5em;" class="material-icons" on:click={() => open=!open}>{#if open}close{:else}menu{/if}</IconButton>
-							<Title>BežiApp<!-- <span style="font-size: 12px;">Srečno novo leto</span>--></Title>
+							<Title>BežiApp Evolved <sup>Beta</sup><!-- <span style="font-size: 12px;">Srečno novo leto</span>--></Title>
 						</Section>
 						<Section align="end" toolbar>
 							<IconButton style="margin: 0;" class="material-icons" aria-hidden="true" on:click={async () => {

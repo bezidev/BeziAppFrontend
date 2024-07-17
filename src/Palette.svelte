@@ -55,13 +55,15 @@
     getPalettes();
 </script>
 
+Modul se vrne kmalu!
+
+<!--
 <h2>Generacija barv na urniku</h2>
 BežiApp bo generiral barve na urniku na osnovi
 
 <br>
 
 <SegmentedButton segments={choices} let:segment singleSelect bind:selected>
-    <!-- Note: the `segment` property is required! -->
     <Segment {segment} on:click={() => localStorage.setItem("colorGeneration", segment)}>
         <Label>{segment}</Label>
     </Segment>
@@ -227,4 +229,4 @@ Tukaj lahko najdete tudi palete drugih uporabnikov. Ti so se odločili, da jih d
         </LayoutCell>
     {/each}
 </LayoutGrid>
-
+-->

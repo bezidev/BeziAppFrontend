@@ -43,13 +43,13 @@
     const repos = [
         {
             name: "Frontend (spletna aplikacija)",
-            desc: "Frontend je spisan v Svelte frameworku",
+            desc: "Frontend je spisan v Svelte frameworku (JavaScript/TypeScript)",
             url: "https://github.com/bezidev/BeziAppFrontend",
         },
         {
             name: "Backend (zaledni del)",
-            desc: "Backend je spisan v Pythonu s FastAPI enginom",
-            url: "https://github.com/bezidev/BeziAppBackend",
+            desc: "Backend je spisan v Go programskem jeziku",
+            url: "https://github.com/bezidev/BeziAppEvolvedBackend",
         },
         {
             name: "docker-compose",
@@ -57,14 +57,14 @@
             url: "https://github.com/bezidev/BeziAppDocker",
         },
         {
-            name: "GimSisAPI",
-            desc: "Knjižica za pridobivanje podatkov iz GimSIS sistema Gimnazije Bežigrad. Napisano v Pythonu.",
-            url: "https://github.com/bezidev/GimSisAPI",
+            name: "GoAsistent",
+            desc: "Knjižnica za pridobivanje podatkov iz eAsistent sistema Gimnazije Bežigrad. Napisano v Go programskem jeziku.",
+            url: "https://github.com/bezidev/GoAsistent",
         },
         {
-            name: "Lo.Polis API",
-            desc: "Knjižica za pridobivanje in pošiljanje podatkov o naročilih in odjavah iz Lo.Polis sistema. Napisano v Pythonu.",
-            url: "https://github.com/bezidev/lopolis-api",
+            name: "RinGo",
+            desc: "Knjižnica za odpiranje vrat kolesarnice preko Ringo API-ja. Napisano v Go programskem jeziku.",
+            url: "https://github.com/bezidev/RinGo",
         },
     ];
 

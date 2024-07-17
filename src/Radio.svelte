@@ -105,7 +105,7 @@
 
     onMount(async () => {
         try {
-            await getSuggestions();
+            //await getSuggestions();
         } catch (e) {
             let j = {
                 message: "Error while fetching suggestions",
@@ -119,7 +119,9 @@
     })
 </script>
 
-{#if is_admin}
+Modul se vrne kmalu!
+
+<!--{#if is_admin}
     <h3>Administratorska plošča šolskega radia</h3>
     To ploščo lahko vidite samo, če ste administratorji sistema. V tem primeru imate vse pravice znotraj sistema šolskega radia.
 
@@ -209,7 +211,6 @@
                     {#if is_admin}
                         <Cell>
                             <SegmentedButton segments={choices} let:segment singleSelect bind:selected={suggestion.status}>
-                                <!-- Note: the `segment` property is required! -->
                                 <Segment {segment} on:click={async (e) => {
                                     denied_id = suggestion.id;
                                     if (segment === "DENIED") {
@@ -259,3 +260,4 @@
         </Button>
     </Actions>
 </Dialog>
+-->

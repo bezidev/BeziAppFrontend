@@ -325,12 +325,14 @@
     }
 
     onMount(async () => {
-        await getFiles()
+        //await getFiles()
     })
 
 </script>
 
-<Dialog
+Modul se vrne kmalu!
+
+<!--<Dialog
         bind:open
         aria-labelledby="simple-title"
         aria-describedby="simple-content"
@@ -338,10 +340,6 @@
     <Title id="simple-title">Nov zapisek</Title>
     <Content id="simple-content">
         <div class="hide-file-ui">
-            <!--
-              Note: the change and input events fire
-              before the `files` prop is updated.
-            -->
             <Textfield helperLine$style="width: 100%;" style="width: 100%;" bind:files={valueTypeFiles} on:change={handleFileSelect} label="Datoteka" type="file" />
         </div>
 
@@ -458,3 +456,4 @@
         </Cell>
     {/each}
 </LayoutGrid>
+-->

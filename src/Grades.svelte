@@ -12,11 +12,13 @@
     import SegmentedButton, {Segment} from "@smui/segmented-button";
     import Textfield from "@smui/textfield";
     import CharacterCounter from "@smui/textfield/character-counter";
+    import type {GenericResponse} from "./ts/generic-response";
 
     let grades: GradeSubject[] = [];
     let total_average = 0.0;
     let stalne = true;
     let selectedYear = "2023/2024";
+    let consent = false;
 
     let dialogOpen = false;
     let selectedGrade: string = "5";
@@ -53,7 +55,20 @@
         total_average = avg / total;
     }
 
+    async function getApeiroederConsent() {
+        let r: GenericResponse = await makeRequest(`/apeiroeder/consent`);
+        consent = r.data === true;
+    }
+
+    async function setApeiroederConsent() {
+        let fd = new FormData();
+        fd.append("apeiroeder_consent", consent.toString());
+        await makeRequest(`/apeiroeder/consent`, "POST", fd);
+        await getApeiroederConsent();
+    }
+
     getGrades();
+    getApeiroederConsent();
 </script>
 
 <Dialog
@@ -135,6 +150,10 @@
     </Actions>
 </Dialog>
 
+{#if !consent}
+    Ocene se lahko vpisujejo samo ročno, ker nimate vključenega modula Apeiroeder. Modul vključite malo nižje na tej strani.
+{/if}
+
 <!--<FormField>
     <Switch bind:checked={stalne} />
     <span slot="label">Stalne ocene</span>
@@ -160,7 +179,7 @@ Učni uspeh: <span style="color: rgba(255, 255, 255, 0.5); display:inline-block;
                             {subject.average.toFixed(2)}
                         {:else}
                             <span style="color: {gradeColors[subject.final.grade_num]}; display:inline-block; font-size: 1.25rem; font-weight: 600;">
-                                {subject.final}
+                                {subject.final.grade_num}
                             </span>
                             <span class="zacasna">({subject.average.toFixed(2)})</span>
                         {/if}
@@ -207,10 +226,37 @@ Učni uspeh: <span style="color: rgba(255, 255, 255, 0.5); display:inline-block;
 
 <p/>
 
-Ne vidite predmeta, ki je na urniku? Je mogoče kakšna ocena preveč ali premalo? To je težava z BežiAppom. Kontaktirajte razvijalca na <a href="mailto:mitja.severkar@gimb.org">mitja.severkar@gimb.org</a>, da pogleda, kaj je narobe.
+<h4>Apeiroeder – modul za avtomatizirano vpisovanje ocen</h4>
+eAsistent v zastonjski varianti ponuja bolj skope informacije glede ocen. BežiApp lahko pridobi nekoliko več ocen, samo ni zagotovil, da bo karkoli pravilno.
+
+<br>
+
+BežiApp bo, če vklopite modul Apeiroeder, vsakih 30 minut, ko odprete urnik, poskušal pridobiti nove ocene iz eAsistenta, jih shranil v podatkovno bazo BežiApp sistema in hkrati šifriral, da se obdržijo tudi, če izginejo iz eAsistenta.
+
+<br>
+
+<b>Če nimate vključenega modula, se ocene ne prenašajo iz eAsistenta, ne glede na to ali ste plačljiv uporabnik ali zastonjski uporabnik, posledično lahko ta razpredelnica ocen izgleda bolj prazna.</b>
 
 <p/>
 
+<FormField>
+    <Switch bind:checked={consent} on:click={() => {
+            setTimeout(() => {
+                setApeiroederConsent();
+            }, 50);
+        }}/>
+
+    <span slot="label">{#if consent}Apeiroeder je vključen in pridobiva ocene iz eAsistenta.{:else}Apeiroeder je izključen. Ocene se <b>NE</b> pridobivajo iz eAsistenta.{/if}</span>
+</FormField>
+
+{#if consent}
+    <p/>
+    Če se nove ocene ne pokažejo po eni uri, kontaktirajte razvijalca
+{/if}
+
+<p/>
+
+<h4>Prikaz ocen za pretekla šolska leta</h4>
 <Select key={(fruit) => `${fruit ? fruit.value : ''}`} bind:value={selectedYear} label="Šolsko leto">
     {#each [/*{value: "2024/2025", text: "2024/2025"}, */{value: "2023/2024", text: "2023/2024"}] as fruit}
         <Option value={fruit.value} on:click={async () => {setTimeout(getGrades, 50)}}>{fruit.text}</Option>
