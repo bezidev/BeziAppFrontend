@@ -4,45 +4,48 @@
     import Button, {Label} from "@smui/button";
     import TextField from "@smui/textfield";
     import Snackbar from "@smui/snackbar";
+    import type {GenericResponse} from "./ts/generic-response";
 
     let snackbarWithoutClose: Snackbar;
     let snackbarContent = "";
 
     let token = "";
     let newToken = "";
-    let currentPassword = "";
 
     let locked = [true, true];
     let lockedTimer = [5, 5];
 
     async function getToken() {
-        let t = await makeRequest(`/bikes/token`);
-        if (t === undefined) return;
-        token = t.token;
+        let t: GenericResponse = await makeRequest(`/bikes/token`);
+        token = t.data;
     }
 
     async function setToken(default_token: boolean) {
         let fd = new FormData();
         fd.append("ringo_url", default_token ? "DEFAULT_TOKEN" : newToken);
-        if (!default_token) fd.append("current_password", currentPassword);
-        let r = await makeRequest(`/bikes/token`, "PATCH", fd);
-        if (r.type === "invalid_data") {
+        let r: GenericResponse = await makeRequest(`/bikes/token`, "PATCH", fd);
+        if (r.error === "invalid_data") {
             snackbarContent = "Niste izpolnili obeh polj. Obe polji sta potrebni.";
             snackbarWithoutClose.open();
             return;
         }
-        if (r.type === "invalid_url") {
-            snackbarContent = "Vaš Ringo URL se ne začne z https://www.ringodoor.com/. Prosimo, popravite URL naslov.";
+        if (r.error === "invalid_url") {
+            snackbarContent = "Vaš Ringo URL se ne začne z https://www.ringodoor.com/door/?hash=. Prosimo, popravite URL naslov.";
             snackbarWithoutClose.open();
             return;
         }
-        if (r.type === "no_such_user") {
+        if (r.error === "no_such_user") {
             snackbarContent = "Nismo uspeli najti vašega uporabniškega profila v podatkovni bazi. Nekaj je šlo izjemno narobe.";
             snackbarWithoutClose.open();
             return;
         }
-        if (r.type === "password_verification_fail") {
-            snackbarContent = "Vpisano geslo se ne ujema s trenutnim.";
+        if (r.error === "encryption_failure") {
+            snackbarContent = "Šifiranje Ringo URL-ja je spodletelo. Nekaj je šlo izjemno narobe.";
+            snackbarWithoutClose.open();
+            return;
+        }
+        if (r.error === "user_update_failure") {
+            snackbarContent = "Shranjevanje Ringo URL-ja na uporabniški profil je spodletelo. Nekaj je šlo izjemno narobe.";
             snackbarWithoutClose.open();
             return;
         }
@@ -54,21 +57,19 @@
     async function unlockDoor(door_id: number) {
         if (!locked[door_id]) return;
 
-        let fd = new FormData();
-        fd.append("door_id", door_id);
-        let r = await makeRequest(`/bikes/open/${door_id}`, "POST", fd);
-        if (r.type === "invalid_door_id") {
+        let r: GenericResponse = await makeRequest(`/bikes/open/${door_id}`, "POST");
+        if (r.error === "invalid_url") {
+            snackbarContent = "V podatkovni bazi imate shranjen neveljaven URL. Nekje se je grozno zalomilo.";
+            snackbarWithoutClose.open();
+            return;
+        }
+        if (r.error === "invalid_door_id") {
             snackbarContent = "Poslali ste neveljaven zahtevek. To je krivda BežiApp razvijalca.";
             snackbarWithoutClose.open();
             return;
         }
-        if (r.type === "door_open_failure") {
+        if (r.error === "door_open_failure") {
             snackbarContent = "Vrata se niso odprla zaradi težav z Ringo strežniki.";
-            snackbarWithoutClose.open();
-            return;
-        }
-        if (r.type === "ringo_api_failure") {
-            snackbarContent = "Vrata se niso odprla zaradi težav z Ringo API zahtevkom. To je lahko krivda BežiApp razvijalca.";
             snackbarWithoutClose.open();
             return;
         }
@@ -89,9 +90,7 @@
     //getToken();
 </script>
 
-Modul se vrne kmalu!
-
-<!--<div class="center">
+<div class="center">
     <Icon class="material-icons" slot="leadingIcon" style="font-size: 7em;">directions_bike</Icon>
     <h2>Odklepanje kolesarnice</h2>
     <p/>
@@ -145,7 +144,7 @@ Modul se vrne kmalu!
     <p/>
     ───────────────
     <p/>
-    {#if (token === "DEFAULT_TOKEN" || token === "NO_TOKEN")}
+    {#if (token === "DEFAULT_TOKEN" || token === "NO_TOKEN" || token === "")}
         Uporabljate skupni ključ. Skupni ključ bo ostal skrit, saj BežiApp razvijalci ne želimo, da pride do zlorabe.
         BežiApp privzeto uporablja skupni ključ.
         <br>
@@ -167,8 +166,6 @@ Modul se vrne kmalu!
     <p/>
     <TextField bind:value={newToken} label="URL povezava (Ringo ključ)" style="width: 80vw;" helperLine$style="width: 100%;" type="url" />
     <p/>
-    <TextField bind:value={currentPassword} label="BežiApp (GimSIS) geslo" style="width: 80vw;" helperLine$style="width: 100%;" type="password" />
-    <p/>
     <Button on:click={async () => {
         await setToken(false);
     }} variant="raised" class="inline">
@@ -186,4 +183,3 @@ Modul se vrne kmalu!
 <Snackbar bind:this={snackbarWithoutClose}>
     <Label>{snackbarContent}</Label>
 </Snackbar>
--->
