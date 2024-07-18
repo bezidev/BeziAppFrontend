@@ -9,7 +9,7 @@
 	import isMobile from "is-mobile";
 	import Tab, { Label } from '@smui/tab';
 	import TabBar from '@smui/tab-bar';
-	import {enableNewTimetable, timetableDay} from "./stores";
+	import {enableNewTimetable, svelteLoc, timetableDay} from "./stores";
 	import * as emotion from "@emotion/css";
 	import {makeRequest} from "./constants";
 	const { css } = emotion;
@@ -52,15 +52,11 @@
 		rerenderTTCSS();
 	});
 
-	const loc = useLocation();
-	$: () => {
-		if (loc == undefined) {
-			return;
-		}
-		console.log($loc)
-		pathname = ($loc).pathname;
+	svelteLoc.subscribe((value) => {
+		console.log("loc2", value)
+		pathname = value;
 		rerenderTTCSS();
-	}
+	});
 
 	const mobile: boolean = isMobile();
 

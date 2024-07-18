@@ -2,19 +2,20 @@
     import Timetable from "./Widgets/Timetable.svelte";
     import {handleRejection} from "./constants";
     import {marked} from "marked";
+    import {navigate} from "svelte-routing";
 
-    const token = localStorage.getItem("key");
-    if (token === null || token === undefined || token === "") {
+    const username = localStorage.getItem("account_username");
+    const password = localStorage.getItem("account_password");
+    if (username == null || username === "" || password == null || password === "") {
+        console.log("Home")
         let j = {
             message: "Token is either null or undefined",
             fileName: `Home.svelte`,
             lineNumber: 5,
             columnNumber: 0,
-            stack: token,
         };
         handleRejection(j);
-        localStorage.removeItem("key");
-        window.location.href = "/login";
+        navigate("/login");
     }
 </script>
 

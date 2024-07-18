@@ -78,8 +78,8 @@
                 </span>
                 <div
                         class="triangle"
-                        style="border-top: 20px solid {n.hour_special_type === 'cancelled' ? 'lightblue': (n.hour_special_type === 'exam' ? 'magenta' : (n.hour_special_type === 'pre-exam' ? 'white' : (n.hour_special_type === 'substitution' ? 'red' : `${barva}`)))};"
-                ></div>
+                        style="border-top: 20px solid {n.hour_special_type === 'cancelled' ? 'lightblue': (n.hour_special_type === 'exam' ? 'magenta' : (n.hour_special_type === 'pre-exam' ? 'white' : (n.hour_special_type === 'substitution' ? 'red' : `transparent`)))};"
+                />
                 <span class="classroom {n.hour_special_type === 'cancelled' ? 'strike' : ''}">
                     {#if mobile}
                         {n.classroom.name.replace("Učilnica ", "").replace("Telovadnica", "T").replace("Predavalnica", "P")}

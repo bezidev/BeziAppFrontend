@@ -9,6 +9,7 @@
 
     import {useLocation} from "svelte-routing";
     import {handleRejection} from "./constants";
+    import {svelteLoc} from "./stores";
 
     const location = useLocation();
     let active = "";
@@ -24,20 +25,25 @@
 
     $: (async () => {
         statusFunction(open);
+
+        console.log("loc", $location)
+        svelteLoc.set($location.pathname);
+
         if (!($location.pathname === "/login" || $location.pathname === "/reset")) {
             showDrawer = true;
 
-            const token = localStorage.getItem("key");
-            if (token === null || token === undefined || token === "") {
+            const username = localStorage.getItem("account_username");
+            const password = localStorage.getItem("account_password");
+            if (username == null || username === "" || password == null || password === "") {
                 let j = {
                     message: "Token cookie is either null or undefined",
                     fileName: `Drawer.svelte/onMount()`,
                     lineNumber: 0,
                     columnNumber: 0,
-                    stack: token,
                 };
                 await handleRejection(j);
                 navigate("/login");
+                return;
             }
 
             let path = $location.pathname;
@@ -53,7 +59,7 @@
                 "/grades": "ocene",
                 "/teachers": "ucitelji",
                 "/bikes": "kolesarnica",
-                "/lopolis": "lopolis",
+                "/food": "prehrana",
                 "/notes": "notes",
                 "/about": "about",
                 "/radio": "radio",
