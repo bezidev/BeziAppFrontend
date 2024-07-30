@@ -394,6 +394,15 @@
     </Actions>
 </Dialog>
 
+<div style="padding: 10px; background-color: darkorange; border-radius: 10px;">
+    <h2>Nedosegljivost modula z zapiski in testi</h2>
+    Sistem za nalaganje zapiskov in testov ne bo na voljo vsaj do 21. 8. 2024 zaradi nadgradenj na BežiApp Evolved. Modul se bo zagotovo vrnil do 25. 8. 2024, morda celo v novi obliki.
+
+    <p/>
+</div>
+
+<p/>
+
 <Button on:click={() => (open = true)}>
     <Icon class="material-icons">upload</Icon>
     <Label>Naloži datoteko</Label>
