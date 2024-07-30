@@ -386,7 +386,7 @@ Modul se vrne kmalu!
         {@html insane(marked(view_contents))}
     </Content>
     <Actions>
-        <Button on:click={async () => await uploadFile()} variant="raised">
+        <Button variant="raised">
             <Label>OK</Label>
         </Button>
     </Actions>
