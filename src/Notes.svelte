@@ -11,41 +11,44 @@
     import {marked} from "marked";
     import CharacterCounter from "@smui/textfield/character-counter";
 
+    // MM nima dostopa do eAsistenta, posledično BežiAppa, kar pomeni, da je mednarodno šolo vključevati enostavno brez zveze.
     const classes = [
-        "1.a",
-        "1.b",
-        "1.c",
-        "1.d",
-        "1.e",
-        "1.f",
-        "1.g",
-        "1.š",
-        "2.a",
-        "2.b",
-        "2.c",
-        "2.d",
-        "2.e",
-        "2.f",
-        "2.g",
-        "2.š",
-        "3.a",
-        "3.b",
-        "3.c",
-        "3.d",
-        "3.e",
-        "3.f",
-        "3.g",
-        "3.š",
-        "3.mm",
-        "4.a",
-        "4.b",
-        "4.c",
-        "4.d",
-        "4.e",
-        "4.f",
-        "4.g",
-        "4.š",
-        "4.mm",
+        "1. A",
+        "1. B",
+        "1. C",
+        "1. D",
+        "1. E",
+        "1. F",
+        "1. G",
+        "1. H", // nekoč je bil na Bežigradu tudi H. Puščam tu za legacy razloge
+        "1. Š",
+        "2. A",
+        "2. B",
+        "2. C",
+        "2. D",
+        "2. E",
+        "2. F",
+        "2. G",
+        "2. H",
+        "2. Š",
+        "3. A",
+        "3. B",
+        "3. C",
+        "3. D",
+        "3. E",
+        "3. F",
+        "3. G",
+        "3. H",
+        "3. Š",
+        "4. A",
+        "4. B",
+        "4. C",
+        "4. D",
+        "4. E",
+        "4. F",
+        "4. G",
+        "4. H",
+        "4. Š",
     ];
 
     const extended_classes = [
@@ -194,6 +197,7 @@
         "Zapiski",
         "Prezentacije",
         "Testi",
+        "Preverjanja",
     ];
 
     const years = [
@@ -204,6 +208,7 @@
         "2021/2022",
         "2022/2023",
         "2023/2024",
+        "2024/2025",
     ];
 
     let file;
@@ -330,9 +335,7 @@
 
 </script>
 
-Modul se vrne kmalu!
-
-<!--<Dialog
+<Dialog
         bind:open
         aria-labelledby="simple-title"
         aria-describedby="simple-content"
@@ -456,4 +459,3 @@ Modul se vrne kmalu!
         </Cell>
     {/each}
 </LayoutGrid>
--->
