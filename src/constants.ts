@@ -94,7 +94,12 @@ export async function makeRequest(url: string, method: string = "GET", formData:
 
 export const saveBlob = async blob => {
     let _url = window.URL.createObjectURL(blob);
-    window.open(_url, "_blank").focus();
+    let link = document.createElement("a");
+    link.href = _url;
+    link.download = 'beziapp_izvoz_ocen.json';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
 export function barvaPredmeta(selected, paleta, n) {
