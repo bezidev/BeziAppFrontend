@@ -6,6 +6,7 @@
     export let today;
     export let tomorrow;
     export let day;
+    export let hours: number[];
 
     const ure = [
         "7.10–7.55",
@@ -32,21 +33,19 @@
 
     let tom = Object.keys(dnevi)[Object.keys(dnevi).findIndex((element) => element === day)+1];
     console.log("aaaa", tom);
-
-    let m = Math.max(today[0] === undefined ? Object.keys(today).length + 1 : Object.keys(today).length, tomorrow[0] === undefined ? Object.keys(tomorrow).length + 1 : Object.keys(tomorrow).length);
 </script>
 
 <table class="coolTable">
     <tr>
         <th style="text-align: left;">URA</th>
         <th><b>{dnevi[day].toUpperCase()}</b>, {date[0]}</th>
-        {#if Object.keys(tomorrow).length !== 0}<th><b>{dnevi[tom].toUpperCase()}</b></th>{/if}
+        {#if Object.keys(tomorrow).length !== 0}<th><b>{dnevi[tom].toUpperCase()}</b>, {date[1]}</th>{/if}
     </tr>
-    {#each {length: m} as _, i}
+    {#each hours as h}
         <tr>
-            <td style="text-align: left;"><b>{i}</b>.<br><span style="font-size: 14px;">{ure[i]}</span></td>
+            <td style="text-align: left;"><b>{h}</b>.<br><span style="font-size: 14px;">{ure[h]}</span></td>
             <td>
-                {#each Array(today[i]) as m}
+                {#each Array(today[h]) as m}
                     {#if m}
                         <MeetingCard n={m} />
                     {:else}
@@ -55,7 +54,7 @@
                 {/each}
             </td>
             <td>
-                {#each Array(tomorrow[i]) as m}
+                {#each Array(tomorrow[h]) as m}
                     {#if m}
                         <MeetingCard n={m} />
                     {:else}

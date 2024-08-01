@@ -13,6 +13,7 @@ export interface TimetableHour {
     groups: Group[]
     info: any[]
     teacher_name_short: string
+    teacher_name_mobile: string
     hour: number
 }
 

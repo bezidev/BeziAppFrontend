@@ -197,24 +197,24 @@
 {#if ok === true}
     {#if mobile && noviUrnik}
         {#if currentDate.getDay() === 1}
-            <DayTimetable date={[dates[0], dates[1]]} today={timetable[0]} tomorrow={timetable[1]} day="PON"/>
+            <DayTimetable date={[dates[0], dates[1]]} today={timetable[0]} tomorrow={timetable[1]} day="PON" hours={hours} />
         {/if}
         {#if currentDate.getDay() === 2}
-            <DayTimetable date={[dates[1], dates[2]]} today={timetable[1]} tomorrow={timetable[2]} day="TOR"/>
+            <DayTimetable date={[dates[1], dates[2]]} today={timetable[1]} tomorrow={timetable[2]} day="TOR" hours={hours} />
         {/if}
         {#if currentDate.getDay() === 3}
-            <DayTimetable date={[dates[2], dates[3]]} today={timetable[2]} tomorrow={timetable[3]} day="SRE"/>
+            <DayTimetable date={[dates[2], dates[3]]} today={timetable[2]} tomorrow={timetable[3]} day="SRE" hours={hours} />
         {/if}
         {#if currentDate.getDay() === 4}
-            <DayTimetable date={[dates[3], dates[4]]} today={timetable[3]} tomorrow={timetable[4]} day="CET"/>
+            <DayTimetable date={[dates[3], dates[4]]} today={timetable[3].Hours} tomorrow={timetable[4].Hours} day="CET" hours={hours} />
         {/if}
         {#if currentDate.getDay() === 5}
-            <DayTimetable date={[dates[4], ""]} today={timetable[4]} tomorrow={[]} day="PET"/>
+            <DayTimetable date={[dates[4], ""]} today={timetable[4].Hours} tomorrow={[]} day="PET" hours={hours} />
         {/if}
     {:else}
         <table class="coolTable">
             <tr>
-                <th>URA</th>
+                <th style="width: {mobile ? 40 : 80}px;">URA</th>
                 <th>{mobile ? "PON" : "PONEDELJEK"} {dates[0]}</th>
                 <th>{mobile ? "TOR" : "TOREK"} {dates[1]}</th>
                 <th>{mobile ? "SRE" : "SREDA"} {dates[2]}</th>
@@ -223,7 +223,7 @@
             </tr>
             {#each hours as i}
                 <tr>
-                    <th>
+                    <th style="width: 40px;">
                         {i}.
                         <br>
                         {#if mobile}<span class="time">{mobile_ure[i]}</span>{:else}<span

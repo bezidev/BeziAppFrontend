@@ -60,7 +60,7 @@
 </style>
 
 <TooltipMobile>
-    <div style="padding: 3px; min-width: 93%" class="inline" on:click={() => open = true} on:keydown={() => {}} slot="torender" role="toolbar" tabindex="0">
+    <div style="padding: 3px; width: 100%" class="inline" on:click={() => open = true} on:keydown={() => {}} slot="torender" role="toolbar" tabindex="0">
         <div style="background-color: {barva}; padding: 5px; display: flex; width: 100%; display: inline-block; height: 40px; text-align: left; " class="pos">
             <div>
                 <span style="font-size: 0.8em; font-weight: 700;" class="sameline">
@@ -71,10 +71,8 @@
                     {/if}
                 </span>
                 <br>
-                <span style="font-size: 0.7em; position: absolute; bottom: 6px; left: 5px;">
-                    <span class="{n.hour_special_type === 'cancelled' ? 'strike' : ''}">
-                        {n.teacher_name_short}
-                    </span>
+                <span class="{n.hour_special_type === 'cancelled' ? 'strike' : ''}" style="font-size: 0.7em; position: absolute; bottom: 6px; left: 5px;">
+                    {#if mobile}{n.teacher_name_mobile}{:else}{n.teacher_name_short}{/if}
                 </span>
                 <div
                         class="triangle"

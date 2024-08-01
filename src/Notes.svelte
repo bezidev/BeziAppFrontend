@@ -536,6 +536,7 @@
               bind:value={teacher_filter} label="Izberite ali vpišite učitelja, ki vas je učil ta predmet"/>
 <Autocomplete options={years} textfield$style="width: 100%;" style="width: 100%;" bind:value={class_year_filter}
               label="Izberite šolsko leto"/>
+<p/>
 <SegmentedButton segments={types} let:segment bind:selected={type_filter}>
     <Segment {segment}><Label>{segment}</Label></Segment>
 </SegmentedButton>
@@ -561,11 +562,11 @@
         <Cell span={4}>
             <Card variant="outlined" padded>
                 <span class="sameline" style="text-wrap: auto; width: 100%;">
-                    <span class="inline uppercase-first-letter" style="font-size: 24px; width: 95%; text-wrap: auto;">
+                    <span class="inline uppercase-first-letter" style="font-size: 24px; width: 95%; text-wrap: wrap;">
                         {note.subject}
                     </span>
                     <div class="big-break"/>
-                    <span class="inline" style="width: 100%; text-wrap: auto;">
+                    <span class="inline" style="width: 100%; text-wrap: wrap;">
                         {#if note.type === "Testi"}
                             <b>Test</b>
                         {:else if note.type === "Preverjanja"}
@@ -594,17 +595,17 @@
                         {/if}
                     </span>
                 </span>
-                <span class="sameline">
-
-                </span>
                 <br>
                 {note.filename}
                 <span class="sameline">Profesor: <b>{note.teacher}</b></span>
                 <span class="sameline">Razred: <b>{note.class_name}</b></span>
                 <span class="sameline">Šolsko leto: <b>{note.class_year}</b></span>
-                Opis:
-                {@html insane(marked(note.description))}
-                {#if note.description === ""}<p/>{/if}
+                {#if note.description !== ""}
+                    Opis:
+                    {@html insane(marked(note.description))}
+                {:else}
+                    <p/>
+                {/if}
                 {#if note.filename.endsWith(".md")}
                     <Button on:click={async () => await viewFile(note.id)} variant="raised">
                         <Icon class="material-icons">preview</Icon>
