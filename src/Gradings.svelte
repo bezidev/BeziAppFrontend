@@ -13,6 +13,7 @@
     import Card, { Content } from '@smui/card';
     import LayoutGrid, { Cell } from "@smui/layout-grid";
     import {formatDate} from "date-fns";
+    import type {ErrorRequest} from "./ts/error";
 
     let gradings: GradingsResponse;
     let open = [];
@@ -74,7 +75,7 @@
             await getGradings();
         } catch (e) {
             console.log(e);
-            let j = {
+            let j: ErrorRequest = {
                 message: "Error while fetching gradings",
                 fileName: `Gradings.svelte/onMount()`,
                 lineNumber: 0,

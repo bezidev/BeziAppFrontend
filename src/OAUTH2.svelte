@@ -33,13 +33,9 @@
             name: "bere vaše ime in priimek",
             icon: "face",
         },
-        "gimsis.user.read.sex": {
+        "gimsis.user.read.gender": {
             name: "bere vaš spol",
             icon: "man",
-        },
-        "gimsis.user.read.role": {
-            name: "bere vaš tip uporabniškega računa v GimSIS-u (učenec, starš ipd.)",
-            icon: "boy",
         },
         "sharepoint.notifications.read": {
             name: "bere vaša obvestila",

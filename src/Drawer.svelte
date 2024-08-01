@@ -4,12 +4,13 @@
         Scrim,
     } from '@smui/drawer';
     import List, {Item, Text, Graphic} from '@smui/list';
-    import { navigate as nvgt } from "svelte-routing";
+    import {navigate as nvgt} from "svelte-routing";
     import isMobile from "is-mobile";
 
     import {useLocation} from "svelte-routing";
     import {handleRejection} from "./constants";
     import {svelteLoc} from "./stores";
+    import type {ErrorRequest} from "./ts/error";
 
     const location = useLocation();
     let active = "";
@@ -35,7 +36,7 @@
             const username = localStorage.getItem("account_username");
             const password = localStorage.getItem("account_password");
             if (username == null || username === "" || password == null || password === "") {
-                let j = {
+                let j: ErrorRequest = {
                     message: "Token cookie is either null or undefined",
                     fileName: `Drawer.svelte/onMount()`,
                     lineNumber: 0,
@@ -171,7 +172,9 @@
                     <Item
                             on:click={() => window.open("https://smp.beziapp.si")}
                     >
-                        <Graphic aria-hidden="true" style="height: 24px;"><img src="/mc.svg" alt="Minecraft server" style="height: 24px; color: rgba(255, 255, 255, 0.6);"></Graphic>
+                        <Graphic aria-hidden="true" style="height: 24px;"><img src="/mc.svg" alt="Minecraft server"
+                                                                               style="height: 24px; color: rgba(255, 255, 255, 0.6);">
+                        </Graphic>
                         <Text>BežiSMP</Text>
                     </Item>
                     <Item
@@ -214,6 +217,6 @@
                 </List>
             </Content>
         </Drawer>
-        <Scrim fixed={false} />
+        <Scrim fixed={false}/>
     </div>
 {/if}

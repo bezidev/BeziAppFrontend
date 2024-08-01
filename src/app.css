@@ -26,7 +26,7 @@ body {
 }
 
 a {
-    color: rgb(0,100,200);
+    color: rgb(0, 100, 200);
     text-decoration: none;
 }
 
@@ -35,7 +35,7 @@ a:hover {
 }
 
 a:visited {
-    color: rgb(0,80,160);
+    color: rgb(0, 80, 160);
 }
 
 .coolTable {
@@ -92,16 +92,20 @@ a:visited {
     display: flex;
     flex-direction: column;
 }
+
 .fill {
     flex-grow: 1;
     flex-shrink: 0;
 }
+
 .column.items-center {
     align-items: center;
 }
+
 .column.justify-center {
     justify-content: center;
 }
+
 .column.justify-end {
     justify-content: flex-end;
 }
@@ -172,6 +176,7 @@ a:visited {
 .mdc-tab .mdc-tab__ripple::before, .mdc-tab .mdc-tab__ripple::after {
     background-color: rgba(0, 64, 42, 1) !important;
 }
+
 .mdc-tab--active .mdc-tab__text-label {
     color: white !important;
 }
@@ -184,10 +189,10 @@ a:visited {
     font-weight: bold;
 }
 
-.hover-td {
-
+.hover-td:hover {
+    background-color: rgba(255, 255, 255, .05);
 }
 
-.hover-td:hover {
-    background-color: rgba(255,255,255,.05);
+.uppercase-first-letter:first-letter {
+    text-transform: capitalize;
 }

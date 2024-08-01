@@ -3,12 +3,13 @@
     import IconButton from "@smui/icon-button";
     import {onMount} from "svelte";
     import {navigate} from "svelte-routing";
-    import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
+    import Accordion, {Panel, Header, Content} from '@smui-extra/accordion';
     import Button, {Icon, Label} from "@smui/button";
     import FormField from "@smui/form-field";
     import Switch from "@smui/switch";
-    import { Datepicker } from "svelte-calendar";
+    import {Datepicker} from "svelte-calendar";
     import dayjs from "dayjs";
+    import type {ErrorRequest} from "./ts/error";
 
     let niObdelano = true;
     let opraviceno = true;
@@ -78,8 +79,8 @@
 
         try {
             setTimeout(getAbsences, 200);
-        } catch (e) {
-            let j = {
+        } catch (e: any) {
+            let j: ErrorRequest = {
                 message: "Error while fetching absences",
                 fileName: `Absences.svelte/onMount()`,
                 lineNumber: 0,
@@ -96,9 +97,11 @@
     .absence-date-select-grid {
         display: flex;
     }
+
     .absence-date-picker-button {
         margin: 0 0 0 1em;
     }
+
     .col-auto :global(.datepicker .sc-popover .contents-wrapper) {
         z-index: 1000;
         position: absolute;
@@ -122,7 +125,8 @@
 <div class="absence-date-select-grid">
     <h3>Izberite končni datum: </h3>
     <Datepicker bind:store={store2} let:key let:send let:receive theme={datePickerTheme} style="min-height: auto">
-        <button in:receive|local={{ key }} out:send|local={{ key }} class="absence-date-picker-button mdc-button mdc-button--raised mdc-ripple-upgraded">
+        <button in:receive|local={{ key }} out:send|local={{ key }}
+                class="absence-date-picker-button mdc-button mdc-button--raised mdc-ripple-upgraded">
             {#if $store2?.hasChosen}
                 {date2}
             {:else}
@@ -132,19 +136,19 @@
     </Datepicker>
 </div>
 <FormField>
-    <Switch bind:checked={niObdelano} />
+    <Switch bind:checked={niObdelano}/>
     <span slot="label">Ni obdelano</span>
 </FormField><br>
 <FormField>
-    <Switch bind:checked={opraviceno} />
+    <Switch bind:checked={opraviceno}/>
     <span slot="label">Opravičeno</span>
 </FormField><br>
 <FormField>
-    <Switch bind:checked={neopraviceno} />
+    <Switch bind:checked={neopraviceno}/>
     <span slot="label">Neopravičeno</span>
 </FormField><br>
 <FormField>
-    <Switch bind:checked={neSteje} />
+    <Switch bind:checked={neSteje}/>
     <span slot="label">Ne šteje</span>
 </FormField><p/>
 <Button on:click={async () => await getAbsences()}>

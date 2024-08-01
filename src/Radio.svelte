@@ -1,10 +1,10 @@
 <script lang="ts">
-    import Tab, { Icon, Label } from '@smui/tab';
+    import Tab, {Icon, Label} from '@smui/tab';
     import TabBar from '@smui/tab-bar';
     import Button from "@smui/button";
     import {handleRejection, makeRequest, timeConverter} from "./constants";
     import {onMount} from "svelte";
-    import SegmentedButton, { Segment } from '@smui/segmented-button';
+    import SegmentedButton, {Segment} from '@smui/segmented-button';
     import DataTable, {Body, Cell, Head, Row} from "@smui/data-table";
     import insane from "insane";
     import {marked} from "marked";
@@ -16,6 +16,7 @@
     import Textfield from "@smui/textfield";
     import FormField from "@smui/form-field";
     import Switch from "@smui/switch";
+    import type {ErrorRequest} from "./ts/error";
 
     const choices = ['WAITING FOR REVIEW', 'APPROVED', 'DENIED', 'PLAYED'];
     const tabs = [
@@ -107,7 +108,7 @@
         try {
             //await getSuggestions();
         } catch (e) {
-            let j = {
+            let j: ErrorRequest = {
                 message: "Error while fetching suggestions",
                 fileName: `Radio.svelte/onMount()`,
                 lineNumber: 0,

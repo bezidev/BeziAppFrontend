@@ -3,12 +3,13 @@
     import {handleRejection} from "./constants";
     import {marked} from "marked";
     import {navigate} from "svelte-routing";
+    import type {ErrorRequest} from "./ts/error";
 
     const username = localStorage.getItem("account_username");
     const password = localStorage.getItem("account_password");
     if (username == null || username === "" || password == null || password === "") {
         console.log("Home")
-        let j = {
+        let j: ErrorRequest = {
             message: "Token is either null or undefined",
             fileName: `Home.svelte`,
             lineNumber: 5,
@@ -27,5 +28,5 @@
 
 <p/>
 
-<Timetable />
+<Timetable/>
 

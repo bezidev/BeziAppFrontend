@@ -1,12 +1,12 @@
 <script lang="ts">
-    import Tooltip, {Wrapper} from "@smui/tooltip";
     import BottomSheet from "./BottomSheet.svelte";
     import isMobile from "is-mobile";
 
     let mobile = isMobile();
 
     export let open = true;
-    export let changeOpen = (v) => {}
+    export let changeOpen = (v: boolean) => {
+    }
 </script>
 
 {#if !mobile}

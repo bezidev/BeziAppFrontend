@@ -1,7 +1,11 @@
 import {navigate} from "svelte-routing";
 import uniqolor from "uniqolor";
-import type {Subject, TimetableHour} from "./ts/timetable";
+import type {TimetableHour} from "./ts/timetable";
+import type {LoginResponse} from "./ts/login";
+import type {ErrorRequest} from "./ts/error";
 
+// Gets injected during build process
+// @ts-ignore
 export const production: boolean = isProduction;
 export let baseurl: string = (!production ? "http://127.0.0.1:8000" : "/api");
 
@@ -14,9 +18,9 @@ export const gradeColors = {
     //"NOC": "#808080",
 };
 
-export function timeConverter(UNIX_timestamp){
+export function timeConverter(UNIX_timestamp: number) {
     var a = new Date(UNIX_timestamp * 1000);
-    var months = ['januar','februar','marec','april','maj','junij','julij','avgust','september','oktober','november','december'];
+    var months = ['januar', 'februar', 'marec', 'april', 'maj', 'junij', 'julij', 'avgust', 'september', 'oktober', 'november', 'december'];
     var year = a.getFullYear();
     var month = months[a.getMonth()];
     var date = a.getDate();
@@ -27,13 +31,7 @@ export function timeConverter(UNIX_timestamp){
     return time;
 }
 
-const blobToBinary = async blob => {
-    const buffer = await blob.arrayBuffer();
-
-    return new Uint8Array(buffer);
-};
-
-export async function handleRejection(r) {
+export async function handleRejection(r: ErrorRequest) {
     console.log("Called handleRejection", r);
 
     if (!production) {
@@ -55,20 +53,27 @@ export async function handleRejection(r) {
     fd.append("line", `${r.lineNumber}`);
     fd.append("col", `${r.columnNumber}`);
     fd.append("error", `${r.stack}`);
+    // @ts-ignore
     fd.append("username", localStorage.getItem("account_username"));
     fd.append("password", `${password === null || password === undefined || password === ""}`);
+    // @ts-ignore
     fd.append("session", localStorage.getItem("key"));
 
     await fetch(`${baseurl}/report/error`, {body: fd, method: "POST"})
 }
 
 export async function makeRequest(url: string, method: string = "GET", formData: FormData | string | null = new FormData(), forcefullyReturn: boolean = false, blob: boolean = false, json: boolean = false, status_code: boolean = false) {
-    let headers = {};
+    let headers: Record<string, string> = {};
     if (json) headers["Content-Type"] = "application/json";
-    let response = await fetch(`${baseurl}${url}`, {method: method, body: (method === "POST" || method === "DELETE" || method === "PATCH" || method === "PUT") ? formData : null, headers: headers, credentials: production ? undefined : "include"})
+    let response = await fetch(`${baseurl}${url}`, {
+        method: method,
+        body: (method === "POST" || method === "DELETE" || method === "PATCH" || method === "PUT") ? formData : null,
+        headers: headers,
+        credentials: production ? undefined : "include"
+    })
     if ((response.status < 200 || response.status >= 300) && !forcefullyReturn) {
         if (localStorage.getItem("account_password") === null || localStorage.getItem("account_username") === null) {
-            let j = {
+            let j: ErrorRequest = {
                 message: "account_password or account_username is for some reason null",
                 fileName: `constants.ts/makeRequest() ${url} ${method} ${forcefullyReturn} ${blob} ${json} ${status_code}`,
                 lineNumber: 64,
@@ -80,11 +85,20 @@ export async function makeRequest(url: string, method: string = "GET", formData:
             return;
         }
         let fd = new FormData();
+        // @ts-ignore
         fd.append("username", localStorage.getItem("account_username"));
+        // @ts-ignore
         fd.append("password", localStorage.getItem("account_password"));
-        let loginResponse = await fetch(`${baseurl}/account/login`, {body: fd, method: "POST", credentials: production ? undefined : "include"})
-        let j = await loginResponse.json();
-        localStorage.setItem("key", j["session"]);
+        let loginResponse = await fetch(`${baseurl}/account/login`, {
+            body: fd,
+            method: "POST",
+            credentials: production ? undefined : "include"
+        })
+        let j: LoginResponse = await loginResponse.json();
+        localStorage.setItem("key", j.session);
+        localStorage.setItem("is_global_administrator", j.is_global_administrator.toString());
+        localStorage.setItem("is_radio_administrator", j.is_radio_administrator.toString());
+        localStorage.setItem("is_upload_moderator", j.is_upload_moderator.toString());
         localStorage.setItem("palette", JSON.stringify(j["palette"]));
         return await makeRequest(url, method, formData, true, blob, json, status_code);
     }
@@ -93,8 +107,9 @@ export async function makeRequest(url: string, method: string = "GET", formData:
     return await response.json();
 }
 
-export const saveBlob = async blob => {
+export const saveBlob = async (blob: Blob) => {
     let _url = window.URL.createObjectURL(blob);
+    // @ts-ignore
     window.open(_url, "_blank").focus();
 }
 

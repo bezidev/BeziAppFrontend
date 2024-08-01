@@ -162,7 +162,7 @@ Na mobilnih napravah se verjetno ne vidi tako dobro, ampak spodaj imate več opc
 <p/>
 
 {#if active !== ""}
-    Za spremembo gesla morate vpisati vaše trenutno geslo BežiApp računa (geslo BežiApp računa ni nujno isto kot geslo GimSIS računa - uporabite tisto geslo, s katerim se prijavljate v BežiApp).
+    Za spremembo gesla morate vpisati vaše trenutno geslo BežiApp računa (geslo BežiApp računa ni nujno isto kot geslo eAsistent računa - uporabite tisto geslo, s katerim se prijavljate v BežiApp).
 
     {#if active === "Posodobitev eAsistent gesla"}
         <p/>
@@ -181,7 +181,7 @@ Na mobilnih napravah se verjetno ne vidi tako dobro, ampak spodaj imate več opc
                 <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 9.005a4 4 0 1 1 0 8 4 4 0 0 1 0-8ZM12 5.5c4.613 0 8.596 3.15 9.701 7.564a.75.75 0 1 1-1.455.365 8.503 8.503 0 0 0-16.493.004.75.75 0 0 1-1.455-.363A10.003 10.003 0 0 1 12 5.5Z" fill="#ffffff"/></svg>
             {/if}
         </IconButton>
-        <HelperText slot="helper">GimSIS geslo, razen če ste si spremenili geslo BežiApp računa</HelperText>
+        <HelperText slot="helper">eAsistent geslo, razen če ste si spremenili geslo BežiApp računa</HelperText>
         <Icon class="material-icons" slot="leadingIcon">key</Icon>
     </Textfield>
 {/if}

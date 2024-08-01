@@ -17,9 +17,9 @@
     import MeetingCard from "../MeetingCard.svelte";
     import Button, {Icon, Label} from "@smui/button";
     import Tooltip, {Wrapper} from "@smui/tooltip";
-    import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
+    import Accordion, {Panel, Header, Content} from '@smui-extra/accordion';
     import insane from "insane";
-    import LayoutGrid, { Cell } from '@smui/layout-grid';
+    import LayoutGrid, {Cell} from '@smui/layout-grid';
     import CircularProgress from '@smui/circular-progress';
     import Error from "./Error.svelte";
     import {marked} from "marked";
@@ -29,6 +29,7 @@
     import Switch from "@smui/switch";
     import FormField from "@smui/form-field";
     import {onMount} from "svelte";
+    import type {ErrorRequest} from "../ts/error";
 
     export let date: Date = new Date();
     let currentDate = new Date(date);
@@ -57,6 +58,7 @@
     let ok: number | boolean = -1;
 
     let developerNotifications = [];
+
     async function getDeveloperNotifications() {
         //developerNotifications = await makeRequest("/developers/notifications");
     }
@@ -92,7 +94,7 @@
 
         let r = await makeRequest(`/timetable?date=${fmtStart}`, "GET", null, false, false, false, true)
         if (r.status_code !== 200) {
-            let j = {
+            let j: ErrorRequest = {
                 message: `Timetable request failed ${r.status_code} ${r}`,
                 fileName: `Timetable.svelte/getTimetable()`,
                 lineNumber: 83,
@@ -170,7 +172,12 @@
 </script>
 
 {#if localStorage.getItem(`account_username`).toLowerCase() === "test" && neprimerniKomentarji}
-    Čestitke! Ugotovili ste našo malo skrivnost. Ker ima Google očitno posebne potrebe in zahteva moje prijavne podatke za GimSIS, ker morajo "potestirati" aplikacijo, sem ustvaril ta fejk profil. Z njim se <b>NE</b> morete prijaviti v GimSIS, lahko pa v BežiApp. Ta profil onemogoča večino stvari, ampak jih dopusti ravno dovolj, da ta aplikacija izgleda, kot da je bogo narejena (<i>kašelj</i> pol nedelujoča <i>kašelj</i>), ampak še vedno gre čez Googlovo maltretiranje prijave. Tukaj ne boste našli ničesar, večina storitev je za ta račun onemogočenih, po tistih, ki pa delajo, pa ne morete delati ničesar drugega, kot si ogledovati stvari (ne morete ustvarjati novih).
+    Čestitke! Ugotovili ste našo malo skrivnost. Ker ima Google očitno posebne potrebe in zahteva moje prijavne podatke
+    za eAsistent, ker morajo "potestirati" aplikacijo, sem ustvaril ta fejk profil. Z njim se <b>NE</b> morete prijaviti v
+    eAsistent, lahko pa v BežiApp. Ta profil onemogoča večino stvari, ampak jih dopusti ravno dovolj, da ta aplikacija
+    izgleda, kot da je bogo narejena (<i>kašelj</i> pol nedelujoča <i>kašelj</i>), ampak še vedno gre čez Googlovo
+    maltretiranje prijave. Tukaj ne boste našli ničesar, večina storitev je za ta račun onemogočenih, po tistih, ki pa
+    delajo, pa ne morete delati ničesar drugega, kot si ogledovati stvari (ne morete ustvarjati novih).
     <p/>
 {/if}
 
@@ -178,29 +185,31 @@
     currentDate.setDate(currentDate.getDate() - 7);
     remakeCalendar();
     getTimetable();
-}}>arrow_back</IconButton>
+}}>arrow_back
+</IconButton>
 <IconButton class="material-icons" on:click={() => {
     currentDate.setDate(currentDate.getDate() + 7);
     remakeCalendar();
     getTimetable();
-}}>arrow_forward</IconButton>
+}}>arrow_forward
+</IconButton>
 
 {#if ok === true}
     {#if mobile && noviUrnik}
         {#if currentDate.getDay() === 1}
-            <DayTimetable date={[dates[0], dates[1]]} today={timetable[0]} tomorrow={timetable[1]} day="PON" />
+            <DayTimetable date={[dates[0], dates[1]]} today={timetable[0]} tomorrow={timetable[1]} day="PON"/>
         {/if}
         {#if currentDate.getDay() === 2}
-            <DayTimetable date={[dates[1], dates[2]]} today={timetable[1]} tomorrow={timetable[2]} day="TOR" />
+            <DayTimetable date={[dates[1], dates[2]]} today={timetable[1]} tomorrow={timetable[2]} day="TOR"/>
         {/if}
         {#if currentDate.getDay() === 3}
-            <DayTimetable date={[dates[2], dates[3]]} today={timetable[2]} tomorrow={timetable[3]} day="SRE" />
+            <DayTimetable date={[dates[2], dates[3]]} today={timetable[2]} tomorrow={timetable[3]} day="SRE"/>
         {/if}
         {#if currentDate.getDay() === 4}
-            <DayTimetable date={[dates[3], dates[4]]} today={timetable[3]} tomorrow={timetable[4]} day="CET" />
+            <DayTimetable date={[dates[3], dates[4]]} today={timetable[3]} tomorrow={timetable[4]} day="CET"/>
         {/if}
         {#if currentDate.getDay() === 5}
-            <DayTimetable date={[dates[4], ""]} today={timetable[4]} tomorrow={[]} day="PET" />
+            <DayTimetable date={[dates[4], ""]} today={timetable[4]} tomorrow={[]} day="PET"/>
         {/if}
     {:else}
         <table class="coolTable">
@@ -217,31 +226,32 @@
                     <th>
                         {i}.
                         <br>
-                        {#if mobile}<span class="time">{mobile_ure[i]}</span>{:else}<span class="time">{ure[i]}</span>{/if}
+                        {#if mobile}<span class="time">{mobile_ure[i]}</span>{:else}<span
+                                class="time">{ure[i]}</span>{/if}
                     </th>
                     <td>
                         {#if timetable[0].Hours[i]}
-                            <MeetingCard n={timetable[0].Hours[i]} />
+                            <MeetingCard n={timetable[0].Hours[i]}/>
                         {/if}
                     </td>
                     <td>
                         {#if timetable[1].Hours[i]}
-                            <MeetingCard n={timetable[1].Hours[i]} />
+                            <MeetingCard n={timetable[1].Hours[i]}/>
                         {/if}
                     </td>
                     <td>
                         {#if timetable[2].Hours[i]}
-                            <MeetingCard n={timetable[2].Hours[i]} />
+                            <MeetingCard n={timetable[2].Hours[i]}/>
                         {/if}
                     </td>
                     <td>
                         {#if timetable[3].Hours[i]}
-                            <MeetingCard n={timetable[3].Hours[i]} />
+                            <MeetingCard n={timetable[3].Hours[i]}/>
                         {/if}
                     </td>
                     <td>
                         {#if timetable[4].Hours[i]}
-                            <MeetingCard n={timetable[4].Hours[i]} />
+                            <MeetingCard n={timetable[4].Hours[i]}/>
                         {/if}
                     </td>
                 </tr>
@@ -250,20 +260,29 @@
     {/if}
 {:else if ok === false}
     <div style="padding: 20px; background-color: darkorange; border-radius: 10px;">
-        <h2>Težave s prijavo v GimSIS</h2>
-        Očitno ima BežiApp težave s prijavo v GimSIS.
+        <h2>Težave s prijavo v eAsistent</h2>
+        Očitno ima BežiApp težave s prijavo v eAsistent.
         Hitra dejstva, da ne prezakompliciram stvari:
-        <li>To lahko v redkih primerih pomeni, da BežiApp ne deluje.</li>
-        <li>Bolj pogosto pa je to, da ste si spremenili GimSIS geslo in o tem niste obvestili BežiApp-a (prve šolske ure si pri informatiki zamenjate gesla).</li>
-        <li>V takem primeru je za nadaljnjo uporabo GimSIS storitev BežiApp-a potrebna sprememba GimSIS gesla v <Link to="/settings">nastavitvah (čisto na dnu strani)</Link>.</li>
-        <li>Če ste si ravnokar zamenjali geslo v nastavitvah, pa vam še vedno daje to napako, preverite vneseno geslo še enkrat.</li>
-        <li>Če ste prepričani, da ste vnesli pravilno geslo, kontaktirajte razvijalca na <a href="mailto:mitja.severkar@gimb.org">mitja.severkar@gimb.org</a></li>
+        <ul>
+            <li>To lahko v redkih primerih pomeni, da BežiApp ne deluje.</li>
+            <li>Bolj pogosto pa je to, da ste si spremenili eAsistent geslo in o tem niste obvestili BežiAppa (prve
+                šolske ure si pri informatiki zamenjate gesla).
+            </li>
+            <li>V takem primeru je za nadaljnjo uporabo eAsistent storitev BežiApp-a potrebna sprememba eAsistent gesla
+                v <Link to="/settings">nastavitvah (čisto na dnu strani)</Link>.
+            </li>
+            <li>Če ste si ravnokar zamenjali geslo v nastavitvah, pa vam še vedno daje to napako, preverite vneseno
+                geslo še enkrat.
+            </li>
+            <li>Če ste prepričani, da ste vnesli pravilno geslo, kontaktirajte razvijalca na <a
+                    href="mailto:mitja.severkar@gimb.org">mitja.severkar@gimb.org</a></li>
+        </ul>
         <br>
     </div>
-    <Error error="Neuspešna prijava v GimSIS. Če ste si spremenili geslo za GimSIS, ga morate spremeniti tudi v BežiAppu v zavihku Nastavitve. V nasprotnem primeru kontaktirajte strežniškega administratorja."/>
+    <Error error="Neuspešna prijava v eAsistent. Če ste si spremenili geslo za eAsistent, ga morate spremeniti tudi v BežiAppu v zavihku Nastavitve. V nasprotnem primeru kontaktirajte strežniškega administratorja."/>
 {:else}
     <div style="display: flex; justify-content: center">
-        <CircularProgress style="height: 100px; width: 100px;" indeterminate />
+        <CircularProgress style="height: 100px; width: 100px;" indeterminate/>
     </div>
     <div style="display: flex; justify-content: center">
         {#if neprimerniKomentarji}
@@ -294,7 +313,8 @@
 <h2>Obvestila</h2>
 
 {#if neprimerniKomentarji}
-    BežiApp <s>krade</s> si izposoja obvestila iz intraneta Gimnazije Bežigrad, zato da ne potrebujete uporabljati obupnega intraneta.
+    BežiApp <s>krade</s> si izposoja obvestila iz intraneta Gimnazije Bežigrad, zato da ne potrebujete uporabljati
+    obupnega intraneta.
 {/if}
 
 <p/>
@@ -312,17 +332,22 @@
                     <hr>
 
                     {#if notification.has_attachments}
-                        <b>Obvestilo ima <a href="https://gimnazijabezigrad.sharepoint.com/Lists/ObvAkt/DispForm.aspx?ID={notification.id}">priponke</a>.</b>
+                        <b>Obvestilo ima <a
+                                href="https://gimnazijabezigrad.sharepoint.com/Lists/ObvAkt/DispForm.aspx?ID={notification.id}">priponke</a>.</b>
                         {#if neprimerniKomentarji}
-                            BežiApp ne more prikazovati priponk zaradi Microsoftove nesposobnosti (niso naredili API-ja za priponke), zato vas bo klik na povezavo preusmeril na pripadajočo spletno stran na intranetu.
+                            BežiApp ne more prikazovati priponk zaradi Microsoftove nesposobnosti (niso naredili API-ja
+                            za priponke), zato vas bo klik na povezavo preusmeril na pripadajočo spletno stran na
+                            intranetu.
                         {/if}
                     {/if}
 
                     <p/>
 
                     Obvestilo poteče dne <b>{timeConverter(notification.expires_on)}</b>
-                    Obvestilo je ustvaril <b>{notification.created_by}</b> dne <b>{timeConverter(notification.created_on)}</b>.
-                    Obvestilo je nazadnje spremenil <b>{notification.modified_by}</b> dne <b>{timeConverter(notification.modified_on)}</b>.
+                    Obvestilo je ustvaril <b>{notification.created_by}</b> dne
+                    <b>{timeConverter(notification.created_on)}</b>.
+                    Obvestilo je nazadnje spremenil <b>{notification.modified_by}</b> dne
+                    <b>{timeConverter(notification.modified_on)}</b>.
 
                     <p/>
 
@@ -337,7 +362,8 @@
 
                     <p/>
 
-                    BežiApp vam ne bo prikazoval več tega obvestila, če ga označite kot prebranega, razen v primeru, da se obvestilo na intranetu posodobi.
+                    BežiApp vam ne bo prikazoval več tega obvestila, če ga označite kot prebranega, razen v primeru, da
+                    se obvestilo na intranetu posodobi.
                 </Content>
             </Panel>
         {/each}

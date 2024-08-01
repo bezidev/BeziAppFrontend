@@ -5,6 +5,7 @@
     import Icon from "@smui/textfield/icon";
     import Button, {Label} from "@smui/button";
     import {onMount} from "svelte";
+    import type {ErrorRequest} from "./ts/error";
 
     let apps = [];
 
@@ -20,7 +21,7 @@
         try {
             //await myApps();
         } catch (e) {
-            let j = {
+            let j: ErrorRequest = {
                 message: "Error while fetching my apps",
                 fileName: `Developers.svelte/onMount()`,
                 lineNumber: 0,
