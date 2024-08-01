@@ -12,6 +12,7 @@
     import {makeRequest} from "./constants";
     import insane from "insane";
     import {marked} from "marked";
+    import type {LoginResponse} from "./ts/login";
 
     let passwordVisibility = false;
 
@@ -30,11 +31,14 @@
 
         try {
             let r = await fetch(`${constants.baseurl}/${loginType}/login`, {body: fd, method: "POST"})
-            let response = await r.json();
+            let response: LoginResponse = await r.json();
             if (r.status === 200) {
-                localStorage.setItem("key", response["session"]);
-                localStorage.setItem("palette", JSON.stringify(response["palette"]));
-                if (response["palette"] !== undefined && response["palette"] !== null && response["palette"].length !== 0) {
+                localStorage.setItem("key", response.session);
+                localStorage.setItem("is_global_administrator", response.is_global_administrator.toString());
+                localStorage.setItem("is_radio_administrator", response.is_radio_administrator.toString());
+                localStorage.setItem("is_upload_moderator", response.is_upload_moderator.toString());
+                localStorage.setItem("palette", JSON.stringify(response.palette));
+                if (response.palette !== undefined && response.palette !== null && response.palette.length !== 0) {
                     localStorage.setItem("colorGeneration", "Lastne barvne plošče");
                 }
                 navigate("/")
