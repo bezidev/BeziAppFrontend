@@ -73,7 +73,7 @@
         transform: translateY(0);
 
         max-height: 100vh;
-        height: 40vh;
+        height: 50vh;
 
         width: 100vw;
 
@@ -223,7 +223,7 @@
             } else if (sheetHeight > 75) {
                 setSheetHeight(100)
             } else {
-                setSheetHeight(50)
+                setSheetHeight(75)
             }
         }
 

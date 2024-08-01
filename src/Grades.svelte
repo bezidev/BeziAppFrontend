@@ -13,6 +13,11 @@
     import Textfield from "@smui/textfield";
     import CharacterCounter from "@smui/textfield/character-counter";
     import type {GenericResponse} from "./ts/generic-response";
+    import {gradeEditStore} from "./stores";
+    import type {Grade as GradeType} from "./ts/grades";
+    import isMobile from "is-mobile";
+
+    const mobile = isMobile();
 
     let grades: GradeSubject[] = [];
     let total_average = 0.0;
@@ -66,6 +71,25 @@
         await makeRequest(`/apeiroeder/consent`, "POST", fd);
         await getApeiroederConsent();
     }
+
+    gradeEditStore.subscribe((grade: GradeType | undefined) => {
+        if (grade === undefined) {
+            selectedSubject = null;
+            description = "";
+            newGrade = false;
+            dialogOpen = false;
+            gradeEditId = "";
+            return;
+        }
+        gradeEditId = grade.GradeID;
+        description = grade.description_decrypted;
+        gradeImproved = grade.GradeImproved;
+        gradeType = grade.GradeType === 0 ? "Pisna ocena" : grade.GradeType === 1 ? "Ustna ocena" : "Druga ocena";
+        selectedSubject = {ID: grade.SubjectID, Name: grade.SubjectName};
+        selectedGrade = grade.grade_num.toString();
+        newGrade = false;
+        dialogOpen = true;
+    });
 
     getGrades();
     getApeiroederConsent();
@@ -190,11 +214,13 @@ Učni uspeh: <span style="color: rgba(255, 255, 255, 0.5); display:inline-block;
                     description = "";
                     newGrade = true;
                     dialogOpen = true;
+                    gradeEditId = "";
                 }}>
                     {#each subject.grades as grade}
                         <div on:click={(e) => {
-                            //e.preventDefault();
-                            e.stopPropagation();
+                            //if (grade)
+                            /*e.preventDefault();
+                            //e.stopPropagation();
                             gradeEditId = grade.GradeID;
                             description = grade.description_decrypted;
                             gradeImproved = grade.GradeImproved;
@@ -202,7 +228,8 @@ Učni uspeh: <span style="color: rgba(255, 255, 255, 0.5); display:inline-block;
                             selectedSubject = subject;
                             selectedGrade = grade.grade_num.toString();
                             newGrade = false;
-                            dialogOpen = true;
+                            dialogOpen = true;*/
+                            if (mobile) e.stopPropagation();
                         }} on:keydown={() => {}} class="inline" role="toolbar" tabindex="0">
                             <Grade grade={grade} />
                             <div style="width: 17px;" />

@@ -5,6 +5,8 @@
     import {gradeColors} from "../constants";
     import type {Grade} from "../ts/grades";
     import {formatDate} from "date-fns";
+    import Button, {Icon, Label} from "@smui/button";
+    import {gradeEditStore} from "../stores";
 
     export let grade: Grade;
 
@@ -37,7 +39,7 @@
             <Tooltip unbounded hideDelay={0}>
                 <h1>{grade.SubjectName} – {grade.grade_num}</h1>
                 Nazadnje posodobljeno: <b>{formatDate(new Date(grade.LastUpdated * 1000), "d. M. yyyy")}</b><br>
-                Profesor: <b>{grade.TeacherName}</b><br>
+                Profesor: <b>{grade.TeacherName === "" ? "Profesor ni bil specificiran" : grade.TeacherName}</b><br>
                 Tip ocenjevanja: <b>{grade.GradeType === 0 ? "Pisna ocena" : grade.GradeType === 1 ? "Ustna ocena" : "Druga ocena"}</b><br>
                 Opis ocenjevanja: <b>{grade.description_decrypted}</b><br>
                 Oceno je vpisal: <b>{grade.InsertedBy === "user" ? "Uporabnik" : grade.InsertedBy}</b>
@@ -53,12 +55,12 @@
     </Wrapper>
     {#if mobile && open}
         <BottomSheet open={open} callback={(value) => open=value}>
-            <main class="body fill">
+            <div class="body fill" style="text-wrap: wrap;">
                 <h1>{grade.SubjectName} – {grade.grade_num}</h1>
                 Nazadnje posodobljeno: <b>{formatDate(new Date(grade.LastUpdated * 1000), "d. M. yyyy")}</b><br>
-                Profesor: <b>{grade.TeacherName}</b><br>
+                Profesor: <b>{grade.TeacherName === "" ? "Profesor ni bil specificiran" : grade.TeacherName}</b><br>
                 Tip ocenjevanja: <b>{grade.GradeType === 0 ? "Pisna ocena" : grade.GradeType === 1 ? "Ustna ocena" : "Druga ocena"}</b><br>
-                Opis ocenjevanja: <b>{grade.description_decrypted}</b><br>
+                Opis ocene: <b>{grade.description_decrypted}</b><br>
                 Oceno je vpisal: <b>{grade.InsertedBy === "user" ? "Uporabnik" : grade.InsertedBy}</b>
                 <hr>
                 {#if grade.GradeImproved}
@@ -67,7 +69,12 @@
                 {#if grade.ManuallyUpdated}
                     <b>Ocena je bila ročno vpisana v BežiApp sistem. Ocena se ne posodablja več avtomatsko.</b>
                 {/if}
-            </main>
+                <p/>
+                <Button on:click={() => gradeEditStore.set(grade)} variant="outlined" style="width: 100%;">
+                    <Icon class="material-icons">edit</Icon>
+                    <Label>Uredi oceno</Label>
+                </Button>
+            </div>
         </BottomSheet>
     {/if}
     <!--{#each grade.popravljane_ocene as g}

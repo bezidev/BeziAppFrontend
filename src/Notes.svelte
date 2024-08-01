@@ -560,8 +560,8 @@
 <LayoutGrid>
     {#each notes as note}
         <Cell span={4}>
-            <Card variant="outlined" padded>
-                <span class="sameline" style="text-wrap: auto; width: 100%;">
+            <Card variant="outlined" style="overflow: hidden;" padded>
+                <span class="sameline" style="text-wrap: wrap; width: 100%;">
                     <span class="inline uppercase-first-letter" style="font-size: 24px; width: 95%; text-wrap: wrap;">
                         {note.subject}
                     </span>
@@ -596,13 +596,13 @@
                     </span>
                 </span>
                 <br>
-                {note.filename}
-                <span class="sameline">Profesor: <b>{note.teacher}</b></span>
-                <span class="sameline">Razred: <b>{note.class_name}</b></span>
-                <span class="sameline">Šolsko leto: <b>{note.class_year}</b></span>
+                <span style="text-wrap: wrap">{note.filename}</span>
+                <span class="sameline" style="text-wrap: wrap">Profesor: <b>{note.teacher}</b></span>
+                <span class="sameline" style="text-wrap: wrap">Razred: <b>{note.class_name}</b></span>
+                <span class="sameline" style="text-wrap: wrap">Šolsko leto: <b>{note.class_year}</b></span>
                 {#if note.description !== ""}
                     Opis:
-                    {@html insane(marked(note.description))}
+                    <span style="text-wrap: wrap;">{@html insane(marked(note.description))}</span>
                 {:else}
                     <p/>
                 {/if}
