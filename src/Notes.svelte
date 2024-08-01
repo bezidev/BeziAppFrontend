@@ -561,11 +561,11 @@
         <Cell span={4}>
             <Card variant="outlined" padded>
                 <span class="sameline" style="text-wrap: auto; width: 100%;">
-                    <span class="inline uppercase-first-letter" style="font-size: 24px; width: 100%;">
+                    <span class="inline uppercase-first-letter" style="font-size: 24px; width: 95%; text-wrap: auto;">
                         {note.subject}
                     </span>
                     <div class="big-break"/>
-                    <span class="inline" style="width: 100%;">
+                    <span class="inline" style="width: 100%; text-wrap: auto;">
                         {#if note.type === "Testi"}
                             <b>Test</b>
                         {:else if note.type === "Preverjanja"}
