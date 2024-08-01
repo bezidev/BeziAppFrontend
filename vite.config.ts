@@ -14,10 +14,16 @@ export default {
             isProduction: production,
         }),
         svelte({}),
-        VitePWA({ registerType: 'autoUpdate', devOptions: {
+        VitePWA({
+            registerType: 'autoUpdate',
+            devOptions: {
                 enabled: true,
                 type: 'module',
-            }, }),
+            },
+            workbox: {
+                navigateFallbackDenylist: [/^\/api.*/],
+            }
+        }),
         viteCompression(),
     ],
 };
