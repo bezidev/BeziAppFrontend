@@ -10,7 +10,7 @@
 </style>
 
 <script lang="ts">
-    import {startOfWeek, addDays} from "date-fns";
+    import {startOfWeek, addDays, parse, format} from "date-fns";
     import IconButton from "@smui/icon-button";
     import {handleRejection, makeRequest, timeConverter} from "../constants";
     import isMobile from "is-mobile";
@@ -215,11 +215,11 @@
         <table class="coolTable">
             <tr>
                 <th style="width: {mobile ? 40 : 80}px;">URA</th>
-                <th>{mobile ? "PON" : "PONEDELJEK"} {dates[0]}</th>
-                <th>{mobile ? "TOR" : "TOREK"} {dates[1]}</th>
-                <th>{mobile ? "SRE" : "SREDA"} {dates[2]}</th>
-                <th>{mobile ? "ČET" : "ČETRTEK"} {dates[3]}</th>
-                <th>{mobile ? "PET" : "PETEK"} {dates[4]}</th>
+                <th>{mobile ? "PON" : "PONEDELJEK"}, {format(parse(dates[0], "yyyy-mm-dd", new Date()), `dd. mm.${mobile ? '' : ' yyyy'}`)}</th>
+                <th>{mobile ? "TOR" : "TOREK"}, {format(parse(dates[1], "yyyy-mm-dd", new Date()), `dd. mm.${mobile ? '' : ' yyyy'}`)}</th>
+                <th>{mobile ? "SRE" : "SREDA"}, {format(parse(dates[2], "yyyy-mm-dd", new Date()), `dd. mm.${mobile ? '' : ' yyyy'}`)}</th>
+                <th>{mobile ? "ČET" : "ČETRTEK"}, {format(parse(dates[3], "yyyy-mm-dd", new Date()), `dd. mm.${mobile ? '' : ' yyyy'}`)}</th>
+                <th>{mobile ? "PET" : "PETEK"}, {format(parse(dates[4], "yyyy-mm-dd", new Date()), `dd. mm.${mobile ? '' : ' yyyy'}`)}</th>
             </tr>
             {#each hours as i}
                 <tr>
@@ -229,27 +229,27 @@
                         {#if mobile}<span class="time">{mobile_ure[i]}</span>{:else}<span
                                 class="time">{ure[i]}</span>{/if}
                     </th>
-                    <td>
+                    <td style="padding: {mobile ? 3 : 5}px;">
                         {#if timetable[0].Hours[i]}
                             <MeetingCard n={timetable[0].Hours[i]}/>
                         {/if}
                     </td>
-                    <td>
+                    <td style="padding: {mobile ? 3 : 5}px;">
                         {#if timetable[1].Hours[i]}
                             <MeetingCard n={timetable[1].Hours[i]}/>
                         {/if}
                     </td>
-                    <td>
+                    <td style="padding: {mobile ? 3 : 5}px;">
                         {#if timetable[2].Hours[i]}
                             <MeetingCard n={timetable[2].Hours[i]}/>
                         {/if}
                     </td>
-                    <td>
+                    <td style="padding: {mobile ? 3 : 5}px;">
                         {#if timetable[3].Hours[i]}
                             <MeetingCard n={timetable[3].Hours[i]}/>
                         {/if}
                     </td>
-                    <td>
+                    <td style="padding: {mobile ? 3 : 5}px;">
                         {#if timetable[4].Hours[i]}
                             <MeetingCard n={timetable[4].Hours[i]}/>
                         {/if}

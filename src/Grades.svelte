@@ -4,7 +4,6 @@
     import Grade from "./Widgets/Grade.svelte";
     import FormField from "@smui/form-field";
     import Switch from "@smui/switch";
-    import {navigate} from "svelte-routing";
     import Select, {Option} from "@smui/select";
     import type {GradeSubject} from "./ts/grades";
     import Dialog, {Title, Content, Actions} from "@smui/dialog";
@@ -18,6 +17,8 @@
     import isMobile from "is-mobile";
 
     const mobile = isMobile();
+
+    const ALLOWED_YEARS = ["2024/2025", "2023/2024", "2022/2023", "2021/2022", "2020/2021"];
 
     let grades: GradeSubject[] = [];
     let total_average = 0.0;
@@ -33,11 +34,12 @@
     let gradeType = "Pisna ocena";
     let description = "";
     let gradeEditId = "";
+    let selectedTerm = 1;
 
     let izpitniRoki = localStorage.getItem("izpitniRoki") === "true";
 
     async function getGrades() {
-        let r: GradeSubject[] = await makeRequest(`/grades?year=${selectedYear.split("/")[0]}`);
+        let r: GradeSubject[] = await makeRequest(`/grades?year=${selectedYear}`);
         grades = r.sort((a,b) => (a.Name > b.Name) ? 1 : ((b.Name > a.Name) ? -1 : 0));
 
         let avg = 0;
@@ -165,6 +167,8 @@
                 fd.append("description", description);
                 fd.append("subject_id", selectedSubject.ID);
                 fd.append("subject_name", selectedSubject.Name);
+                fd.append("school_year", selectedYear);
+                fd.append("term", selectedTerm.toString());
                 await makeRequest("/grades", "POST", fd);
                 await getGrades();
             }}>
@@ -189,8 +193,8 @@ Učni uspeh: <span style="color: rgba(255, 255, 255, 0.5); display:inline-block;
     <Head>
         <Row>
             <Cell>Predmet</Cell>
-            <Cell>Ocene</Cell>
-            <!--<Cell>2. ocenjevalno obdobje</Cell>-->
+            <Cell>1. ocenjevalno obdobje</Cell>
+            <Cell>2. ocenjevalno obdobje</Cell>
         </Row>
     </Head>
     <Body>
@@ -209,43 +213,37 @@ Učni uspeh: <span style="color: rgba(255, 255, 255, 0.5); display:inline-block;
                         {/if}
                     </div>
                 </Cell>
-                <Cell class="sameline hover-td" on:click={() => {
-                    selectedSubject = subject;
-                    description = "";
-                    newGrade = true;
-                    dialogOpen = true;
-                    gradeEditId = "";
-                }}>
-                    {#each subject.grades as grade}
-                        <div on:click={(e) => {
-                            //if (grade)
-                            /*e.preventDefault();
-                            //e.stopPropagation();
-                            gradeEditId = grade.GradeID;
-                            description = grade.description_decrypted;
-                            gradeImproved = grade.GradeImproved;
-                            gradeType = grade.GradeType === 0 ? "Pisna ocena" : grade.GradeType === 1 ? "Ustna ocena" : "Druga ocena";
-                            selectedSubject = subject;
-                            selectedGrade = grade.grade_num.toString();
-                            newGrade = false;
-                            dialogOpen = true;*/
-                            if (mobile) e.stopPropagation();
-                        }} on:keydown={() => {}} class="inline" role="toolbar" tabindex="0">
-                            <Grade grade={grade} />
-                            <div style="width: 17px;" />
-                        </div>
-                    {/each}
-                    <!--<div class="meta inline grades-center">
-                        {#if subject.grades === ""}
-                            {stalne ? subject[0]["perm_average"].toFixed(2) : subject[0]["average"].toFixed(2)}
-                        {:else}
-                            <span style="color: {gradeColors[subject[0].final]}; display:inline-block; font-size: 1.25rem; font-weight: 600;">
-                                {subject[0].final}
-                            </span>
-                            <span class="zacasna">({stalne ? subject[0]["perm_average"].toFixed(2) : subject[0]["average"].toFixed(2)})</span>
-                        {/if}
-                    </div>-->
-                </Cell>
+                {#each {length: 2} as _, i}
+                    <Cell class="sameline hover-td" on:click={() => {
+                        selectedSubject = subject;
+                        selectedTerm = i + 1;
+                        description = "";
+                        newGrade = true;
+                        dialogOpen = true;
+                        gradeEditId = "";
+                    }}>
+                        {#each subject.terms[i].grades as grade}
+                            <div on:click={(e) => {
+                                e.stopPropagation();
+                                if (!mobile) {
+                                    //e.preventDefault();
+                                    gradeEditId = grade.GradeID;
+                                    description = grade.description_decrypted;
+                                    gradeImproved = grade.GradeImproved;
+                                    gradeType = grade.GradeType === 0 ? "Pisna ocena" : grade.GradeType === 1 ? "Ustna ocena" : "Druga ocena";
+                                    selectedSubject = subject;
+                                    selectedGrade = grade.grade_num.toString();
+                                    newGrade = false;
+                                    dialogOpen = true;
+                                }
+                            }} on:keydown={() => {}} class="inline" role="toolbar" tabindex="0">
+                                <Grade grade={grade} />
+                                <div style="width: 17px;" />
+                            </div>
+                        {/each}
+                        <div class="meta inline grades-center">{subject.terms[i].average.toFixed(2)}</div>
+                    </Cell>
+                {/each}
             </Row>
         {/each}
     </Body>
@@ -284,8 +282,8 @@ BežiApp bo, če vklopite modul Apeiroeder, vsakih 30 minut, ko odprete urnik, p
 <p/>
 
 <h4>Prikaz ocen za pretekla šolska leta</h4>
-<Select key={(fruit) => `${fruit ? fruit.value : ''}`} bind:value={selectedYear} label="Šolsko leto">
-    {#each [/*{value: "2024/2025", text: "2024/2025"}, */{value: "2023/2024", text: "2023/2024"}] as fruit}
-        <Option value={fruit.value} on:click={async () => {setTimeout(getGrades, 50)}}>{fruit.text}</Option>
+<Select bind:value={selectedYear} label="Šolsko leto">
+    {#each ALLOWED_YEARS as year}
+        <Option value={year} on:click={async () => {setTimeout(getGrades, 50)}}>{year}</Option>
     {/each}
 </Select>

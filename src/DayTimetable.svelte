@@ -1,6 +1,7 @@
 <script lang="ts">
     import MeetingCard from "./MeetingCard.svelte";
     import Warning from "./Warning.svelte";
+    import {format, parse} from "date-fns";
 
     export let date;
     export let today;
@@ -38,8 +39,8 @@
 <table class="coolTable">
     <tr>
         <th style="text-align: left;">URA</th>
-        <th><b>{dnevi[day].toUpperCase()}</b>, {date[0]}</th>
-        {#if Object.keys(tomorrow).length !== 0}<th><b>{dnevi[tom].toUpperCase()}</b>, {date[1]}</th>{/if}
+        <th><b>{dnevi[day].toUpperCase()}</b>, {format(parse(date[0], "yyyy-mm-dd", new Date()), "dd. mm. yyyy")}</th>
+        {#if Object.keys(tomorrow).length !== 0}<th><b>{dnevi[tom].toUpperCase()}</b>, {format(parse(date[1], "yyyy-mm-dd", new Date()), "dd. mm. yyyy")}</th>{/if}
     </tr>
     {#each hours as h}
         <tr>

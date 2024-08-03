@@ -17,11 +17,17 @@ export interface Grade {
     description_decrypted: string
 }
 
+export interface Term {
+    grades: Grade[]
+    average: number
+    countable_grades: number
+}
+
 export interface GradeSubject {
     ID: string
     Name: string
     Teachers: string[]
-    grades: Grade[]
+    terms: Term[]
     final: Grade | null
     average: number
     countable_grades: number
