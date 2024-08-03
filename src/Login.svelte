@@ -10,11 +10,11 @@
     import LayoutGrid, { Cell } from '@smui/layout-grid';
     import HelperText from "@smui/textfield/helper-text";
     import {makeRequest} from "./constants";
-    import insane from "insane";
-    import {marked} from "marked";
     import type {LoginResponse} from "./ts/login";
+    import Dialog, {Content, Title} from "@smui/dialog";
 
     let passwordVisibility = false;
+    let dialogMigrationOpen = false;
 
     let notifications = [];
     async function getNotifications() {
@@ -32,6 +32,10 @@
         try {
             let r = await fetch(`${constants.baseurl}/${loginType}/login`, {body: fd, method: "POST"})
             let response: LoginResponse = await r.json();
+            if (response.type === "legacy_gimsis_account") {
+                dialogMigrationOpen = true;
+                return;
+            }
             if (r.status === 200) {
                 localStorage.setItem("key", response.session);
                 localStorage.setItem("is_global_administrator", response.is_global_administrator.toString());
@@ -42,9 +46,9 @@
                     localStorage.setItem("colorGeneration", "Lastne barvne plošče");
                 }
                 navigate("/")
-            } else {
-                snackbarWithClose.open();
+                return;
             }
+            snackbarWithClose.open();
         } catch (e) {
             console.log(e)
             snackbarWithClose.open();
@@ -66,6 +70,26 @@
 
     //getNotifications();
 </script>
+
+<Dialog
+        bind:open={dialogMigrationOpen}
+        surface$style="width: 850px; max-width: calc(100vw - 32px);"
+>
+    <Title>Prijava z GimSIS računom</Title>
+    <Content>
+        Poskušali ste se prijaviti s starim BežiApp računom, vezanim na GimSIS. <br>
+        Bežigrad je žal opustil GimSIS zavoljo grozote od eAsistenta, zato morate ustvariti nov račun. <br>
+        To naredite tako, da vpišete svoje prijavne podatke za <b>eAsistent</b>, kot ste jih prejeli v elektronskem naslovu nekje na začetku junija namesto <b>GimSIS prijavnih podatkov</b>. <br>
+        Račun se vam bo avtomatično ustvaril. Če želite prenesti vse svoje podatke na nov sistem iz prejšnjega računa, boste to lahko naredili na prvi strani ob registraciji. <br>
+        Star sistem bo na voljo, dokler bo GimSIS še na voljo, na <a href="https://old.beziapp.si">https://old.beziapp.si</a>.
+        <p/>
+    </Content>
+    <Actions>
+        <Button>
+            <Label>OK</Label>
+        </Button>
+    </Actions>
+</Dialog>
 
 <main>
     <Snackbar bind:this={snackbarWithClose}>
