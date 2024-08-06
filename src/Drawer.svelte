@@ -108,13 +108,13 @@
                         <Graphic class="material-icons" aria-hidden="true">grade</Graphic>
                         <Text>Ocene</Text>
                     </Item>
-                    <!--<Item
+                    <Item
                             on:click={() => navigate('/absences')}
                             activated={active === 'izostanki'}
                     >
                         <Graphic class="material-icons" aria-hidden="true">rule</Graphic>
                         <Text>Izostanki</Text>
-                    </Item>-->
+                    </Item>
                     <!--<Item
                             on:click={() => navigate('/teachers')}
                             activated={active === 'ucitelji'}

@@ -133,14 +133,14 @@
 							<Error error={e} />
 						{/await}
 					</Route>
-					<!--<Route path="/absences">
+					<Route path="/absences">
 						{#await import("./Absences.svelte")}
 						{:then Page}
 							<Page.default />
 						{:catch e}
 							<Error error={e} />
 						{/await}
-					</Route>-->
+					</Route>
 					<Route path="/gradings">
 						{#await import("./Gradings.svelte")}
 						{:then Page}

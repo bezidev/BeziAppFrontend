@@ -10,169 +10,74 @@
     import {Datepicker} from "svelte-calendar";
     import dayjs from "dayjs";
     import type {ErrorRequest} from "./ts/error";
+    import type {AbsencesResponse} from "./ts/absences";
+    import {format, getDay, getISODay, parse} from "date-fns";
+    import {marked} from "marked";
+    import LayoutGrid, {Cell} from "@smui/layout-grid";
+    import Card from "@smui/card";
 
-    let niObdelano = true;
-    let opraviceno = true;
-    let neopraviceno = true;
-    let neSteje = true;
-
-    let absences;
+    let absences: AbsencesResponse = {items: [], summary: {pending_hours: 0, excused_hours: 0, unexcused_hours: 0, unmanaged_absences: 0}};
     let open = {};
 
-    const REQUIRED_FORMAT = 'DD.MM.YYYY';
-
-    const datePickerTheme = {
-        "calendar": {
-            "width": "300px",
-            "maxWidth": "100vw",
-            "legend": {
-                "height": "45px"
-            },
-            "shadow": "0px 10px 26px rgba(0, 0, 0, 0.25)",
-            "colors": {
-                "text": {
-                    "primary": "#eee",
-                    "highlight": "#fff"
-                },
-                "background": {
-                    "primary": "#333",
-                    "highlight": "#5829d6",
-                    "hover": "#222"
-                },
-                "border": "#222"
-            },
-            "font": {
-                "regular": "1.5em",
-                "large": "37em"
-            },
-            "grid": {
-                "disabledOpacity": ".5",
-                "outsiderOpacity": ".7"
-            }
-        }
-    };
+    const days = {
+        1: "ponedeljek",
+        2: "torek",
+        3: "sreda",
+        4: "četrtek",
+        5: "petek",
+        6: "sobota",
+        7: "nedelja",
+    }
 
     async function getAbsences() {
-        absences = await makeRequest(`/absences?from_date=${date1}&to_date=${date2}&ni_obdelano=${niObdelano}&opraviceno=${opraviceno}&neopraviceno=${neopraviceno}&ne_steje=${neSteje}`)
-        for (let i in absences.absences) {
-            open[i] = [];
-        }
+        absences = await makeRequest(`/absences`)
     }
-
-    $: {
-        console.log($store1, $store2);
-        if ($store1 !== undefined) date1 = dayjs($store1.selected).format(REQUIRED_FORMAT);
-        if ($store2 !== undefined) date2 = dayjs($store2.selected).format(REQUIRED_FORMAT);
-    }
-
-    let store1;
-    let store2;
-
-    let date1 = "";
-    let date2 = "";
 
     onMount(async () => {
-        const TIME = dayjs();
-
-        date1 = TIME.format(REQUIRED_FORMAT);
-        date2 = TIME.add(1, 'M').format(REQUIRED_FORMAT);
-
-        try {
-            setTimeout(getAbsences, 200);
-        } catch (e: any) {
-            let j: ErrorRequest = {
-                message: "Error while fetching absences",
-                fileName: `Absences.svelte/onMount()`,
-                lineNumber: 0,
-                columnNumber: 0,
-                stack: e.toString(),
-            };
-            await handleRejection(j);
-            navigate("/login");
-        }
+        await getAbsences();
     })
 </script>
 
-<style>
-    .absence-date-select-grid {
-        display: flex;
-    }
+<h2 style="text-align: center;">Izostanki</h2>
+Skupaj opravičenih ur: {absences.summary.excused_hours}<br>
+Skupaj neopravičenih ur: {absences.summary.unexcused_hours}<br>
 
-    .absence-date-picker-button {
-        margin: 0 0 0 1em;
-    }
+<LayoutGrid>
+    {#each absences.items as date}
+        <Cell span={4}>
+            <Card variant="outlined" style="overflow: hidden; height: 100%;" padded>
+                <div class="sameline" style="text-wrap: wrap; width: 100%;">
+                    <span class="inline uppercase-first-letter" style="font-size: 20px; width: 95%; text-wrap: wrap;">
+                        Odsotnosti z dne <b>{days[getISODay(date.date)]}, {format(parse(date.date, "yyyy-mm-dd", new Date()), `dd. mm. yyyy`)}</b>
+                    </span>
+                    <div class="big-break"/>
+                    <span class="sameline" style="text-wrap: wrap">Število opravičenih ur: <b>{date.excused_count}</b></span><br>
+                    <span class="sameline" style="text-wrap: wrap">Število neopravičenih ur: <b>{date.not_excused_count}</b></span><br>
+                    {#if date.excuse_description !== null}
+                        <p/>
+                        Razlog:
+                        <br>
+                        <span style="text-wrap: wrap;">{date.excuse_description}</span>
+                    {/if}
+                    <p/>
+                    {#each date.hours as hour}
+                        <div style="display: flex; flex-wrap: wrap; align-items: center;">
+                        {#if hour.state === "excused"}
+                            <Icon class="material-icons" style="color: lightgreen;">check</Icon>
+                        {:else if hour.state === "unexcused"}
+                            <Icon class="material-icons" style="color: red;">close</Icon>
+                        {:else if hour.state === "pending" || hour.state === "unmanaged"}
+                            <Icon class="material-icons" style="color: yellow;">schedule</Icon>
+                        {/if}
 
-    .col-auto :global(.datepicker .sc-popover .contents-wrapper) {
-        z-index: 1000;
-        position: absolute;
-    }
-</style>
+                        <div style="width: 10px;"></div>
 
-<div class="absence-date-select-grid">
-    <h3>Izberite začetni datum: </h3>
-    <div class="col-auto">
-        <Datepicker bind:store={store1} let:key let:send let:receive theme={datePickerTheme}>
-            <button in:receive|local={{ key }} out:send|local={{ key }} class="absence-date-picker-button mdc-button">
-                {#if $store1?.hasChosen}
-                    {date1}
-                {:else}
-                    Izberite datum
-                {/if}
-            </button>
-        </Datepicker>
-    </div>
-</div>
-<div class="absence-date-select-grid">
-    <h3>Izberite končni datum: </h3>
-    <Datepicker bind:store={store2} let:key let:send let:receive theme={datePickerTheme} style="min-height: auto">
-        <button in:receive|local={{ key }} out:send|local={{ key }}
-                class="absence-date-picker-button mdc-button mdc-button--raised mdc-ripple-upgraded">
-            {#if $store2?.hasChosen}
-                {date2}
-            {:else}
-                Izberite datum
-            {/if}
-        </button>
-    </Datepicker>
-</div>
-<FormField>
-    <Switch bind:checked={niObdelano}/>
-    <span slot="label">Ni obdelano</span>
-</FormField><br>
-<FormField>
-    <Switch bind:checked={opraviceno}/>
-    <span slot="label">Opravičeno</span>
-</FormField><br>
-<FormField>
-    <Switch bind:checked={neopraviceno}/>
-    <span slot="label">Neopravičeno</span>
-</FormField><br>
-<FormField>
-    <Switch bind:checked={neSteje}/>
-    <span slot="label">Ne šteje</span>
-</FormField><p/>
-<Button on:click={async () => await getAbsences()}>
-    <Icon class="material-icons">refresh</Icon>
-    <Label>Ponovno naložite</Label>
-</Button>
-{#if absences}
-    <Accordion>
-        {#each Object.entries(absences.absences) as [k, v]}
-            <h2>{k}</h2>
-            {#each v as absence, i}
-                <Panel bind:open={open[k][i]}>
-                    <Header>
-                        {absence.predmet} - {absence.ura} - {absence.status}
-                        <IconButton slot="icon" toggle pressed={open[k][i]}>
-                            <Icon class="material-icons" on>expand_less</Icon>
-                            <Icon class="material-icons">expand_more</Icon>
-                        </IconButton>
-                    </Header>
-                    <Content>
-                        {absence.opomba}
-                    </Content>
-                </Panel>
-            {/each}
-        {/each}
-    </Accordion>
-{/if}
+                        {hour.class_name} ({hour.class_short_name})
+                        </div>
+                    {/each}
+                </div>
+                <br>
+            </Card>
+        </Cell>
+    {/each}
+</LayoutGrid>
