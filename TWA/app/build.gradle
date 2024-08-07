@@ -51,13 +51,14 @@ def twaManifest = [
 ]
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 35
+    namespace "com.mytja.beziapp"
     defaultConfig {
         applicationId "com.mytja.beziapp"
         minSdkVersion 19
-        targetSdkVersion 33
-        versionCode 10
-        versionName "10"
+        targetSdkVersion 35
+        versionCode 11
+        versionName "11"
 
         // The name for the application
         resValue "string", "appName", twaManifest.name

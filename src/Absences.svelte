@@ -1,23 +1,13 @@
 <script lang="ts">
-    import {handleRejection, makeRequest} from "./constants";
-    import IconButton from "@smui/icon-button";
+    import {makeRequest} from "./constants";
     import {onMount} from "svelte";
-    import {navigate} from "svelte-routing";
-    import Accordion, {Panel, Header, Content} from '@smui-extra/accordion';
-    import Button, {Icon, Label} from "@smui/button";
-    import FormField from "@smui/form-field";
-    import Switch from "@smui/switch";
-    import {Datepicker} from "svelte-calendar";
-    import dayjs from "dayjs";
-    import type {ErrorRequest} from "./ts/error";
+    import {Icon} from "@smui/button";
     import type {AbsencesResponse} from "./ts/absences";
-    import {format, getDay, getISODay, parse} from "date-fns";
-    import {marked} from "marked";
+    import {format, getISODay, parse} from "date-fns";
     import LayoutGrid, {Cell} from "@smui/layout-grid";
     import Card from "@smui/card";
 
     let absences: AbsencesResponse = {items: [], summary: {pending_hours: 0, excused_hours: 0, unexcused_hours: 0, unmanaged_absences: 0}};
-    let open = {};
 
     const days = {
         1: "ponedeljek",
