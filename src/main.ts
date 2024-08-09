@@ -1,5 +1,4 @@
 import './app.css';
-import './smui-dark.css';
 import App from './App.svelte';
 import {handleRejection} from "./constants";
 

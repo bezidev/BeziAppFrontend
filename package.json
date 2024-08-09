@@ -10,8 +10,8 @@
     "dev": "vite --port 8080",
     "start": "sirv dist --port 3000 -H 0.0.0.0 --no-clear -s -G",
     "prepare-css": "npm run smui-theme-light && npm run smui-theme-dark",
-    "smui-theme-light": "smui-theme compile src/smui.css -i src/theme",
-    "smui-theme-dark": "smui-theme compile src/smui-dark.css -i src/theme/dark"
+    "smui-theme-light": "smui-theme compile public/smui/smui.css -i src/theme",
+    "smui-theme-dark": "smui-theme compile public/smui/smui-dark.css -i src/theme/dark"
   },
   "devDependencies": {
     "@emotion/css": "^11.11.2",
